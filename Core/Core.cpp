@@ -18,7 +18,7 @@ Core::Core(){
 
 }
 
-Core* Core::getInstanse(){
+Core* Core::getInstance(){
 	if(Core::instance == 0)
 		Core::instance = new Core();
 	return Core::instance;

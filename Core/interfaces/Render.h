@@ -7,7 +7,9 @@
 		Render();
 		~Render();
 
-		void renderScene();
+		virtual void init();
+		virtual void renderScene();
+		virtual void createWindow();		
 	};
 
 #endif

@@ -20,4 +20,7 @@ add_library (EngineCore SHARED Core.cpp
 							   utils/Vector4.cpp
 							   utils/String.cpp
 							   utils/Matrix3x3.cpp
-							   utils/Matrix4x4.cpp)
+							   utils/Matrix4x4.cpp
+							   utils/ShortString.cpp
+							   utils/String.cpp
+							   utils/LongString.cpp)

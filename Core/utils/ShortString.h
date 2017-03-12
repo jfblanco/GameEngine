@@ -1,25 +1,25 @@
-#ifndef __ENGINE__UTILS_STRING_
-#define __ENGINE__UTILS_STRING_
+#ifndef __ENGINE__UTILS_SHORT_STRING_
+#define __ENGINE__UTILS_SHORT_STRING_
 
-	class String {
+	class ShortString {
 	
 	private:	
-		char word[65];
+		char word[17];
 		int lenght;
 		unsigned long hashCode;
 
 	public:
-		String();
-		~String();
+		ShortString();
+		~ShortString();
 
-		bool operator==(String);
+		bool operator==(ShortString);
 		bool operator==(const char*);
 		void operator=(const char*);
-		void concat(String);
+		void concat(ShortString);
 		void concat(const char*);
-		String operator+(String);
+		ShortString operator+(ShortString);
 		const char* operator+(const char*);
-		String substring(int, int);
+		ShortString substring(int, int);
 		char** split(const char*);
 		int size();
 		void print();

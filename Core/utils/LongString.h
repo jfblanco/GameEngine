@@ -1,25 +1,25 @@
-#ifndef __ENGINE__UTILS_STRING_
-#define __ENGINE__UTILS_STRING_
+#ifndef __ENGINE__UTILS_LONG_STRING_
+#define __ENGINE__UTILS_LONG_STRING_
 
-	class String {
+	class LongString {
 	
 	private:	
-		char word[65];
+		char word[257];
 		int lenght;
 		unsigned long hashCode;
 
 	public:
-		String();
-		~String();
+		LongString();
+		~LongString();
 
-		bool operator==(String);
+		bool operator==(LongString);
 		bool operator==(const char*);
 		void operator=(const char*);
-		void concat(String);
+		void concat(LongString);
 		void concat(const char*);
-		String operator+(String);
+		LongString operator+(LongString);
 		const char* operator+(const char*);
-		String substring(int, int);
+		LongString substring(int, int);
 		char** split(const char*);
 		int size();
 		void print();

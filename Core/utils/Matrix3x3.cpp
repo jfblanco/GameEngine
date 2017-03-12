@@ -33,7 +33,41 @@ Matrix3x3 Matrix3x3::operator*(Matrix3x3 _matrix){
 
 
 Matrix3x3 Matrix3x3::inverse(){
+	Matrix3x3 resu;
+    float det = 0.0;
 
+    resu[0][0] = matrix[4] * matrix[8] - matrix[7] * matrix[5];
+
+    resu[1][0] = -(matrix[3] * matrix[8] - matrix[6] * matrix[5]);
+
+    resu[2][0] = matrix[3] * matrix[7] - matrix[6] * matrix[4];
+
+    resu[0][1] = -(matrix[1] * matrix[8] - matrix[7] * matrix[2]);
+
+    resu[1][1] = matrix[0] * matrix[8] - matrix[6] * matrix[2];
+
+    resu[2][1] = -(matrix[0] * matrix[7] - matrix[6] * matrix[1]);
+
+    resu[0][2] = matrix[1] * matrix[5] - matrix[4] * matrix[2];
+
+    resu[1][2] = -(matrix[0] * matrix[5] - matrix[3] * matrix[2]);
+
+    resu[2][2] =  (matrix[0] * matrix[4] - matrix[3] * matrix[1]);
+
+    det = + matrix[0] * (matrix[4] * matrix[8] - matrix[7] * matrix[5]) - matrix[3] * (matrix[1] * matrix[8] - matrix[7] * matrix[2])
+		  + matrix[6] * (matrix[1] * matrix[5] - matrix[4] * matrix[2]);
+
+    if (det != 0.0){
+    	det = 1.0 / det;
+
+	    for (int i = 0; i < 3; i++)
+	    	for (int j = 0; j < 3; j++) 
+	        	resu[i][j] = resu[i][j] * det;	
+    }else{
+    	resu = Matrix3x3();
+    }    
+
+    return resu;
 }
 
 Matrix3x3 Matrix3x3::transpose(){

@@ -39,7 +39,7 @@
 		Core();
 
 	public:
-		static Core* getInstanse();
+		static Core* getInstance();
 		~Core();
 
 		void start();

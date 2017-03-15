@@ -9,7 +9,7 @@
 
 		virtual void init();
 		virtual void renderScene();
-		virtual void createWindow();		
+		virtual void createWindow(const char*, int, int, int, int, int, int, int);		
 	};
 
 #endif

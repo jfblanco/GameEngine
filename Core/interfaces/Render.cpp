@@ -16,6 +16,6 @@ void Render::renderScene(){
 
 }
 
-void Render::createWindow(){
+void Render::createWindow(const char*, int hight, int width, int colorBuffer,int fullScreen, int openGL, int borderless, int highDpi){
 
 }

@@ -1,9 +1,25 @@
 #include "Input.h"
 
-InputInterface::InputInterface(){
+Input::Input(){
 
 }
 
-InputInterface::~InputInterface(){
+Input::~Input(){
+	
+}
+
+void Input::init(){
+
+}
+
+void Input::checkInput(){
+	
+}
+
+void Input::addFunction(int key, InputFunction* function){
+
+}
+
+void InputFunction::excecute(){
 	
 }

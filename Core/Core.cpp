@@ -11,11 +11,14 @@
 #include "interfaces/Render.h"
 #include "interfaces/Resources.h"
 #include "interfaces/VisualEfects.h"
+#include <cstddef>
+#include <iostream>
 
 Core* Core::instance = 0;
 
 Core::Core(){
-
+	render = new Render();
+	input = new Input();
 }
 
 Core* Core::getInstance(){
@@ -38,7 +41,8 @@ void Core::stop(){
 
 void Core::begin(){
 	while(this->imAlive){
-		render->renderScene();
+		this->input->checkInput();
+		this->render->renderScene();
 	}
 }
 

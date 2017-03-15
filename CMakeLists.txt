@@ -13,6 +13,7 @@ find_package(LibRocket REQUIRED)
 
 add_subdirectory("${PROJECT_SOURCE_DIR}/Core")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Low-Level-Rendering")
+add_subdirectory("${PROJECT_SOURCE_DIR}/HID")
 if(ENGINE_BUILD_EXAMPLES)
 	add_subdirectory("${PROJECT_SOURCE_DIR}/Examples")
 endif()

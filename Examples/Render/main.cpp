@@ -5,6 +5,7 @@
 #include "../../Low-Level-Rendering/SDLRenderSystem.h"
 #include "../../HID/SDLInputSystem.h"
 #include "InputCommands/ExitCommand.h"
+#include "InputCommands/PrintCommand.h"
 
 int main(int argc, char** args){
 	SDLRenderSystem* renderSystem = new SDLRenderSystem();
@@ -15,6 +16,7 @@ int main(int argc, char** args){
 
 	inputSystem->init();
 	inputSystem->addShutDownCommand(new ExitCommand());
+	inputSystem->addFunction(SDLK_a, new PrintCommand());
 
 	Core* core = Core::getInstance();
 	core->setRender(renderSystem);

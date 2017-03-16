@@ -11,6 +11,7 @@
 #include "interfaces/Render.h"
 #include "interfaces/Resources.h"
 #include "interfaces/VisualEfects.h"
+#include <SDL.h>
 #include <cstddef>
 #include <iostream>
 
@@ -40,9 +41,18 @@ void Core::stop(){
 }
 
 void Core::begin(){
+	int frameRate = 20;
+	Uint32 start_time;
 	while(this->imAlive){
+		start_time = SDL_GetTicks();
+       
 		this->input->checkInput();
 		this->render->renderScene();
+
+		if(frameRate>(SDL_GetTicks()-start_time))
+        {
+            SDL_Delay(frameRate-(SDL_GetTicks()-start_time));
+        }
 	}
 }
 

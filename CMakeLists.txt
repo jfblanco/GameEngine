@@ -4,12 +4,20 @@ cmake_minimum_required(VERSION 3.5)
 
 option(ENGINE_BUILD_EXAMPLES "Build examples?" OFF)
 
+find_package(OpenGL REQUIRED)
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(SDL2_mixer REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(LibRocket REQUIRED)
+
+LINK_DIRECTORIES(${SDL2_LIB_DIR})
+LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/Core)
+LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/Low-Level-Rendering)
+LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/HID)
+LINK_DIRECTORIES(${GLEW_LIB_DIR})
+LINK_DIRECTORIES(${OPENGL_LIB_DIR})
 
 add_subdirectory("${PROJECT_SOURCE_DIR}/Core")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Low-Level-Rendering")

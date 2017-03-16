@@ -9,7 +9,10 @@
 	
 	private:	
 		SDL_Event event;
+		InputFunction* keyboardCommands[300];
 		InputFunction* shutDownFunction;
+
+		void keyboardInput();
 
 	public:
 		SDLInputSystem();

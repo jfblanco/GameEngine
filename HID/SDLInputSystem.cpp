@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <glew.h>
 #include <iostream>
+#include <cstddef>
 
 SDLInputSystem::SDLInputSystem():Input(){
     shutDownFunction = new InputFunction();
@@ -16,24 +17,25 @@ void SDLInputSystem::init(){
 
 }
 
-void SDLInputSystem::addFunction(int, InputFunction*){
-
+void SDLInputSystem::addFunction(int _key, InputFunction* _command){
+	int scancode = SDL_GetScancodeFromKey(_key);
+	this->keyboardCommands[scancode] = _command;
 }
 
 void SDLInputSystem::checkInput(){
     SDL_PollEvent(&(this->event));
     if(this->event.type == SDL_QUIT)
         shutDownFunction->excecute();
-    if(this->event.type == SDL_KEYDOWN || this->event.type == SDL_KEYUP)
-    	std::cout << SDL_KEYDOWN << std::endl;
-    if(this->event.type == SDL_MOUSEBUTTONDOWN || this->event.type == SDL_MOUSEBUTTONUP)
-    	std::cout << SDL_MOUSEBUTTONDOWN << std::endl;
-    if((this->event.type & 0x100) == 0x600)
-    	std::cout << "Joystick Event" << std::endl;
-    if((this->event.type & 0x100) == 0x650)
-    	std::cout << "Game controller Event" << std::endl;
+    if(this->event.type == SDL_KEYDOWN)
+    	this->keyboardInput();
 }
 
 void SDLInputSystem::addShutDownCommand(InputFunction* _shutDownFunction){
     this->shutDownFunction = _shutDownFunction;
+}
+
+void SDLInputSystem::keyboardInput(){
+	if(this->keyboardCommands[this->event.key.keysym.scancode] != NULL){
+		(this->keyboardCommands[this->event.key.keysym.scancode])->excecute();
+	}
 }

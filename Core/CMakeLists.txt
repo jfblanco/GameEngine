@@ -23,6 +23,7 @@ add_library (EngineCore SHARED Core.cpp
 							   utils/Matrix4x4.cpp
 							   utils/ShortString.cpp
 							   utils/String.cpp
+							   utils/Buffer.cpp
 							   utils/LongString.cpp)
 TARGET_INCLUDE_DIRECTORIES(EngineCore PUBLIC ${SDL2_INCLUDE_DIR})
 TARGET_LINK_LIBRARIES(EngineCore SDL2 SDL2main)							   

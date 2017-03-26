@@ -4,11 +4,9 @@
 	#include "Mesh.h"
 	#include "Shader.h"
 	#include "Matrix4x4.h"
-	#include "ShortString.h"
+	#include "BufferItem.h"
 
-	struct Actor{
-		unsigned int id;
-		ShortString tag;
+	struct Actor : BufferItem{
 		Matrix4x4 rotationAndTranslation;
 		Mesh* mesh;
 		Shader* shader;

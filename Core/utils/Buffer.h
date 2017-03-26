@@ -1,10 +1,16 @@
 #ifndef __ENGINE__UTILS_BUFFER_
 #define __ENGINE__UTILS_BUFFER_
 
-	template <typename T>
+	class Mesh;
+	class Actor;
+	class BufferItem;
+	class Material;
+	class Shader;
+
 	class Buffer {
 	
 	private:
+		int currentIndex;
 		int lenght;	
 		int index[100];
 		unsigned char buffer[1048576];
@@ -13,7 +19,20 @@
 		Buffer();
 		~Buffer();
 
-		T* get(int);
-		void insert(T*);
+		BufferItem* get(int);
+
+		Mesh* getMesh(int);
+		void insert(Mesh*);
+		BufferItem* first();
+		BufferItem* next();
+
+		Actor* getActor(int);
+		void insert(Actor*);
+		
+		Shader* getShader(int);
+		void insert(Shader*);
+		
+		Material* getMaterial(int);
+		void insert(Material*);
 	};
 #endif

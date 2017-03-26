@@ -2,10 +2,9 @@
 #define __ENGINE__UTILS_MATERIAL__
 
 	#include "ShortString.h"
+	#include "BufferItem.h"
 
-	struct Material{
-		unsigned int id;
-		ShortString tag;
+	struct Material : BufferItem{
 		unsigned int materialId;
 	};
 

@@ -2,11 +2,9 @@
 #define __ENGINE__UTILS_SHADER_
 
 	#include "Material.h"
-	#include "ShortString.h"
+	#include "BufferItem.h"
 
-	struct Shader{
-		unsigned int id;
-		ShortString tag;
+	struct Shader : BufferItem {
 		unsigned int vertexShaderId;
 		unsigned int fragmentShaderId;		
 		unsigned int programShaderId;		

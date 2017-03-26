@@ -2,105 +2,114 @@
 #include "Mesh.h"
 #include "Actor.h"
 #include "Material.h"
+#include "BufferItem.h"
 #include "Shader.h"
 #include <iostream>
 #include <cstdint>
 #include <cstring>
 
-template <typename T> Buffer<T>::Buffer(){
+Buffer::Buffer(){
 	lenght = 0;
+	currentIndex = 0;
+	index[0] = 0;
 }
 		
-template <typename T> Buffer<T>::~Buffer(){
+Buffer::~Buffer(){
 
 }
 
-template <typename T> T* Buffer<T>::get(int _index){
-
+BufferItem* Buffer::get(int _index){
+	return (BufferItem*) &(buffer[index[_index]]);
 }
 
-template <typename T> void Buffer<T>::insert(T* _object){
-
-}
-
-template <>
-Buffer<Mesh>::Buffer(){
-	lenght = 0;
-}
-		
-template <>
-Buffer<Mesh>::~Buffer(){
-
-}
-
-template <>
-Mesh* Buffer<Mesh>::get(int _index){
+Mesh* Buffer::getMesh(int _index){
 	return (Mesh*) &(buffer[index[_index]]);
 }
 
-template <>
-void Buffer<Mesh>::insert(Mesh* _object){	
-	index[lenght] = lenght * sizeof (*_object);
-	std::memcpy(&(buffer[index[lenght]]), _object, sizeof (*_object));
+void Buffer::insert(Mesh* _object){	
+	int meshSize = sizeof (*_object);
+	int vertexBufferSize = sizeof(Vector3) * _object->vertexCount;
+	int normalBufferSize = sizeof(Vector3) * _object->normalCount;
+	int facesBufferSize = sizeof(Vector3) * _object->faceCount;
+	int textureMapBufferSize = sizeof(Vector3) * _object->textureMapCount;
+
+	int memoryLocation = index[lenght];
+	int objectLocation = index[lenght];
+	int vertexLocation;
+	int normalLocation;
+	int textureLocation;
+	int facesLocation;
+
+	std::memcpy(&(buffer[memoryLocation]), _object, meshSize);
+	memoryLocation += meshSize;
+	std::memcpy(&(buffer[memoryLocation]), _object->vertexs, vertexBufferSize);
+	vertexLocation = memoryLocation;
+	memoryLocation += vertexBufferSize;
+	
+	std::memcpy(&(buffer[memoryLocation]), _object->normals, normalBufferSize);
+	normalLocation = memoryLocation;
+	memoryLocation += normalBufferSize;
+	
+	std::memcpy(&(buffer[memoryLocation]), _object->textures, textureMapBufferSize);
+	textureLocation = memoryLocation;
+	memoryLocation += textureMapBufferSize;
+	
+	std::memcpy(&(buffer[memoryLocation]), _object->faces, facesBufferSize);
+	facesLocation = memoryLocation;
+	memoryLocation += facesBufferSize;
+	
 	lenght++;	
+	index[lenght] = memoryLocation;
+
+	Mesh* auxMesh = (Mesh*) &(buffer[objectLocation]);
+	auxMesh->vertexs = (Vector3*) &(buffer[vertexLocation]);
+	auxMesh->normals = (Vector3*) &(buffer[normalLocation]);
+	auxMesh->textures = (Vector3*) &(buffer[textureLocation]);
+	auxMesh->faces = (unsigned int*) &(buffer[facesLocation]);
 }
 
-template <>
-Buffer<Actor>::Buffer(){
-	lenght = 0;
-}
-		
-template <>
-Buffer<Actor>::~Buffer(){
-
+BufferItem* Buffer::first(){
+	currentIndex = 0;
+	if(currentIndex >= lenght)
+		return NULL;
+	else
+		return this->get(currentIndex);
 }
 
-template <>
-Actor* Buffer<Actor>::get(int _index){
-
+BufferItem* Buffer::next(){
+	currentIndex++;
+	if(currentIndex >= lenght)
+		return NULL;
+	else
+		return this->get(currentIndex);	
 }
 
-template <>
-void Buffer<Actor>::insert(Actor* _object){
-
+Actor* Buffer::getActor(int _index){
+	return (Actor*) &(buffer[index[_index]]);
 }
 
-template <>
-Buffer<Material>::Buffer(){
-	lenght = 0;
-}
-		
-template <>
-Buffer<Material>::~Buffer(){
+void Buffer::insert(Actor* _object){
 
-}
-
-template <>
-Material* Buffer<Material>::get(int _index){
-
-}
-
-template <>
-void Buffer<Material>::insert(Material* _object){
-
-}
-
-template <>
-Buffer<Shader>::Buffer(){
-	lenght = 0;
 }
 		
-template <>
-Buffer<Shader>::~Buffer(){
+Material* Buffer::getMaterial(int _index){
+	return (Material*) &(buffer[index[_index]]);
+}
+
+void Buffer::insert(Material* _object){
 
 }
 
-template <>
-Shader* Buffer<Shader>::get(int _index){
-
+Shader* Buffer::getShader(int _index){
+	return (Shader*) &(buffer[index[_index]]);
 }
 
-template <>
-void Buffer<Shader>::insert(Shader* _object){
+void Buffer::insert(Shader* _object){
+	int shaderSize = sizeof (*_object);
+	int memoryLocation = index[lenght];
 
+	std::memcpy(&(buffer[memoryLocation]), _object, shaderSize);
+	memoryLocation += shaderSize;
+	lenght++;	
+	index[lenght] = memoryLocation;
 }

@@ -3,14 +3,13 @@
 
 	#include "Vector3.h"
 	#include "ShortString.h"
+	#include "BufferItem.h"
 
-	struct Mesh{
-		unsigned int id;
-		ShortString tag;
-		unsigned int vertex_count;
-		unsigned int normal_count;
-		unsigned int face_count;
-		unsigned int texture_map_count;
+	struct Mesh : BufferItem{
+		unsigned int vertexCount = 0;
+		unsigned int normalCount = 0;
+		unsigned int faceCount = 0;
+		unsigned int textureMapCount = 0;
 		Vector3* vertexs; 
 		Vector3* normals; 
 		Vector3* textures; 

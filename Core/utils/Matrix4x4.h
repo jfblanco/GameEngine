@@ -24,6 +24,8 @@
 		void rotationMatrix(float,float,float);
 		void scaleMatrix(float);
 		void scaleMatrix(float,float,float);
+		void orthoMatrix(int,int,int,int,int,int);
+		void perspectiveMatrix(int,int,int,int,int,int);
 		void print();
 	};
 

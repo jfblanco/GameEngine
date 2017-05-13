@@ -1,7 +1,7 @@
 #include <iostream>
-#include "../../Core/utils/Mesh.h"
+#include "../../Low-Level-Rendering/utils/Mesh.h"
+#include "../../Low-Level-Rendering/utils/Shader.h"
 #include "../../Core/utils/Actor.h"
-#include "../../Core/utils/Shader.h"
 #include "../../Core/utils/Buffer.h"
 #include "../../Core/utils/Vector3.h"
 
@@ -90,19 +90,13 @@ int main(int argc, char** args){
 
 	Buffer buffer;
 
-	buffer.insert(mesh3);
 	buffer.insert(shader1);
+	buffer.insert(shader2);
+	buffer.insert(mesh3);
 	buffer.insert(mesh2);
 	buffer.insert(mesh1);
 	buffer.insert(mesh);
-	buffer.insert(shader2);
 	buffer.insert(mesh4);
-
-	delete mesh;
-	delete mesh1;
-	delete mesh2;
-	delete mesh3;
-	delete mesh4;
 
 	BufferItem* bufferItem;
 	

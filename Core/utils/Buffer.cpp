@@ -1,9 +1,9 @@
 #include "Buffer.h"
-#include "Mesh.h"
 #include "Actor.h"
-#include "Material.h"
+#include "../../Low-Level-Rendering/utils/Mesh.h"
+#include "../../Low-Level-Rendering/utils/Material.h"
+#include "../../Low-Level-Rendering/utils/Shader.h"
 #include "BufferItem.h"
-#include "Shader.h"
 #include <iostream>
 #include <cstdint>
 #include <cstring>
@@ -29,6 +29,9 @@ Mesh* Buffer::getMesh(int _index){
 void Buffer::insert(Mesh* _object){	
 	int meshSize = sizeof (*_object);
 	int vertexBufferSize = sizeof(Vector3) * _object->vertexCount;
+	int vertexColorBufferSize = sizeof(Vector3) * _object->vertexColorCount;
+	int vertexDiffuseBufferSize = sizeof(Vector3) * _object->diffuseVertexColorCount;
+	int vertexSpecularBufferSize = sizeof(Vector3) * _object->specularVertexColorCount;
 	int normalBufferSize = sizeof(Vector3) * _object->normalCount;
 	int facesBufferSize = sizeof(Vector3) * _object->faceCount;
 	int textureMapBufferSize = sizeof(Vector3) * _object->textureMapCount;
@@ -36,15 +39,31 @@ void Buffer::insert(Mesh* _object){
 	int memoryLocation = index[lenght];
 	int objectLocation = index[lenght];
 	int vertexLocation;
+	int vertexColorLocation;
+	int vertexDiffuseLocation;
+	int vertexSpecularLocation;
 	int normalLocation;
 	int textureLocation;
 	int facesLocation;
 
 	std::memcpy(&(buffer[memoryLocation]), _object, meshSize);
 	memoryLocation += meshSize;
+
 	std::memcpy(&(buffer[memoryLocation]), _object->vertexs, vertexBufferSize);
 	vertexLocation = memoryLocation;
 	memoryLocation += vertexBufferSize;
+
+	std::memcpy(&(buffer[memoryLocation]), _object->vertexColors, vertexColorBufferSize);
+	vertexColorLocation = memoryLocation;
+	memoryLocation += vertexColorBufferSize;
+
+	std::memcpy(&(buffer[memoryLocation]), _object->diffuses, vertexDiffuseBufferSize);
+	vertexDiffuseLocation = memoryLocation;
+	memoryLocation += vertexDiffuseBufferSize;
+
+	std::memcpy(&(buffer[memoryLocation]), _object->speculars, vertexSpecularBufferSize);
+	vertexSpecularLocation = memoryLocation;
+	memoryLocation += vertexSpecularBufferSize;
 	
 	std::memcpy(&(buffer[memoryLocation]), _object->normals, normalBufferSize);
 	normalLocation = memoryLocation;
@@ -63,9 +82,16 @@ void Buffer::insert(Mesh* _object){
 
 	Mesh* auxMesh = (Mesh*) &(buffer[objectLocation]);
 	auxMesh->vertexs = (Vector3*) &(buffer[vertexLocation]);
+	auxMesh->vertexColors = (Vector3*) &(buffer[vertexColorLocation]);
+	auxMesh->diffuses = (Vector3*) &(buffer[vertexDiffuseLocation]);
+	auxMesh->speculars = (Vector3*) &(buffer[vertexDiffuseLocation]);
 	auxMesh->normals = (Vector3*) &(buffer[normalLocation]);
 	auxMesh->textures = (Vector3*) &(buffer[textureLocation]);
 	auxMesh->faces = (unsigned int*) &(buffer[facesLocation]);
+
+	delete _object;
+	_object = auxMesh;
+	_object->id = lenght;
 }
 
 BufferItem* Buffer::first(){
@@ -104,12 +130,19 @@ Shader* Buffer::getShader(int _index){
 	return (Shader*) &(buffer[index[_index]]);
 }
 
-void Buffer::insert(Shader* _object){
+Shader* Buffer::insert(Shader* _object){
 	int shaderSize = sizeof (*_object);
 	int memoryLocation = index[lenght];
+	int objectLocation = index[lenght];
 
 	std::memcpy(&(buffer[memoryLocation]), _object, shaderSize);
 	memoryLocation += shaderSize;
+
+	Shader* auxShader = (Shader*) &(buffer[objectLocation]);
 	lenght++;	
 	index[lenght] = memoryLocation;
+	delete _object;
+	_object = auxShader;
+	_object->id = lenght;
+	return _object;
 }

@@ -3,7 +3,7 @@
 #include <bitset>
 #include "../../Core/Core.h"
 #include "../../Core/utils/String.h"
-#include "../../Core/utils/Shader.h"
+#include "../../Low-Level-Rendering/utils/Shader.h"
 #include "../../Low-Level-Rendering/SDLRenderSystem.h"
 #include "../../Low-Level-Rendering/ShaderFactory.h"
 #include "../../HID/SDLInputSystem.h"

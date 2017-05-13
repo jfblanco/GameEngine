@@ -1,4 +1,5 @@
 #include "SDLRenderSystem.h"
+#include "utils/Scene.h"
 #include "../Core/interfaces/Render.h"
 #include <SDL.h>
 #include <glew.h>
@@ -23,9 +24,13 @@ void SDLRenderSystem::renderScene(){
     glClearDepth(1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    
+    this->actualScene->renderScene();
 
     SDL_GL_SwapWindow(this->window);
+}
+
+void SDLRenderSystem::setActualScene(Scene* _scene){
+    this->actualScene = _scene;
 }
 
 void SDLRenderSystem::setOpenGLAttributes(){

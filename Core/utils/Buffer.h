@@ -30,7 +30,7 @@
 		void insert(Actor*);
 		
 		Shader* getShader(int);
-		void insert(Shader*);
+		Shader* insert(Shader*);
 		
 		Material* getMaterial(int);
 		void insert(Material*);

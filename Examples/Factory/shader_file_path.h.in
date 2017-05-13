@@ -1,0 +1,3 @@
+const char* SIMPLE_TEST_VERTEX_SHADER = "${CMAKE_CURRENT_BINARY_DIR}/shaders/simpleTest.vert";
+
+const char* SIMPLE_TEST_FRAGMENT_SHADER = "${CMAKE_CURRENT_BINARY_DIR}/shaders/simpleTest.frag";

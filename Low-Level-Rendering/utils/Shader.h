@@ -2,7 +2,7 @@
 #define __ENGINE__UTILS_SHADER_
 
 	#include "Material.h"
-	#include "BufferItem.h"
+	#include "../../Core/utils/BufferItem.h"
 
 	struct Shader : BufferItem {
 		unsigned int vertexShaderId;

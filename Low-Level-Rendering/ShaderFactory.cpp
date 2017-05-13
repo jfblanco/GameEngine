@@ -1,5 +1,5 @@
 #include "ShaderFactory.h"
-#include "../Core/utils/Shader.h"
+#include "../Low-Level-Rendering/utils/Shader.h"
 #include <string>
 #include <string.h>
 #include <iostream>
@@ -25,6 +25,9 @@ Shader* ShaderFactory::createShader(const char* _vertexShader, const char* _frag
     int blen = 0;
     int linked;    
     GLsizei slen = 0;
+
+    _shader->id = 0;
+    _shader->type = SHADER;
 
     char* vertexShaderStringCode = readFile(_vertexShader, &vertexShaderStringLenght);
     char* fragmentShaderStringCode = readFile(_fragmentShader, &fragmentShaderStringLenght);

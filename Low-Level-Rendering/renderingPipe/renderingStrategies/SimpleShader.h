@@ -2,6 +2,7 @@
 #define __ENGINE__SDL_RENDER_PIPE_SHADERS_SIMPLE__
 
 	#include "../ShaderStrategy.h"
+	#include "../../../Core/utils/Matrix4x4.h"
 
 	class SimpleShader : public ShaderStrategy{
 	
@@ -12,7 +13,8 @@
 		void excecute(Shader*, Mesh*);
 
 	private:
-		int vertexAttributePosition;	
+		int vertexAttributePosition, projectionMatrixUniformPosition, positionMatrix;	
+		Matrix4x4 projectionMatrix;
 	};
 
 #endif

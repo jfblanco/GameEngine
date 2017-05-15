@@ -30,8 +30,6 @@ int main(int argc, char** args){
 	core->setRender(renderSystem);
 	core->setInput(inputSystem);
 
-	Mesh* mesh = meshFactory->createCube("cube1");	
-
 	Shader* shader = new Shader();
 	shader->tag = "simpleShader";
 	shaderFactory->createShader(SIMPLE_TEST_VERTEX_SHADER,SIMPLE_TEST_FRAGMENT_SHADER, shader);
@@ -39,7 +37,13 @@ int main(int argc, char** args){
 
 	Scene* firstScene = new Scene();
 	firstScene->addShader(shader, shaderStrategy);
-	firstScene->addMesh(mesh);	
+	
+	Mesh* plane = meshFactory->createPlane("plane1");
+	plane->position.translationMatrix(600.0, 400.0, 0.0);
+	Mesh* cube = meshFactory->createCube("cube2");	
+	cube->position.translationMatrix(100.0, 200.0,0.0);
+	firstScene->addMesh(plane);	
+	firstScene->addMesh(cube);	
 	renderSystem->setActualScene(firstScene);
 
 	core->begin();

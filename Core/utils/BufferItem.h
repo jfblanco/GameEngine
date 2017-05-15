@@ -2,6 +2,7 @@
 #define __ENGINE__UTILS_BUFFER_ITEM__
 	
 	#include "ShortString.h"
+	#include "Matrix4x4.h"
 
 	enum BufferItemType{
 		ACTOR = 1,
@@ -14,6 +15,7 @@
 		unsigned int id;
 		ShortString tag;
 		BufferItemType type;
+		Matrix4x4 position;
 	};
 
 #endif

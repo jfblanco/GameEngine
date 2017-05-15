@@ -18,6 +18,10 @@ Matrix4x4::~Matrix4x4(){
 	
 }
 
+float* Matrix4x4::toFloatPointer(){
+	return matrix;
+}
+
 float* Matrix4x4::operator[](const int& _position){
 	return (matrix + (_position * 4));
 }
@@ -223,4 +227,19 @@ void Matrix4x4::print(){
 	std::cout << std::setprecision(20) << matrix[4] << " - " << matrix[5] << " - " << matrix[6] << " - " << matrix[7] << std::endl;
 	std::cout << std::setprecision(20) << matrix[8] << " - " << matrix[9] << " - " << matrix[10] << " - " << matrix[11] << std::endl;
 	std::cout << std::setprecision(20) << matrix[12] << " - " << matrix[13] << " - " << matrix[14] << " - " << matrix[15] << std::endl;
+}
+
+
+void Matrix4x4::orthoMatrix(float left, float right, float top ,float bottom, float near ,float far){
+	matrix[0]= 2 / (right - left);  matrix[1]= 0.0; 				matrix[2]= 0.0;         				matrix[3]=  0.0;
+	matrix[4]= 0.0; 				matrix[5]= 2 / (top - bottom);  matrix[6]= 0.0;         				matrix[7]=  0.0;
+	matrix[8]= 0.0; 				matrix[9]= 0.0; 				matrix[10]= -1.0 * (2 / (far - near));  matrix[11]= 0.0;
+	matrix[12]=-1.0 * ((right+left)/(right-left));					matrix[13]=-1.0 * ((top+bottom)/(top-bottom));				matrix[14]=-1.0 * ((far+near)/(far-near)); 						matrix[15]= 1.0;
+}
+
+void Matrix4x4::perspectiveMatrix(float left, float right, float top ,float bottom, float near ,float far){
+	matrix[0]=  (2 * near)/(right - left);  matrix[1]=  0.0; 						matrix[2]= (right + left)/(right - left);    matrix[3]= 0.0;
+	matrix[4]=  0.0;  						matrix[5]=  (2 * near)/(top - bottom);  matrix[6]= (top + bottom)/(top - bottom);    matrix[7]=  0.0;
+	matrix[8]=  0.0;  						matrix[9]=  0.0; 						matrix[10]= -1.0 * ((far+near)/(far-near));  matrix[11]= -1.0 * ((2 * far * near)/(far-near));
+	matrix[12]= 0.0;  						matrix[13]= 0.0; 						matrix[14]= -1.0;  							 matrix[15]= 0.0;
 }

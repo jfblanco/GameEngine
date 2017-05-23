@@ -15,7 +15,7 @@
 		unsigned int id;
 		ShortString tag;
 		BufferItemType type;
-		Matrix4x4 position;
+		Matrix4x4 modelMatrix;
 	};
 
 #endif

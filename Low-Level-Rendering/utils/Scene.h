@@ -7,6 +7,8 @@
 	class Mesh;	
 	class ShaderStrategy;	
 	class Shader;	
+	class Mesh;
+	class TickTimeEventInterface;
 
 	class Scene {
 	
@@ -19,15 +21,21 @@
 		int shadersCount;
 		ShaderStrategy* actualShaderStrategy;
 		Shader* actualShader;
+		int tickIndex[100];
+		TickTimeEventInterface* tickevents[20];
+		int ticksCount;
+		Mesh* actualMesh;
 
 		void shaderContextSwitch(Shader*);
 	public:
 		Scene();
 		~Scene();
 
-		void addMesh(Mesh*);
+		Mesh* addMesh(Mesh*);
 		void addShader(Shader*, ShaderStrategy*);
+		void addMeshToTickEventManager(Mesh*, TickTimeEventInterface*);
 		void renderScene();
+		void sendTickEvent(unsigned int);
 	};
 
 #endif

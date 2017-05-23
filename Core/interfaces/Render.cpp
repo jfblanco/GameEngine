@@ -16,6 +16,11 @@ void Render::renderScene(){
 
 }
 
+
+void Render::sendTickEvent(unsigned int){
+	
+}
+
 void Render::createWindow(const char*, int hight, int width, int colorBuffer,int fullScreen, int openGL, int borderless, int highDpi){
 
 }

@@ -22,7 +22,7 @@
 		BufferItem* get(int);
 
 		Mesh* getMesh(int);
-		void insert(Mesh*);
+		Mesh* insert(Mesh*);
 		BufferItem* first();
 		BufferItem* next();
 

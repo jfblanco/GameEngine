@@ -1,4 +1,5 @@
 #include "Vector3.h"
+#include <iostream>
 #include <math.h>
 
 Vector3::Vector3(){
@@ -77,6 +78,10 @@ Vector3 Vector3::lerp(Vector3 _vector, float _scalar){
 	result.y((1.0 - _scalar) * this->vector[1] + _scalar * _vector.y());
 	result.z((1.0 - _scalar) * this->vector[2] + _scalar * _vector.z());
 	return result;
+}
+
+void Vector3::print(){
+	std::cout << "[" << this->vector[0] << ", " << this->vector[1] << ", " << this->vector[2] << "]" << std::endl;
 }
 
 float Vector3::x(){

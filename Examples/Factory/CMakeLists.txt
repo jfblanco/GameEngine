@@ -7,6 +7,7 @@ configure_file(shader_file_path.h.in shader_file_path.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_executable (FactoryExample main.cpp
+								InputCommands/TickEvent.cpp
 								InputCommands/ExitCommand.cpp)
 
 TARGET_LINK_LIBRARIES(FactoryExample EngineCore EngineRenderSystem EngineInputSystem SDL2 SDL2main GLEW)

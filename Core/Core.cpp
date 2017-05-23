@@ -43,16 +43,17 @@ void Core::stop(){
 void Core::begin(){
 	int frameRate = 20;
 	Uint32 start_time;
-	while(this->imAlive){
+	while(this->imAlive){		
 		start_time = SDL_GetTicks();
-       
 		this->input->checkInput();
+		this->render->sendTickEvent(SDL_GetTicks() - start_time);
 		this->render->renderScene();
-
-		if(frameRate>(SDL_GetTicks()-start_time))
+		start_time = SDL_GetTicks();
+		while(frameRate > (SDL_GetTicks() - start_time))
         {
-            SDL_Delay(frameRate-(SDL_GetTicks()-start_time));
-        }
+            this->render->sendTickEvent(SDL_GetTicks() - start_time);
+            this->input->checkInput();
+		}
 	}
 }
 

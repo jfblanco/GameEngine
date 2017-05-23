@@ -25,7 +25,8 @@
 		void scaleMatrix(float);
 		void scaleMatrix(float,float,float);
 		void orthoMatrix(float,float,float,float,float,float);
-		void perspectiveMatrix(float,float,float,float,float,float);
+		void frustumMatrix(float,float,float,float,float,float);
+		void perspectiveMatrix(float, float, float, float);
 		void print();
 		float* toFloatPointer();
 	};

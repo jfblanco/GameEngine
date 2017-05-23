@@ -9,6 +9,7 @@
 
 		virtual void init();
 		virtual void renderScene();
+		virtual void sendTickEvent(unsigned int);
 		virtual void createWindow(const char*, int, int, int, int, int, int, int);		
 	};
 

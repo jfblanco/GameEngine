@@ -26,7 +26,7 @@ Mesh* Buffer::getMesh(int _index){
 	return (Mesh*) &(buffer[index[_index]]);
 }
 
-void Buffer::insert(Mesh* _object){	
+Mesh* Buffer::insert(Mesh* _object){	
 	int meshSize = sizeof (*_object);
 	int vertexBufferSize = sizeof(Vector3) * _object->vertexCount;
 	int vertexColorBufferSize = sizeof(Vector3) * _object->vertexColorCount;
@@ -92,6 +92,7 @@ void Buffer::insert(Mesh* _object){
 	delete _object;
 	_object = auxMesh;
 	_object->id = lenght;
+	return _object;
 }
 
 BufferItem* Buffer::first(){

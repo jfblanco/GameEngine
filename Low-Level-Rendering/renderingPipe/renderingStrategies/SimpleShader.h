@@ -3,6 +3,7 @@
 
 	#include "../ShaderStrategy.h"
 	#include "../../../Core/utils/Matrix4x4.h"
+	#include "../../utils/Camera.h"
 
 	class SimpleShader : public ShaderStrategy{
 	
@@ -13,8 +14,9 @@
 		void excecute(Shader*, Mesh*);
 
 	private:
-		int vertexAttributePosition, projectionMatrixUniformPosition, positionMatrix;	
+		int vertexAttributePosition, projectionMatrixUniformPosition, modelMatrix, viewMatrix;	
 		Matrix4x4 projectionMatrix;
+		Camera camera;
 	};
 
 #endif

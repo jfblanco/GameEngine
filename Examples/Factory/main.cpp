@@ -11,6 +11,7 @@
 #include "../../Low-Level-Rendering/utils/MeshFactory.h"
 #include "../../Low-Level-Rendering/renderingPipe/renderingStrategies/SimpleShader.h"
 #include "InputCommands/ExitCommand.h"
+#include "InputCommands/TickEvent.h"
 #include "../../HID/SDLInputSystem.h"
 #include <shader_file_path.h>
 
@@ -31,19 +32,16 @@ int main(int argc, char** args){
 	core->setInput(inputSystem);
 
 	Shader* shader = new Shader();
-	shader->tag = "simpleShader";
+	shader->tag = "simpleShader"; 
 	shaderFactory->createShader(SIMPLE_TEST_VERTEX_SHADER,SIMPLE_TEST_FRAGMENT_SHADER, shader);
 	ShaderStrategy* shaderStrategy = new SimpleShader(shader);
 
 	Scene* firstScene = new Scene();
 	firstScene->addShader(shader, shaderStrategy);
 	
-	Mesh* plane = meshFactory->createPlane("plane1");
-	plane->position.translationMatrix(600.0, 400.0, 0.0);
-	Mesh* cube = meshFactory->createCube("cube2");	
-	cube->position.translationMatrix(100.0, 200.0,0.0);
-	firstScene->addMesh(plane);	
-	firstScene->addMesh(cube);	
+	Mesh* plane = meshFactory->createSphere("plane1");
+	plane = firstScene->addMesh(plane);	
+	firstScene->addMeshToTickEventManager(plane, new TickEvent());
 	renderSystem->setActualScene(firstScene);
 
 	core->begin();

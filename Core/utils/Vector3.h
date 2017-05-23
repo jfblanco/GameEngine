@@ -23,6 +23,7 @@
 		float dot(Vector3);
 		Vector3 cross(Vector3);
 		Vector3 lerp(Vector3, float);
+		void print();
 		
 		Vector3 operator*(const float);
 		Vector3 operator*(const double);

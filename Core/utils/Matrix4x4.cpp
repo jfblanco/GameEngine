@@ -233,13 +233,39 @@ void Matrix4x4::print(){
 void Matrix4x4::orthoMatrix(float left, float right, float top ,float bottom, float near ,float far){
 	matrix[0]= 2 / (right - left);  matrix[1]= 0.0; 				matrix[2]= 0.0;         				matrix[3]=  0.0;
 	matrix[4]= 0.0; 				matrix[5]= 2 / (top - bottom);  matrix[6]= 0.0;         				matrix[7]=  0.0;
-	matrix[8]= 0.0; 				matrix[9]= 0.0; 				matrix[10]= -1.0 * (2 / (far - near));  matrix[11]= 0.0;
-	matrix[12]=-1.0 * ((right+left)/(right-left));					matrix[13]=-1.0 * ((top+bottom)/(top-bottom));				matrix[14]=-1.0 * ((far+near)/(far-near)); 						matrix[15]= 1.0;
+	matrix[8]= 0.0; 				matrix[9]= 0.0; 				matrix[10]= -(2 / (far - near));   		matrix[11]= ((far+near)/(far-near));
+	matrix[12]=0.0;					matrix[13]=0.0;					matrix[14]= 0.0;						matrix[15]= 1.0;
 }
 
-void Matrix4x4::perspectiveMatrix(float left, float right, float top ,float bottom, float near ,float far){
-	matrix[0]=  (2 * near)/(right - left);  matrix[1]=  0.0; 						matrix[2]= (right + left)/(right - left);    matrix[3]= 0.0;
-	matrix[4]=  0.0;  						matrix[5]=  (2 * near)/(top - bottom);  matrix[6]= (top + bottom)/(top - bottom);    matrix[7]=  0.0;
-	matrix[8]=  0.0;  						matrix[9]=  0.0; 						matrix[10]= -1.0 * ((far+near)/(far-near));  matrix[11]= -1.0 * ((2 * far * near)/(far-near));
-	matrix[12]= 0.0;  						matrix[13]= 0.0; 						matrix[14]= -1.0;  							 matrix[15]= 0.0;
+void Matrix4x4::frustumMatrix(float left, float right, float top ,float bottom, float near ,float far){
+	float height = top - bottom;
+	float width = right - left;
+
+	float w = width / 2;
+	float h = height / 2;
+
+	matrix[0]=  near/w; matrix[1]=  0.0; 	matrix[2]= 0.0;  matrix[3]= 0.0;
+
+	matrix[4]=  0.0;  	matrix[5]= near/h;  matrix[6]= 0.0;  matrix[7]=  -((2 * far * near)/(far-near));
+	
+	matrix[8]=  0.0;  	matrix[9]=  0.0; 	matrix[10]= -((far+near)/(far-near));  matrix[11]= 0.0;
+	
+	matrix[12]= 0.0;  	matrix[13]= 0.0; 	matrix[14]= -1.0;	 matrix[15]= 0.0;
+}
+
+void Matrix4x4::perspectiveMatrix(float fovy, float aspect, float n,float f){
+	
+	float radians = (fovy * 0.5f) * 0.01745329252;
+	float q = 1.0f / tan(radians);
+    float A = q / aspect;
+    float B = (n + f) / (n - f);
+    float C = (2.0f * n * f) / (n - f);
+
+    matrix[0]=    A; 	matrix[1]=  0.0;  matrix[2]= 0.0;  matrix[3]= 0.0;
+
+	matrix[4]=  0.0;  	matrix[5]=    q;  matrix[6]= 0.0;  matrix[7]=  0.0;
+	
+	matrix[8]=  0.0;  	matrix[9]=  0.0;  matrix[10]=  B;  matrix[11]= -1.0;
+	
+	matrix[12]= 0.0;  	matrix[13]= 0.0;  matrix[14]=  C; matrix[15]= 0.0;
 }

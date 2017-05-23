@@ -7,6 +7,7 @@ add_library (EngineRenderSystem SHARED SDLRenderSystem.cpp
 									   renderingPipe/ShaderStrategy.cpp
 									   renderingPipe/renderingStrategies/SimpleShader.cpp
 									   utils/MeshFactory.cpp
+									   utils/Camera.cpp
 									   utils/Scene.cpp)
 TARGET_LINK_LIBRARIES(EngineRenderSystem EngineCore)
 TARGET_INCLUDE_DIRECTORIES(EngineRenderSystem PUBLIC ${SDL2_INCLUDE_DIR} ${GLEW_INCLUDE_DIR})

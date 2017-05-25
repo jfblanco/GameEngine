@@ -1,6 +1,7 @@
 #include "MeshFactory.h"
 #include "Mesh.h"
 #include "../../Core/utils/Vector3.h"
+#include "../../Core/utils/Actor.h"
 #include <glew.h>
 #include <iostream>
 
@@ -14,10 +15,8 @@ MeshFactory::~MeshFactory(){
 
 }
 
-Mesh* MeshFactory::createCube(const char* _tag){
+Mesh* MeshFactory::createCube(){
 	Mesh* resu = new Mesh();
-	resu->tag = _tag;
-	resu->type = MESH;
 	resu->vertexCount = 8;
 	resu->vertexColorCount = 8;
 	resu->diffuseVertexColorCount = 8;
@@ -42,7 +41,15 @@ Mesh* MeshFactory::createCube(const char* _tag){
 	resu->vertexs[6].x(-100.0);resu->vertexs[6].y(-100.0);resu->vertexs[6].z(100.0);
 	resu->vertexs[7].x(-100.0);resu->vertexs[7].y(100.0);resu->vertexs[7].z(100.0);
 
-	fillVector(resu->vertexColors, 0.5, 8);
+	resu->vertexColors[0].x(1.0);resu->vertexColors[0].y(0.0);resu->vertexColors[0].z(0.0);
+	resu->vertexColors[1].x(0.0);resu->vertexColors[1].y(1.0);resu->vertexColors[1].z(0.0);
+	resu->vertexColors[2].x(0.0);resu->vertexColors[2].y(0.0);resu->vertexColors[2].z(1.0);
+	resu->vertexColors[3].x(0.7);resu->vertexColors[3].y(0.0);resu->vertexColors[3].z(0.0);
+	resu->vertexColors[4].x(0.0);resu->vertexColors[4].y(7.0);resu->vertexColors[4].z(0.0);
+	resu->vertexColors[5].x(0.0);resu->vertexColors[5].y(0.0);resu->vertexColors[5].z(7.0);
+	resu->vertexColors[6].x(0.4);resu->vertexColors[6].y(0.0);resu->vertexColors[6].z(0.0);
+	resu->vertexColors[7].x(0.0);resu->vertexColors[7].y(0.4);resu->vertexColors[7].z(0.0);
+
 	fillVector(resu->diffuses, 0.5, 8);
 	fillVector(resu->speculars, 0.5, 8);
 	fillVector(resu->normals, 0.5, 8);
@@ -90,19 +97,17 @@ Mesh* MeshFactory::createCube(const char* _tag){
 
 	glGenBuffers(1, &resu->indexBuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, resu->indexBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 36 * sizeof(unsigned int), resu->faces, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 12 * 3 * sizeof(unsigned int), resu->faces, GL_STATIC_DRAW);
 
 	return resu;
 }
 		
-Mesh* MeshFactory::createLine(const char*){
+Mesh* MeshFactory::createLine(){
 
 }
 		
-Mesh* MeshFactory::createPlane(const char* _tag){
+Mesh* MeshFactory::createPlane(){
 	Mesh* resu = new Mesh();
-	resu->tag = _tag;
-	resu->type = MESH;
 	resu->vertexCount = 4;
 	resu->vertexColorCount = 4;
 	resu->diffuseVertexColorCount = 4;
@@ -116,14 +121,18 @@ Mesh* MeshFactory::createPlane(const char* _tag){
 	resu->speculars = new Vector3[4];
 	resu->normals = new Vector3[4];
 	resu->textures = new Vector3[4];
-	resu->faces = new unsigned int[6];
+	resu->faces = new unsigned int[2];
 
 	resu->vertexs[0].x(-100.0);resu->vertexs[0].y(-100.0);resu->vertexs[0].z(0.0);
 	resu->vertexs[1].x(100.0);resu->vertexs[1].y(-100.0);resu->vertexs[1].z(0.0);
 	resu->vertexs[2].x(-100.0);resu->vertexs[2].y(100.0);resu->vertexs[2].z(0.0);
 	resu->vertexs[3].x(100.0);resu->vertexs[3].y(100.0);resu->vertexs[3].z(0.0);
 
-	fillVector(resu->vertexColors, 0.5, 4);
+	resu->vertexColors[0].x(1.0);resu->vertexColors[0].y(0.0);resu->vertexColors[0].z(0.0);
+	resu->vertexColors[1].x(0.0);resu->vertexColors[1].y(1.0);resu->vertexColors[1].z(0.0);
+	resu->vertexColors[2].x(0.0);resu->vertexColors[2].y(0.0);resu->vertexColors[2].z(1.0);
+	resu->vertexColors[3].x(1.0);resu->vertexColors[3].y(1.0);resu->vertexColors[3].z(1.0);
+
 	fillVector(resu->diffuses, 0.5, 4);
 	fillVector(resu->speculars, 0.5, 4);
 	fillVector(resu->normals, 0.5, 4);
@@ -161,15 +170,13 @@ Mesh* MeshFactory::createPlane(const char* _tag){
 
 	glGenBuffers(1, &resu->indexBuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, resu->indexBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), resu->faces, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 2 * 3 * sizeof(unsigned int), resu->faces, GL_STATIC_DRAW);
 
 	return resu;
 }
 
-Mesh* MeshFactory::createSphere(const char* _tag){
+Mesh* MeshFactory::createSphere(){
 	Mesh* resu = new Mesh();
-	resu->tag = _tag;
-	resu->type = MESH;
 	resu->vertexCount = 42;
 	resu->vertexColorCount = 42;
 	resu->diffuseVertexColorCount = 42;
@@ -183,28 +190,7 @@ Mesh* MeshFactory::createSphere(const char* _tag){
 	resu->speculars = new Vector3[42];
 	resu->normals = new Vector3[42];
 	resu->textures = new Vector3[42];
-	resu->faces = new unsigned int[80 * 3];
-
-	0.262869,-0.809012,-0.525738,
-	0.850648,0.000000,-0.525736,
-	0.425323,0.309011,-0.850654,
-	-0.525730,0.000000,-0.850652,
-	-0.688189,-0.499997,-0.525736,
-	-0.162456,0.499995,-0.850654,
-	-0.688189,0.499997,-0.525736,
-	0.262869,0.809012,-0.525738,
-	0.951058,-0.309013,0.000000,
-	0.951058,0.309013,0.000000,
-	0.000000,-1.000000,0.000000,
-	0.587786,-0.809017,0.000000,
-	-0.951058,-0.309013,0.000000,
-	-0.587786,-0.809017,0.000000,
-	-0.587786,0.809017,0.000000,
-	-0.951058,0.309013,0.000000,
-	0.587786,0.809017,0.000000,0.000000,1.000000,0.000000,
-	0.688189,-0.499997,0.525736,-0.262869,-0.809012,0.525738,-0.850648,0.000000,0.525736,-0.262869,0.809012,0.525738,
-	0.688189,0.499997,0.525736,0.162456,-0.499995,0.850654,0.525730,0.000000,0.850652,-0.425323,-0.309011,0.850654,
-	-0.425323,0.309011,0.850654,0.162456,0.499995,0.850654
+	resu->faces = new unsigned int[240];
 
 	resu->vertexs[0].x(0.0);resu->vertexs[0].y(0.0);resu->vertexs[0].z(-100.0);
 	resu->vertexs[1].x(72.3607);resu->vertexs[1].y(-52.5725);resu->vertexs[1].z(-44.7220);
@@ -217,124 +203,131 @@ Mesh* MeshFactory::createSphere(const char* _tag){
 	resu->vertexs[8].x(-72.3607);resu->vertexs[8].y(52.5725);resu->vertexs[8].z(44.7220);
 	resu->vertexs[9].x(27.6388);resu->vertexs[9].y(85.0649);resu->vertexs[9].z(44.7220);
 	resu->vertexs[10].x(89.4426);resu->vertexs[10].y(0.0);resu->vertexs[10].z(44.7216);
-	resu->vertexs[11].x(0.0);resu->vertexs[11].y(0.0);resu->vertexs[11].z(1.0);
+	resu->vertexs[11].x(0.0);resu->vertexs[11].y(0.0);resu->vertexs[11].z(100.0);
 	resu->vertexs[12].x(-16.2456);resu->vertexs[12].y(-49.9995);resu->vertexs[12].z(-85.0654);
 	resu->vertexs[13].x(42.5323);resu->vertexs[13].y(-30.9011);resu->vertexs[13].z(-85.0654);
-	resu->vertexs[14].x();resu->vertexs[14].y(100.0);resu->vertexs[14].z(0.0);
-	resu->vertexs[15].x();resu->vertexs[15].y(100.0);resu->vertexs[15].z(0.0);
-	resu->vertexs[16].x();resu->vertexs[16].y(100.0);resu->vertexs[16].z(0.0);
-	resu->vertexs[17].x();resu->vertexs[17].y(100.0);resu->vertexs[17].z(0.0);
-	resu->vertexs[18].x();resu->vertexs[18].y(100.0);resu->vertexs[18].z(0.0);
-	resu->vertexs[19].x();resu->vertexs[19].y(100.0);resu->vertexs[19].z(0.0);
-	resu->vertexs[20].x();resu->vertexs[20].y(-100.0);resu->vertexs[20].z(0.0);
-	resu->vertexs[21].x();resu->vertexs[21].y(-100.0);resu->vertexs[21].z(0.0);
-	resu->vertexs[22].x();resu->vertexs[22].y(100.0);resu->vertexs[22].z(0.0);
-	resu->vertexs[23].x();resu->vertexs[23].y(100.0);resu->vertexs[23].z(0.0);
-	resu->vertexs[24].x();resu->vertexs[24].y(100.0);resu->vertexs[24].z(0.0);
-	resu->vertexs[25].x();resu->vertexs[25].y(100.0);resu->vertexs[25].z(0.0);
-	resu->vertexs[26].x();resu->vertexs[26].y(100.0);resu->vertexs[26].z(0.0);
-	resu->vertexs[27].x();resu->vertexs[27].y(100.0);resu->vertexs[27].z(0.0);
-	resu->vertexs[28].x();resu->vertexs[28].y(100.0);resu->vertexs[28].z(0.0);
-	resu->vertexs[29].x();resu->vertexs[29].y(100.0);resu->vertexs[29].z(0.0);
-	resu->vertexs[30].x();resu->vertexs[30].y(-100.0);resu->vertexs[30].z(0.0);
-	resu->vertexs[31].x();resu->vertexs[31].y(-100.0);resu->vertexs[31].z(0.0);
-	resu->vertexs[32].x();resu->vertexs[32].y(100.0);resu->vertexs[32].z(0.0);
-	resu->vertexs[33].x();resu->vertexs[33].y(100.0);resu->vertexs[33].z(0.0);
-	resu->vertexs[34].x();resu->vertexs[34].y(100.0);resu->vertexs[34].z(0.0);
-	resu->vertexs[35].x();resu->vertexs[35].y(100.0);resu->vertexs[35].z(0.0);
-	resu->vertexs[36].x();resu->vertexs[36].y(100.0);resu->vertexs[36].z(0.0);
-	resu->vertexs[37].x();resu->vertexs[37].y(100.0);resu->vertexs[37].z(0.0);
-	resu->vertexs[38].x();resu->vertexs[38].y(100.0);resu->vertexs[38].z(0.0);
-	resu->vertexs[39].x();resu->vertexs[39].y(100.0);resu->vertexs[39].z(0.0);
-	resu->vertexs[40].x();resu->vertexs[40].y(-100.0);resu->vertexs[40].z(0.0);
-	resu->vertexs[41].x();resu->vertexs[41].y(-100.0);resu->vertexs[41].z(0.0);
-	resu->vertexs[42].x();resu->vertexs[42].y(100.0);resu->vertexs[42].z(0.0);
+	resu->vertexs[14].x(26.2869);resu->vertexs[14].y(-80.9012);resu->vertexs[14].z(-52.5738);
+	resu->vertexs[15].x(85.0648);resu->vertexs[15].y(0.000000);resu->vertexs[15].z(-52.5736);
+	resu->vertexs[16].x(42.5323);resu->vertexs[16].y(30.9011);resu->vertexs[16].z(-85.0654);
+	resu->vertexs[17].x(-52.5730);resu->vertexs[17].y(0.000000);resu->vertexs[17].z(-85.0652);
+	resu->vertexs[18].x(-68.8189);resu->vertexs[18].y(-49.9997);resu->vertexs[18].z(-52.5736);
+	resu->vertexs[19].x(-16.2456);resu->vertexs[19].y(49.9995);resu->vertexs[19].z(-85.0654);
+	resu->vertexs[20].x(-68.8189);resu->vertexs[20].y(49.9997);resu->vertexs[20].z(-52.5736);
+	resu->vertexs[21].x(26.2869);resu->vertexs[21].y(80.9012);resu->vertexs[21].z(-52.5738);
+	resu->vertexs[22].x(95.1058);resu->vertexs[22].y(-30.9013);resu->vertexs[22].z(0.000000);
+	resu->vertexs[23].x(95.1058);resu->vertexs[23].y(30.9013);resu->vertexs[23].z(0.000000);
+	resu->vertexs[24].x(0.000000);resu->vertexs[24].y(-100.000000);resu->vertexs[24].z(0.000000);
+	resu->vertexs[25].x(58.7786);resu->vertexs[25].y(-80.9017);resu->vertexs[25].z(0.000000);
+	resu->vertexs[26].x(-95.1058);resu->vertexs[26].y(-30.9013);resu->vertexs[26].z(0.000000);
+	resu->vertexs[27].x(-58.7786);resu->vertexs[27].y(-80.9017);resu->vertexs[27].z(0.000000);
+	resu->vertexs[28].x(-58.7786);resu->vertexs[28].y(80.9017);resu->vertexs[28].z(0.000000);
+	resu->vertexs[29].x(-95.1058);resu->vertexs[29].y(30.9013);resu->vertexs[29].z(0.000000);
+	resu->vertexs[30].x(58.7786);resu->vertexs[30].y(80.9017);resu->vertexs[30].z(0.000000);
+	resu->vertexs[31].x(0.000000);resu->vertexs[31].y(100.000000);resu->vertexs[31].z(0.000000);
+	resu->vertexs[32].x(68.8189);resu->vertexs[32].y(-49.9997);resu->vertexs[32].z(52.5736);
+	resu->vertexs[33].x(-26.2869);resu->vertexs[33].y(-80.9012);resu->vertexs[33].z(52.5738);
+	resu->vertexs[34].x(-85.0648);resu->vertexs[34].y(0.000000);resu->vertexs[34].z(52.5736);
+	resu->vertexs[35].x(-26.2869);resu->vertexs[35].y(80.9012);resu->vertexs[35].z(52.5738);
+	resu->vertexs[36].x(68.8189);resu->vertexs[36].y(49.9997);resu->vertexs[36].z(52.5736);
+	resu->vertexs[37].x(16.2456);resu->vertexs[37].y(-49.9995);resu->vertexs[37].z(85.0654);
+	resu->vertexs[38].x(52.5730);resu->vertexs[38].y(0.000000);resu->vertexs[38].z(85.0652);
+	resu->vertexs[39].x(-42.5323);resu->vertexs[39].y(-30.9011);resu->vertexs[39].z(85.0654);
+	resu->vertexs[40].x(-42.5323);resu->vertexs[40].y(30.9011);resu->vertexs[40].z(85.0654);
+	resu->vertexs[41].x(16.2456);resu->vertexs[41].y(49.9995);resu->vertexs[41].z(85.0654);
 	
-	fillVector(resu->vertexColors, 0.5, 42);
-	fillVector(resu->diffuses, 0.5, 42);
-	fillVector(resu->speculars, 0.5, 42);
-	fillVector(resu->normals, 0.5, 42);
-	fillVector(resu->textures, 0.5, 42);
+	fillVector(resu->vertexColors, 1.0, 42);
 
-	resu->faces[1] = 1;resu->faces[2] = 2;resu->faces[3] = 0;
-	resu->faces[4] = 1;resu->faces[5] = 2;resu->faces[6] = 0;
-	resu->faces[7] = 1;resu->faces[8] = 2;resu->faces[9] = 0;
-	resu->faces[10] = 1;resu->faces[11] = 2;resu->faces[12] = 0;
-	resu->faces[13] = 1;resu->faces[14] = 2;resu->faces[15] = 0;
-	resu->faces[16] = 1;resu->faces[17] = 2;resu->faces[18] = 0;
-	resu->faces[19] = 1;resu->faces[20] = 2;resu->faces[21] = 0;
-	resu->faces[22] = 1;resu->faces[23] = 2;resu->faces[24] = 0;
-	resu->faces[25] = 1;resu->faces[26] = 2;resu->faces[27] = 0;
-	resu->faces[28] = 1;resu->faces[29] = 3;resu->faces[30] = 2;
-	resu->faces[31] = 1;resu->faces[32] = 2;resu->faces[33] = 0;
-	resu->faces[34] = 1;resu->faces[35] = 2;resu->faces[36] = 0;
-	resu->faces[37] = 1;resu->faces[38] = 2;resu->faces[39] = 0;
-	resu->faces[40] = 1;resu->faces[41] = 2;resu->faces[42] = 0;
-	resu->faces[43] = 1;resu->faces[44] = 2;resu->faces[45] = 0;
-	resu->faces[46] = 1;resu->faces[47] = 2;resu->faces[48] = 0;
-	resu->faces[49] = 1;resu->faces[50] = 2;resu->faces[51] = 0;
-	resu->faces[52] = 1;resu->faces[53] = 2;resu->faces[54] = 0;
-	resu->faces[55] = 1;resu->faces[56] = 2;resu->faces[57] = 0;
-	resu->faces[58] = 1;resu->faces[59] = 3;resu->faces[60] = 2;
-	resu->faces[61] = 1;resu->faces[62] = 2;resu->faces[63] = 0;
-	resu->faces[64] = 1;resu->faces[65] = 2;resu->faces[66] = 0;
-	resu->faces[67] = 1;resu->faces[68] = 2;resu->faces[69] = 0;
-	resu->faces[70] = 1;resu->faces[71] = 2;resu->faces[72] = 0;
-	resu->faces[73] = 1;resu->faces[74] = 2;resu->faces[75] = 0;
-	resu->faces[76] = 1;resu->faces[77] = 2;resu->faces[78] = 0;
-	resu->faces[79] = 1;resu->faces[80] = 2;resu->faces[81] = 0;
-	resu->faces[82] = 1;resu->faces[83] = 2;resu->faces[84] = 0;
-	resu->faces[85] = 1;resu->faces[86] = 2;resu->faces[87] = 0;
-	resu->faces[88] = 1;resu->faces[89] = 3;resu->faces[90] = 2;
-	resu->faces[91] = 1;resu->faces[92] = 2;resu->faces[93] = 0;
-	resu->faces[94] = 1;resu->faces[95] = 2;resu->faces[96] = 0;
-	resu->faces[97] = 1;resu->faces[98] = 2;resu->faces[99] = 0;
-	resu->faces[100] = 1;resu->faces[102] = 2;resu->faces[103] = 0;
-	resu->faces[104] = 1;resu->faces[105] = 2;resu->faces[106] = 0;
-	resu->faces[107] = 1;resu->faces[108] = 2;resu->faces[109] = 0;
-	resu->faces[110] = 1;resu->faces[111] = 2;resu->faces[112] = 0;
-	resu->faces[113] = 1;resu->faces[114] = 2;resu->faces[115] = 0;
-	resu->faces[116] = 1;resu->faces[117] = 2;resu->faces[118] = 0;
-	resu->faces[119] = 1;resu->faces[120] = 2;resu->faces[121] = 0;
-	resu->faces[122] = 1;resu->faces[123] = 2;resu->faces[124] = 0;
-	resu->faces[125] = 1;resu->faces[126] = 2;resu->faces[127] = 0;
-	resu->faces[128] = 1;resu->faces[129] = 3;resu->faces[130] = 2;
-	resu->faces[131] = 1;resu->faces[132] = 2;resu->faces[133] = 0;
-	resu->faces[134] = 1;resu->faces[135] = 2;resu->faces[136] = 0;
-	resu->faces[137] = 1;resu->faces[138] = 2;resu->faces[139] = 0;
-	resu->faces[140] = 1;resu->faces[141] = 2;resu->faces[142] = 0;
-	resu->faces[143] = 1;resu->faces[144] = 2;resu->faces[145] = 0;
-	resu->faces[146] = 1;resu->faces[147] = 2;resu->faces[148] = 0;
-	resu->faces[149] = 1;resu->faces[150] = 2;resu->faces[151] = 0;
-	resu->faces[152] = 1;resu->faces[153] = 2;resu->faces[154] = 0;
-	resu->faces[155] = 1;resu->faces[156] = 2;resu->faces[157] = 0;
-	resu->faces[158] = 1;resu->faces[159] = 3;resu->faces[160] = 2;
-	resu->faces[161] = 1;resu->faces[162] = 2;resu->faces[163] = 0;
-	resu->faces[164] = 1;resu->faces[165] = 2;resu->faces[166] = 0;
-	resu->faces[167] = 1;resu->faces[168] = 2;resu->faces[169] = 0;
-	resu->faces[170] = 1;resu->faces[171] = 2;resu->faces[172] = 0;
-	resu->faces[173] = 1;resu->faces[174] = 2;resu->faces[175] = 0;
-	resu->faces[176] = 1;resu->faces[177] = 2;resu->faces[178] = 0;
-	resu->faces[179] = 1;resu->faces[180] = 2;resu->faces[181] = 0;
-	resu->faces[182] = 1;resu->faces[183] = 2;resu->faces[184] = 0;
-	resu->faces[185] = 1;resu->faces[186] = 2;resu->faces[187] = 0;
-	resu->faces[188] = 1;resu->faces[189] = 3;resu->faces[190] = 2;
-	resu->faces[191] = 1;resu->faces[192] = 2;resu->faces[193] = 0;
-	resu->faces[194] = 1;resu->faces[195] = 2;resu->faces[196] = 0;
-	resu->faces[197] = 1;resu->faces[198] = 2;resu->faces[199] = 0;
-	resu->faces[201] = 1;resu->faces[202] = 2;resu->faces[203] = 0;
-	resu->faces[204] = 1;resu->faces[205] = 2;resu->faces[206] = 0;
-	resu->faces[207] = 1;resu->faces[208] = 2;resu->faces[209] = 0;
-	resu->faces[210] = 1;resu->faces[211] = 2;resu->faces[212] = 0;
-	resu->faces[213] = 1;resu->faces[214] = 2;resu->faces[215] = 0;
-	resu->faces[216] = 1;resu->faces[217] = 2;resu->faces[218] = 0;
-	resu->faces[219] = 1;resu->faces[220] = 2;resu->faces[221] = 0;
-	resu->faces[222] = 1;resu->faces[223] = 2;resu->faces[224] = 0;
-	resu->faces[225] = 1;resu->faces[226] = 2;resu->faces[227] = 0;
-	resu->faces[228] = 1;resu->faces[229] = 3;resu->faces[230] = 2;
-	resu->faces[231] = 1;resu->faces[232] = 2;resu->faces[233] = 0;
-	resu->faces[234] = 1;resu->faces[235] = 2;resu->faces[236] = 0;
-	resu->faces[237] = 1;resu->faces[238] = 2;resu->faces[239] = 0;
+	resu->vertexColors[0].x(1.0);resu->vertexColors[0].y(0.0);resu->vertexColors[0].z(0.0);
+	resu->vertexColors[1].x(1.0);resu->vertexColors[1].y(0.0);resu->vertexColors[1].z(0.0);
+	resu->vertexColors[2].x(1.0);resu->vertexColors[2].y(0.0);resu->vertexColors[2].z(0.0);
+	resu->vertexColors[3].x(1.0);resu->vertexColors[3].y(0.0);resu->vertexColors[3].z(0.0);
+	resu->vertexColors[4].x(1.0);resu->vertexColors[4].y(0.0);resu->vertexColors[4].z(0.0);
+
+	fillVector(resu->diffuses, 1.0, 42);
+	fillVector(resu->speculars, 1.0, 42);
+	fillVector(resu->normals, 1.0, 42);
+	fillVector(resu->textures, 1.0, 42);
+
+	resu->faces[0] = 0;resu->faces[1] = 13;resu->faces[2] = 12;
+	resu->faces[3] = 1;resu->faces[4] = 13;resu->faces[5] = 15;
+	resu->faces[6] = 0;resu->faces[7] = 12;resu->faces[8] = 17;
+	resu->faces[9] = 0;resu->faces[10] = 17;resu->faces[11] = 19;
+	resu->faces[12] = 0;resu->faces[13] = 19;resu->faces[14] = 16;
+	resu->faces[15] = 1;resu->faces[16] = 15;resu->faces[17] = 22;
+	resu->faces[18] = 2;resu->faces[19] = 14;resu->faces[20] = 24;
+	resu->faces[21] = 3;resu->faces[22] = 18;resu->faces[23] = 26;
+	resu->faces[24] = 4;resu->faces[25] = 20;resu->faces[26] = 28;
+	resu->faces[27] = 5;resu->faces[28] = 21;resu->faces[29] = 30;
+	resu->faces[30] = 1;resu->faces[31] = 22;resu->faces[32] = 25;
+	resu->faces[33] = 2;resu->faces[34] = 24;resu->faces[35] = 27;
+	resu->faces[36] = 3;resu->faces[37] = 26;resu->faces[38] = 29;
+	resu->faces[39] = 4;resu->faces[40] = 28;resu->faces[41] = 31;
+	resu->faces[42] = 5;resu->faces[43] = 30;resu->faces[44] = 23;
+	resu->faces[45] = 6;resu->faces[46] = 32;resu->faces[47] = 37;
+	resu->faces[48] = 7;resu->faces[49] = 33;resu->faces[50] = 39;
+	resu->faces[51] = 8;resu->faces[52] = 34;resu->faces[53] = 40;
+	resu->faces[54] = 9;resu->faces[55] = 35;resu->faces[56] = 41;
+	resu->faces[57] = 10;resu->faces[58] = 36;resu->faces[59] = 38;
+	resu->faces[60] = 38;resu->faces[61] = 41;resu->faces[62] = 11;
+	resu->faces[63] = 38;resu->faces[64] = 36;resu->faces[65] = 41;
+	resu->faces[66] = 36;resu->faces[67] = 9;resu->faces[68] = 41;
+	resu->faces[69] = 41;resu->faces[70] = 40;resu->faces[71] = 11;
+	resu->faces[72] = 41;resu->faces[73] = 35;resu->faces[74] = 40;
+	resu->faces[75] = 35;resu->faces[76] = 8;resu->faces[77] = 40;
+	resu->faces[78] = 40;resu->faces[79] = 39;resu->faces[80] = 11;
+	resu->faces[81] = 40;resu->faces[82] = 34;resu->faces[83] = 39;
+	resu->faces[84] = 34;resu->faces[85] = 7;resu->faces[86] = 39;
+	resu->faces[87] = 39;resu->faces[88] = 37;resu->faces[89] = 11;
+	resu->faces[90] = 39;resu->faces[91] = 33;resu->faces[92] = 37;
+	resu->faces[93] = 33;resu->faces[94] = 6;resu->faces[95] = 37;
+	resu->faces[96] = 37;resu->faces[97] = 38;resu->faces[98] = 11;
+	resu->faces[99] = 37;resu->faces[100] = 32;resu->faces[101] = 38;
+	resu->faces[102] = 32;resu->faces[103] = 10;resu->faces[104] = 38;
+	resu->faces[105] = 23;resu->faces[106] = 36;resu->faces[107] = 10;
+	resu->faces[108] = 23;resu->faces[109] = 30;resu->faces[110] = 36;
+	resu->faces[111] = 30;resu->faces[112] = 9;resu->faces[113] = 36;
+	resu->faces[114] = 31;resu->faces[115] = 35;resu->faces[116] = 9;
+	resu->faces[117] = 31;resu->faces[118] = 28;resu->faces[119] = 35;
+	resu->faces[120] = 28;resu->faces[121] = 8;resu->faces[122] = 35;
+	resu->faces[123] = 29;resu->faces[124] = 34;resu->faces[125] = 8;
+	resu->faces[126] = 29;resu->faces[127] = 26;resu->faces[128] = 34;
+	resu->faces[129] = 26;resu->faces[130] = 7;resu->faces[131] = 34;
+	resu->faces[132] = 27;resu->faces[133] = 33;resu->faces[134] = 7;
+	resu->faces[135] = 27;resu->faces[136] = 24;resu->faces[137] = 33;
+	resu->faces[138] = 24;resu->faces[139] = 6;resu->faces[140] = 33;
+	resu->faces[141] = 25;resu->faces[142] = 32;resu->faces[143] = 6;
+	resu->faces[144] = 25;resu->faces[145] = 22;resu->faces[146] = 32;
+	resu->faces[147] = 22;resu->faces[148] = 10;resu->faces[149] = 32;
+	resu->faces[150] = 30;resu->faces[151] = 31;resu->faces[152] = 9;
+	resu->faces[153] = 30;resu->faces[154] = 21;resu->faces[155] = 31;
+	resu->faces[156] = 21;resu->faces[157] = 4;resu->faces[158] = 31;
+	resu->faces[159] = 28;resu->faces[160] = 29;resu->faces[161] = 8;
+	resu->faces[162] = 28;resu->faces[163] = 20;resu->faces[164] = 29;
+	resu->faces[165] = 20;resu->faces[166] = 3;resu->faces[167] = 29;
+	resu->faces[168] = 26;resu->faces[169] = 27;resu->faces[170] = 7;
+	resu->faces[171] = 26;resu->faces[172] = 18;resu->faces[173] = 27;
+	resu->faces[174] = 18;resu->faces[175] = 2;resu->faces[176] = 27;
+	resu->faces[177] = 24;resu->faces[178] = 25;resu->faces[179] = 6;
+	resu->faces[180] = 24;resu->faces[181] = 14;resu->faces[182] = 25;
+	resu->faces[183] = 14;resu->faces[184] = 1;resu->faces[185] = 25;
+	resu->faces[186] = 22;resu->faces[187] = 23;resu->faces[188] = 10;
+	resu->faces[189] = 22;resu->faces[190] = 15;resu->faces[191] = 23;
+	resu->faces[192] = 15;resu->faces[193] = 5;resu->faces[194] = 23;
+	resu->faces[195] = 16;resu->faces[196] = 21;resu->faces[197] = 5;
+	resu->faces[198] = 16;resu->faces[199] = 19;resu->faces[200] = 21;
+	resu->faces[201] = 19;resu->faces[202] = 4;resu->faces[203] = 21;
+	resu->faces[204] = 19;resu->faces[205] = 20;resu->faces[206] = 4;
+	resu->faces[207] = 19;resu->faces[208] = 17;resu->faces[209] = 20;
+	resu->faces[210] = 17;resu->faces[211] = 3;resu->faces[212] = 20;
+	resu->faces[213] = 17;resu->faces[214] = 18;resu->faces[215] = 3;
+	resu->faces[216] = 17;resu->faces[217] = 12;resu->faces[218] = 18;
+	resu->faces[219] = 12;resu->faces[220] = 2;resu->faces[221] = 18;
+	resu->faces[222] = 15;resu->faces[223] = 16;resu->faces[224] = 5;
+	resu->faces[225] = 15;resu->faces[226] = 13;resu->faces[227] = 16;
+	resu->faces[228] = 13;resu->faces[229] = 0;resu->faces[230] = 16;
+	resu->faces[231] = 12;resu->faces[232] = 14;resu->faces[233] = 2;
+	resu->faces[234] = 12;resu->faces[235] = 13;resu->faces[236] = 14;
+	resu->faces[237] = 13;resu->faces[238] = 1;resu->faces[239] = 14;	
 
 	glCreateVertexArrays(1, &resu->vertexArrayObject);
 	glBindVertexArray(resu->vertexArrayObject);
@@ -345,23 +338,23 @@ Mesh* MeshFactory::createSphere(const char* _tag){
 
 	glGenBuffers(1, &resu->vertexColorBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, resu->vertexColorBuffer);
-	glBufferData(GL_ARRAY_BUFFER, 42 * sizeof(float), resu->vertexColors, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 42 * 3 * sizeof(float), resu->vertexColors, GL_STATIC_DRAW);
 
 	glGenBuffers(1, &resu->vertexDiffuseBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, resu->vertexDiffuseBuffer);
-	glBufferData(GL_ARRAY_BUFFER, 42 * sizeof(float), resu->diffuses, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 42 * 3 * sizeof(float), resu->diffuses, GL_STATIC_DRAW);
 
 	glGenBuffers(1, &resu->vertexSpecularBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, resu->vertexSpecularBuffer);
-	glBufferData(GL_ARRAY_BUFFER, 42 * sizeof(float), resu->speculars, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 42 * 3 * sizeof(float), resu->speculars, GL_STATIC_DRAW);
 
 	glGenBuffers(1, &resu->normalBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, resu->normalBuffer);
-	glBufferData(GL_ARRAY_BUFFER, 42 * sizeof(float), resu->normals, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 42 * 3 * sizeof(float), resu->normals, GL_STATIC_DRAW);
 
 	glGenBuffers(1, &resu->textMapBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, resu->textMapBuffer);
-	glBufferData(GL_ARRAY_BUFFER, 42 * sizeof(float), resu->textures, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 42 * 3 * sizeof(float), resu->textures, GL_STATIC_DRAW);
 
 	glGenBuffers(1, &resu->indexBuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, resu->indexBuffer);
@@ -370,7 +363,7 @@ Mesh* MeshFactory::createSphere(const char* _tag){
 	return resu;
 }
 		
-Mesh* MeshFactory::createTourus(const char*){
+Mesh* MeshFactory::createTourus(){
 
 }
 
@@ -378,4 +371,100 @@ void fillVector(Vector3* vector, float value, int count){
 	for(int i=0;i<count;i++){
 		vector[i].x(value);vector[i].y(value);vector[i].z(value);
 	}
+}
+
+
+Actor* MeshFactory::createCube(const char* _tag){
+	Actor* resu = new Actor();
+	resu->tag = _tag;
+	resu->type = ACTOR;
+	if(this->cube == NULL)
+		this->cube = this->createCube();
+	resu->vertexArrayObject = this->cube->vertexArrayObject;
+	resu->vertexBuffer = this->cube->vertexBuffer;
+	resu->vertexColorBuffer = this->cube->vertexColorBuffer;
+	resu->vertexDiffuseBuffer = this->cube->vertexDiffuseBuffer;
+	resu->vertexSpecularBuffer = this->cube->vertexSpecularBuffer;
+	resu->normalBuffer = this->cube->normalBuffer;
+	resu->textMapBuffer = this->cube->textMapBuffer;
+	resu->indexBuffer = this->cube->indexBuffer;
+	resu->faceCount = this->cube->faceCount;
+	resu->mesh = this->cube;
+	return resu;
+}
+
+Actor* MeshFactory::createLine(const char* _tag){
+	Actor* resu = new Actor();
+	resu->tag = _tag;
+	resu->type = ACTOR;
+	if(this->line == NULL)
+		this->line = this->createLine();
+	resu->vertexArrayObject = this->line->vertexArrayObject;
+	resu->vertexBuffer = this->line->vertexBuffer;
+	resu->vertexColorBuffer = this->line->vertexColorBuffer;
+	resu->vertexDiffuseBuffer = this->line->vertexDiffuseBuffer;
+	resu->vertexSpecularBuffer = this->line->vertexSpecularBuffer;
+	resu->normalBuffer = this->line->normalBuffer;
+	resu->textMapBuffer = this->line->textMapBuffer;
+	resu->indexBuffer = this->line->indexBuffer;
+	resu->faceCount = this->line->faceCount;
+	resu->mesh = this->line;
+	return resu;
+}
+
+Actor* MeshFactory::createPlane(const char* _tag){
+	Actor* resu = new Actor();
+	resu->tag = _tag;
+	resu->type = ACTOR;	
+	if(this->plane == NULL)
+		this->plane = this->createPlane();
+	resu->vertexArrayObject = this->plane->vertexArrayObject;
+	resu->vertexBuffer = this->plane->vertexBuffer;
+	resu->vertexColorBuffer = this->plane->vertexColorBuffer;
+	resu->vertexDiffuseBuffer = this->plane->vertexDiffuseBuffer;
+	resu->vertexSpecularBuffer = this->plane->vertexSpecularBuffer;
+	resu->normalBuffer = this->plane->normalBuffer;
+	resu->textMapBuffer = this->plane->textMapBuffer;
+	resu->indexBuffer = this->plane->indexBuffer;
+	resu->faceCount = this->plane->faceCount;
+	resu->mesh = this->plane;
+	return resu;
+}
+
+Actor* MeshFactory::createSphere(const char* _tag){
+	Actor* resu = new Actor();
+	resu->tag = _tag;
+	resu->type = ACTOR;
+	if(this->sphere == NULL)
+		this->sphere = this->createSphere();
+	resu->vertexArrayObject = this->sphere->vertexArrayObject;
+	resu->vertexBuffer = this->sphere->vertexBuffer;
+	resu->vertexColorBuffer = this->sphere->vertexColorBuffer;
+	resu->vertexDiffuseBuffer = this->sphere->vertexDiffuseBuffer;
+	resu->vertexSpecularBuffer = this->sphere->vertexSpecularBuffer;
+	resu->normalBuffer = this->sphere->normalBuffer;
+	resu->textMapBuffer = this->sphere->textMapBuffer;
+	resu->indexBuffer = this->sphere->indexBuffer;
+	resu->faceCount = this->sphere->faceCount;
+	resu->mesh = this->sphere;
+	return resu;
+}
+
+Actor* MeshFactory::createTourus(const char* _tag){
+	Actor* resu = new Actor();
+	resu->tag = _tag;
+	resu->type = MESH;
+	if(this->tourus == NULL)
+		this->tourus = this->createTourus();
+	resu->vertexArrayObject = this->tourus->vertexArrayObject;
+	resu->vertexBuffer = this->tourus->vertexBuffer;
+	resu->vertexColorBuffer = this->tourus->vertexColorBuffer;
+	resu->vertexDiffuseBuffer = this->tourus->vertexDiffuseBuffer;
+	resu->vertexSpecularBuffer = this->tourus->vertexSpecularBuffer;
+	resu->normalBuffer = this->tourus->normalBuffer;
+	resu->textMapBuffer = this->tourus->textMapBuffer;
+	resu->indexBuffer = this->tourus->indexBuffer;
+	resu->faceCount = this->tourus->faceCount;
+	resu->mesh = this->tourus;
+	return resu;
 }

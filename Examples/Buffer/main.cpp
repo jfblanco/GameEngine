@@ -1,5 +1,4 @@
 #include <iostream>
-#include "../../Low-Level-Rendering/utils/Mesh.h"
 #include "../../Low-Level-Rendering/utils/Shader.h"
 #include "../../Core/utils/Actor.h"
 #include "../../Core/utils/Buffer.h"
@@ -9,67 +8,76 @@ void printShaderInfo(BufferItem*);
 void printMeshInfo(BufferItem*);
 
 int main(int argc, char** args){
-	Mesh* mesh = new Mesh();
-	mesh->id = 1;
-	mesh->tag = "first";
-	mesh->type = MESH;
-	mesh->vertexCount = 4;
-	mesh->vertexs = new Vector3[4];
-	mesh->vertexs[0].x(-1.0);mesh->vertexs[0].y(1.0);mesh->vertexs[0].z(0.0);
-	mesh->vertexs[1].x(1.0);mesh->vertexs[1].y(1.0);mesh->vertexs[1].z(0.0);
-	mesh->vertexs[2].x(1.0);mesh->vertexs[2].y(-1.0);mesh->vertexs[2].z(0.0);
-	mesh->vertexs[3].x(-1.0);mesh->vertexs[3].y(-1.0);mesh->vertexs[3].z(0.0);
+	Actor* actor = new Actor();
+	actor->id = 1;
+	actor->tag = "first";
+	actor->type = ACTOR;
+	actor->vertexArrayObject = 1;
+	actor->vertexBuffer = 11;
+	actor->vertexColorBuffer = 12;
+	actor->vertexDiffuseBuffer = 13;
+	actor->vertexSpecularBuffer = 14;
+	actor->normalBuffer = 15;
+	actor->textMapBuffer = 16;
+	actor->indexBuffer = 17;
+	actor->faceCount = 8;
+	
+	Actor* actor1 = new Actor();	
+	actor1->id = 2;
+	actor1->tag = "second";	
+	actor1->type = ACTOR;	
+	actor1->vertexArrayObject = 2;
+	actor1->vertexBuffer = 21;
+	actor1->vertexColorBuffer = 22;
+	actor1->vertexDiffuseBuffer = 23;
+	actor1->vertexSpecularBuffer = 24;
+	actor1->normalBuffer = 25;
+	actor1->textMapBuffer = 26;
+	actor1->indexBuffer = 27;
+	actor1->faceCount = 8;	
 
-	Mesh* mesh1 = new Mesh();	
-	mesh1->id = 2;
-	mesh1->tag = "second";	
-	mesh1->type = MESH;	
-	mesh1->vertexCount = 4;
-	mesh1->vertexs = new Vector3[4];
-	mesh1->vertexs[0].x(-1.0);mesh1->vertexs[0].y(1.0);mesh1->vertexs[0].z(0.0);
-	mesh1->vertexs[1].x(1.0);mesh1->vertexs[1].y(1.0);mesh1->vertexs[1].z(0.0);
-	mesh1->vertexs[2].x(1.0);mesh1->vertexs[2].y(-1.0);mesh1->vertexs[2].z(0.0);
-	mesh1->vertexs[3].x(-1.0);mesh1->vertexs[3].y(-1.0);mesh1->vertexs[3].z(0.0);
-
-	Mesh* mesh2 = new Mesh();
-	mesh2->id = 3;
-	mesh2->tag = "thirdth";	
-	mesh2->type = MESH;
-	mesh2->vertexCount = 4;	
-	mesh2->vertexs = new Vector3[4];
-	mesh2->vertexs[0].x(-1.0);mesh2->vertexs[0].y(1.0);mesh2->vertexs[0].z(0.0);
-	mesh2->vertexs[1].x(1.0);mesh2->vertexs[1].y(1.0);mesh2->vertexs[1].z(0.0);
-	mesh2->vertexs[2].x(1.0);mesh2->vertexs[2].y(-1.0);mesh2->vertexs[2].z(0.0);
-	mesh2->vertexs[3].x(-1.0);mesh2->vertexs[3].y(-1.0);mesh2->vertexs[3].z(0.0);
-
-	Mesh* mesh3 = new Mesh();
-	mesh3->id = 4;
-	mesh3->tag = "fourth";	
-	mesh3->type = MESH;
-	mesh3->vertexCount = 4;
-	mesh3->vertexs = new Vector3[4];
-	mesh3->vertexs[0].x(-1.0);mesh3->vertexs[0].y(1.0);mesh3->vertexs[0].z(0.0);
-	mesh3->vertexs[1].x(1.0);mesh3->vertexs[1].y(1.0);mesh3->vertexs[1].z(0.0);
-	mesh3->vertexs[2].x(1.0);mesh3->vertexs[2].y(-1.0);mesh3->vertexs[2].z(0.0);
-	mesh3->vertexs[3].x(-1.0);mesh3->vertexs[3].y(-1.0);mesh3->vertexs[3].z(0.0);
-
-	Mesh* mesh4 = new Mesh();
-	mesh4->id = 5;
-	mesh4->tag = "fifth";
-	mesh4->type = MESH;
-	mesh4->vertexCount = 10;
-	mesh4->vertexs = new Vector3[10];	
-	mesh4->vertexs[0].x(1.0);mesh4->vertexs[0].y(11.0);mesh4->vertexs[0].z(111.0);
-	mesh4->vertexs[1].x(2.0);mesh4->vertexs[1].y(22.0);mesh4->vertexs[1].z(222.0);
-	mesh4->vertexs[2].x(3.0);mesh4->vertexs[2].y(-33.0);mesh4->vertexs[2].z(333.0);
-	mesh4->vertexs[3].x(-4.0);mesh4->vertexs[3].y(-44.0);mesh4->vertexs[3].z(444.0);
-	mesh4->vertexs[4].x(-5.0);mesh4->vertexs[4].y(55.0);mesh4->vertexs[4].z(555.0);
-	mesh4->vertexs[5].x(6.0);mesh4->vertexs[5].y(66.0);mesh4->vertexs[5].z(666.0);
-	mesh4->vertexs[6].x(7.0);mesh4->vertexs[6].y(-77.0);mesh4->vertexs[6].z(777.0);
-	mesh4->vertexs[7].x(-8.0);mesh4->vertexs[7].y(-88.0);mesh4->vertexs[7].z(888.0);	
-	mesh4->vertexs[8].x(9.0);mesh4->vertexs[8].y(-99.0);mesh4->vertexs[8].z(999.0);
-	mesh4->vertexs[9].x(-10.0);mesh4->vertexs[9].y(-100.0);mesh4->vertexs[9].z(1000.0);
-
+	Actor* actor2 = new Actor();
+	actor2->id = 3;
+	actor2->tag = "thirdth";	
+	actor2->type = ACTOR;
+	actor2->vertexArrayObject = 3;
+	actor2->vertexBuffer = 31;
+	actor2->vertexColorBuffer = 32;
+	actor2->vertexDiffuseBuffer = 33;
+	actor2->vertexSpecularBuffer = 34;
+	actor2->normalBuffer = 35;
+	actor2->textMapBuffer = 36;
+	actor2->indexBuffer = 37;
+	actor2->faceCount = 8;
+	
+	Actor* actor3 = new Actor();
+	actor3->id = 4;
+	actor3->tag = "fourth";	
+	actor3->type = ACTOR;
+	actor3->vertexArrayObject = 4;
+	actor3->vertexBuffer = 41;
+	actor3->vertexColorBuffer = 42;
+	actor3->vertexDiffuseBuffer = 43;
+	actor3->vertexSpecularBuffer = 44;
+	actor3->normalBuffer = 45;
+	actor3->textMapBuffer = 46;
+	actor3->indexBuffer = 47;
+	actor3->faceCount = 8;
+	
+	Actor* actor4 = new Actor();
+	actor4->id = 5;
+	actor4->tag = "fifth";
+	actor4->type = ACTOR;
+	actor4->vertexArrayObject = 5;
+	actor4->vertexBuffer = 51;
+	actor4->vertexColorBuffer = 52;
+	actor4->vertexDiffuseBuffer = 53;
+	actor4->vertexSpecularBuffer = 54;
+	actor4->normalBuffer = 55;
+	actor4->textMapBuffer = 56;
+	actor4->indexBuffer = 57;
+	actor4->faceCount = 8;
+	
 	Shader* shader1 = new Shader();
 	
 	shader1->id = 1;
@@ -91,18 +99,18 @@ int main(int argc, char** args){
 	Buffer buffer;
 
 	buffer.insert(shader1);
+	buffer.insert(actor3);
+	buffer.insert(actor2);
+	buffer.insert(actor1);
 	buffer.insert(shader2);
-	buffer.insert(mesh3);
-	buffer.insert(mesh2);
-	buffer.insert(mesh1);
-	buffer.insert(mesh);
-	buffer.insert(mesh4);
+	buffer.insert(actor);
+	buffer.insert(actor4);
 
 	BufferItem* bufferItem;
 	
 	bufferItem = buffer.first();
 	while(bufferItem != NULL){
-		if(bufferItem->type == MESH)
+		if(bufferItem->type == ACTOR)
 			printMeshInfo(bufferItem);
 		if(bufferItem->type == SHADER)
 			printShaderInfo(bufferItem);
@@ -121,20 +129,17 @@ void printShaderInfo(BufferItem* _bufferItem){
 }
 
 void printMeshInfo(BufferItem* _bufferItem){
-	Mesh* newMesh = (Mesh*) _bufferItem;
-	
-	if(newMesh->id == 5)
-		std::cout << "{MESH} ID: " << newMesh->id << " Tag: " << newMesh->tag.toChar() << "    V0[" << newMesh->vertexs[0].x() << "," << newMesh->vertexs[0].y() << "," << newMesh->vertexs[0].z() << "]" 
-		                                                                            << " V1[" << newMesh->vertexs[1].x() << "," << newMesh->vertexs[1].y() << "," << newMesh->vertexs[1].z() << "]" 
-		                                                                            << " V2[" << newMesh->vertexs[2].x() << "," << newMesh->vertexs[2].y() << "," << newMesh->vertexs[2].z() << "]"
-		                                                                            << " V3[" << newMesh->vertexs[3].x() << "," << newMesh->vertexs[3].y() << "," << newMesh->vertexs[3].z() << "]"
-		                                                                            << " V4[" << newMesh->vertexs[4].x() << "," << newMesh->vertexs[4].y() << "," << newMesh->vertexs[4].z() << "]"
-		                                                                            << " V5[" << newMesh->vertexs[5].x() << "," << newMesh->vertexs[5].y() << "," << newMesh->vertexs[5].z() << "]"
-		                                                                            << " V6[" << newMesh->vertexs[6].x() << "," << newMesh->vertexs[6].y() << "," << newMesh->vertexs[6].z() << "]"
-		                                                                            << " V7[" << newMesh->vertexs[7].x() << "," << newMesh->vertexs[7].y() << "," << newMesh->vertexs[7].z() << "]" 
-		                                                                            << " V8[" << newMesh->vertexs[8].x() << "," << newMesh->vertexs[8].y() << "," << newMesh->vertexs[8].z() << "]"
-		                                                                            << " V9[" << newMesh->vertexs[9].x() << "," << newMesh->vertexs[9].y() << "," << newMesh->vertexs[9].z() << "]" << std::endl;
-	else
-		std::cout << "{MESH} ID: " << newMesh->id << " Tag: " << newMesh->tag.toChar() << "    V0[" << newMesh->vertexs[0].x() << "," << newMesh->vertexs[0].y() << "," << newMesh->vertexs[0].z() << "]" << " V1[" << newMesh->vertexs[1].x() << "," << newMesh->vertexs[1].y() << "," << newMesh->vertexs[1].z() << "]" << " V2[" << newMesh->vertexs[2].x() << "," << newMesh->vertexs[2].y() << "," << newMesh->vertexs[2].z() << "]" << "V3[" << newMesh->vertexs[3].x() << "," << newMesh->vertexs[3].y() << "," << newMesh->vertexs[3].z() << "]" << std::endl;
+	Actor* actor = (Actor*) _bufferItem;
+	std::cout << "{ACTOR} ID: " << actor->id << 
+				 " Tag: " << actor->tag.toChar() << 
+				 " VAO: " << actor->vertexArrayObject << 
+				 " Vertex Buffer: " << actor->vertexBuffer << 
+				 " Vertex Color Buffer: " << actor->vertexColorBuffer << 
+				 " Vertex Diffuse Buffer: " << actor->vertexDiffuseBuffer << 
+				 " Vertex Specular Buffer: " << actor->vertexSpecularBuffer << 
+				 " Normal Buffer: " << actor->normalBuffer << 
+				 " Texture UVMap Buffer: " << actor->textMapBuffer << 
+				 " Index Buffer: " << actor->indexBuffer << 
+				 " Faces: " << actor->faceCount << std::endl;
 		
 }

@@ -1,5 +1,5 @@
 #include "TickEvent.h"
-#include "../../../Low-Level-Rendering/utils/Mesh.h"
+#include "../../../Core/utils/Actor.h"
 #include <iostream>
 
 TickEvent::TickEvent(){
@@ -15,9 +15,9 @@ TickEvent::~TickEvent(){
 
 }
 
-void TickEvent::excecute(Mesh* _mesh, unsigned int _tick){	
+void TickEvent::excecute(Actor* _actor, unsigned int _tick){	
 	roll  -= 0.0001;
 	rotation.rotationMatrix(pitch, roll, yaw);	
 	//position.translationMatrix(pitch, roll, yaw);
-	_mesh->modelMatrix = rotation * position;
+	_actor->modelMatrix = rotation * position;
 }

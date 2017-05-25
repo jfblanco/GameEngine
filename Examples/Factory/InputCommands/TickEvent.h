@@ -14,7 +14,7 @@
 	public:
 		TickEvent();
 		~TickEvent();
-		void excecute(Mesh*, unsigned int);
+		void excecute(Actor*, unsigned int);
 	};
 
 #endif

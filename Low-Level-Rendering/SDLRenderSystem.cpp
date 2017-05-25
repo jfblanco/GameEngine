@@ -22,7 +22,7 @@ void SDLRenderSystem::init(){
 void SDLRenderSystem::renderScene(){
 	glClearColor(0.3, 0.3, 0.3, 0.0);
     glClearDepth(1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     this->actualScene->renderScene();
 
@@ -42,7 +42,7 @@ void SDLRenderSystem::setOpenGLAttributes(){
     SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,  8);
     SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,   8);
     SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE,  8); 
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  32);
     SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32); 
     SDL_GL_SetAttribute(SDL_GL_ACCUM_RED_SIZE,   8);
     SDL_GL_SetAttribute(SDL_GL_ACCUM_GREEN_SIZE, 8);
@@ -79,6 +79,9 @@ void SDLRenderSystem::createWindow(const char* windowName, int hight, int width,
     if (SDL_GL_MakeCurrent(window, mainContext) < 0) {
         std::cout << "OpenGL context could not be made current! SDL Error: " << SDL_GetError() << std::endl;
     }
+
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL); 
 
     glewExperimental = GL_TRUE;
     const GLenum initCode = glewInit();

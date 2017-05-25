@@ -1,15 +1,21 @@
 #ifndef __ENGINE__UTILS_ACTOR_
 #define __ENGINE__UTILS_ACTOR_
 
-	#include "../../Low-Level-Rendering/utils/Mesh.h"
-	#include "../../Low-Level-Rendering/utils/Shader.h"
-	#include "Matrix4x4.h"
 	#include "BufferItem.h"
+	
+	class Mesh;
 
 	struct Actor : BufferItem{
-		Matrix4x4 rotationAndTranslation;
+		unsigned int vertexArrayObject = 0;
+		unsigned int vertexBuffer = 0;
+		unsigned int vertexColorBuffer = 0;
+		unsigned int vertexDiffuseBuffer = 0;
+		unsigned int vertexSpecularBuffer = 0;
+		unsigned int normalBuffer = 0;
+		unsigned int textMapBuffer = 0;
+		unsigned int indexBuffer = 0;
+		unsigned int faceCount = 0;
 		Mesh* mesh;
-		Shader* shader;
 	};
 
 #endif

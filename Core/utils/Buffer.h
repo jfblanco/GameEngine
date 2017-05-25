@@ -21,13 +21,11 @@
 
 		BufferItem* get(int);
 
-		Mesh* getMesh(int);
-		Mesh* insert(Mesh*);
 		BufferItem* first();
 		BufferItem* next();
 
 		Actor* getActor(int);
-		void insert(Actor*);
+		Actor* insert(Actor*);
 		
 		Shader* getShader(int);
 		Shader* insert(Shader*);

@@ -8,6 +8,6 @@ TickTimeEventInterface::~TickTimeEventInterface(){
 
 }
 
-void TickTimeEventInterface::excecute(Mesh*, unsigned int){
+void TickTimeEventInterface::excecute(Actor*, unsigned int){
 
 }

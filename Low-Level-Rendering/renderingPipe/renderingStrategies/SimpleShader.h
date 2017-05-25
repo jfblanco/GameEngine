@@ -11,10 +11,10 @@
 		SimpleShader(Shader*);
 		~SimpleShader();
 
-		void excecute(Shader*, Mesh*);
+		void excecute(Shader*, Actor*);
 
 	private:
-		int vertexAttributePosition, projectionMatrixUniformPosition, modelMatrix, viewMatrix;	
+		int vertexAttributePosition, vertexAttributeColor, projectionMatrixUniformPosition, modelMatrix, viewMatrix;	
 		Matrix4x4 projectionMatrix;
 		Camera camera;
 	};

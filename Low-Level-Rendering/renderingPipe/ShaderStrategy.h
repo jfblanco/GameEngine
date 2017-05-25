@@ -2,7 +2,7 @@
 #define __ENGINE__SDL_RENDER_PIPE_SHADER__
 
 	class Shader;
-	class Mesh;
+	class Actor;
 
 	class ShaderStrategy {
 	
@@ -10,7 +10,7 @@
 		ShaderStrategy();
 		~ShaderStrategy();
 
-		virtual void excecute(Shader*, Mesh*);
+		virtual void excecute(Shader*, Actor*);
 	};
 
 #endif

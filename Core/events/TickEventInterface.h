@@ -1,7 +1,7 @@
 #ifndef __ENGINE__SDL_CORE_TICK_TIME_EVENT__
 #define __ENGINE__SDL_CORE_TICK_TIME_EVENT__
 
-	class Mesh;
+	class Actor;
 
 	class TickTimeEventInterface {
 	
@@ -9,7 +9,7 @@
 		TickTimeEventInterface();
 		~TickTimeEventInterface();
 
-		virtual void excecute(Mesh*, unsigned int);
+		virtual void excecute(Actor*, unsigned int);
 	};
 
 #endif

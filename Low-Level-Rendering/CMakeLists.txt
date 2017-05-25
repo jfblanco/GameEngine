@@ -7,6 +7,7 @@ add_library (EngineRenderSystem SHARED SDLRenderSystem.cpp
 									   renderingPipe/ShaderStrategy.cpp
 									   renderingPipe/renderingStrategies/SimpleShader.cpp
 									   utils/MeshFactory.cpp
+									   utils/Mesh.cpp
 									   utils/Camera.cpp
 									   utils/Scene.cpp)
 TARGET_LINK_LIBRARIES(EngineRenderSystem EngineCore)

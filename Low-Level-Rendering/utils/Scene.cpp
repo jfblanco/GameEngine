@@ -1,8 +1,8 @@
 #include "Scene.h"
 #include "Shader.h"
-#include "Mesh.h"
 #include "../renderingPipe/ShaderStrategy.h"
 #include "../../Core/utils/BufferItem.h"
+#include "../../Core/utils/Actor.h"
 #include "../../Core/events/TickEventInterface.h"
 #include <iostream>
 
@@ -15,8 +15,8 @@ Scene::~Scene(){
 
 }
 
-Mesh* Scene::addMesh(Mesh* _mesh){
-	return this->buffer.insert(_mesh);
+Actor* Scene::addActor(Actor* _actor){
+	return this->buffer.insert(_actor);
 }
 
 void Scene::addShader(Shader* _shader, ShaderStrategy* _shaderStrategy){
@@ -33,7 +33,7 @@ void Scene::renderScene(){
 			this->shaderContextSwitch((Shader*)bufferItem);
 		}
 		else{
-			this->actualShaderStrategy->excecute(this->actualShader, (Mesh*)bufferItem);
+			this->actualShaderStrategy->excecute(this->actualShader, (Actor*)bufferItem);
 		}
 		bufferItem = buffer.next();
 	}
@@ -42,8 +42,8 @@ void Scene::renderScene(){
 void Scene::sendTickEvent(unsigned int _tick){
 	this->bufferItem = buffer.first();
 	while(this->bufferItem != NULL){
-		if(bufferItem->type == MESH && this->tickIndex[this->bufferItem->id] != 0){
-			this->tickevents[this->tickIndex[this->bufferItem->id]]->excecute((Mesh*)bufferItem, _tick);
+		if(bufferItem->type == ACTOR && this->tickIndex[this->bufferItem->id] != 0){
+			this->tickevents[this->tickIndex[this->bufferItem->id]]->excecute((Actor*)bufferItem, _tick);
 		}
 		bufferItem = buffer.next();
 	}
@@ -54,8 +54,8 @@ void Scene::shaderContextSwitch(Shader* _shader){
 	this->actualShader = _shader;
 }
 
-void Scene::addMeshToTickEventManager(Mesh* _mesh, TickTimeEventInterface* _tickTimeEvent){
+void Scene::addActorToTickEventManager(Actor* _actor, TickTimeEventInterface* _tickTimeEvent){
 	this->tickevents[ticksCount] = _tickTimeEvent;
-	this->tickIndex[_mesh->id] = this->ticksCount;
+	this->tickIndex[_actor->id] = this->ticksCount;
 	ticksCount++;
 }

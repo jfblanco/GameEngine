@@ -1,6 +1,6 @@
 #include "ShaderStrategy.h"
 #include "../utils/Shader.h"
-#include "../utils/Mesh.h"
+#include "../../Core/utils/Actor.h"
 #include <SDL.h>
 #include <glew.h>
 #include <iostream>
@@ -13,6 +13,6 @@ ShaderStrategy::~ShaderStrategy(){
 
 }
 
-void ShaderStrategy::excecute(Shader* _shader, Mesh* _mesh){
+void ShaderStrategy::excecute(Shader* _shader, Actor* _actor){
     
 }

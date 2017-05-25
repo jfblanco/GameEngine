@@ -4,10 +4,9 @@
 	#include "Camera.h"
 	#include "../../Core/utils/Buffer.h"
 
-	class Mesh;	
+	class Actor;	
 	class ShaderStrategy;	
-	class Shader;	
-	class Mesh;
+	class Shader;
 	class TickTimeEventInterface;
 
 	class Scene {
@@ -24,16 +23,16 @@
 		int tickIndex[100];
 		TickTimeEventInterface* tickevents[20];
 		int ticksCount;
-		Mesh* actualMesh;
+		Actor* actualActor;
 
 		void shaderContextSwitch(Shader*);
 	public:
 		Scene();
 		~Scene();
 
-		Mesh* addMesh(Mesh*);
+		Actor* addActor(Actor*);
 		void addShader(Shader*, ShaderStrategy*);
-		void addMeshToTickEventManager(Mesh*, TickTimeEventInterface*);
+		void addActorToTickEventManager(Actor*, TickTimeEventInterface*);
 		void renderScene();
 		void sendTickEvent(unsigned int);
 	};

@@ -3,6 +3,7 @@
 #include <bitset>
 #include "../../Core/Core.h"
 #include "../../Core/utils/String.h"
+#include "../../Core/utils/Actor.h"
 #include "../../Low-Level-Rendering/utils/Shader.h"
 #include "../../Low-Level-Rendering/utils/Mesh.h"
 #include "../../Low-Level-Rendering/utils/Scene.h"
@@ -39,9 +40,9 @@ int main(int argc, char** args){
 	Scene* firstScene = new Scene();
 	firstScene->addShader(shader, shaderStrategy);
 	
-	Mesh* plane = meshFactory->createSphere("plane1");
-	plane = firstScene->addMesh(plane);	
-	firstScene->addMeshToTickEventManager(plane, new TickEvent());
+	Actor* plane = meshFactory->createCube("plane1");
+	plane = firstScene->addActor(plane);	
+	firstScene->addActorToTickEventManager(plane, new TickEvent());
 	renderSystem->setActualScene(firstScene);
 
 	core->begin();

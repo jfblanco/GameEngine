@@ -29,6 +29,10 @@ void SDLRenderSystem::renderScene(){
     SDL_GL_SwapWindow(this->window);
 }
 
+SDL_Window* SDLRenderSystem::getWindow(){
+    return window;
+}
+
 void SDLRenderSystem::sendTickEvent(unsigned int _tick){
     this->actualScene->sendTickEvent(_tick);    
 }

@@ -7,3 +7,7 @@ FrontEndInterface::FrontEndInterface(){
 FrontEndInterface::~FrontEndInterface(){
 	
 }
+
+void FrontEndInterface::draw(){
+
+}

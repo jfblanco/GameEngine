@@ -20,6 +20,7 @@ Core* Core::instance = 0;
 Core::Core(){
 	render = new Render();
 	input = new Input();
+	frontEnd = new FrontEndInterface();
 }
 
 Core* Core::getInstance(){
@@ -48,6 +49,7 @@ void Core::begin(){
 		this->input->checkInput();
 		this->render->sendTickEvent(SDL_GetTicks() - start_time);
 		this->render->renderScene();
+		this->frontEnd->draw();
 		start_time = SDL_GetTicks();
 		while(frameRate > (SDL_GetTicks() - start_time))
         {
@@ -100,11 +102,11 @@ Input* Core::getInput(){
 	return this->input;
 }
 
-void Core::setFrontEnd(FrontEnd* _frontEnd){
+void Core::setFrontEnd(FrontEndInterface* _frontEnd){
 	this->frontEnd = _frontEnd;
 }
 
-FrontEnd* Core::getFrontEnd(){
+FrontEndInterface* Core::getFrontEnd(){
 	return this->frontEnd;
 }
 

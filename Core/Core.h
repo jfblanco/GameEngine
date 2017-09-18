@@ -5,7 +5,7 @@
 	class Audio;
 	class Resources;
 	class Input;
-	class FrontEnd;
+	class FrontEndInterface;
 	class Animation;
 	class Debug;
 	class GamePlay;
@@ -23,7 +23,7 @@
 		ArtificialInteligense* artificialInteligense;
 		Resources* resources;
 		Input* input;
-		FrontEnd* frontEnd;
+		FrontEndInterface* frontEnd;
 		Animation* animation;
 		Debug* debug;
 		GamePlay* gamePlay;
@@ -63,8 +63,8 @@
 		void setInput(Input* input);
 		Input* getInput();
 
-		void setFrontEnd(FrontEnd* frontEnd);
-		FrontEnd* getFrontEnd();
+		void setFrontEnd(FrontEndInterface* frontEnd);
+		FrontEndInterface* getFrontEnd();
 
 		void setAnimation(Animation* animation);
 		Animation* getAnimation();

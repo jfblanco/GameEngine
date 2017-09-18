@@ -15,6 +15,7 @@ add_library (EngineCore SHARED Core.cpp
 							   interfaces/Render.cpp
 							   interfaces/Resources.cpp
 							   interfaces/VisualEfects.cpp
+							   interfaces/GuiRenderCommand.cpp
 							   events/TickEventInterface.cpp
 							   utils/Vector2.cpp
 							   utils/Vector3.cpp

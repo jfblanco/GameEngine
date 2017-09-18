@@ -21,6 +21,7 @@
 		void setActualScene(Scene*);
 		void init();
 		void renderScene();		
+		SDL_Window* getWindow();
 		void sendTickEvent(unsigned int);
 		virtual void createWindow(const char*,int,int,int,int,int,int,int);
 	};

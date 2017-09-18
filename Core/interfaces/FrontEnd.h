@@ -6,6 +6,8 @@
 	public:
 		FrontEndInterface();
 		~FrontEndInterface();
+
+		virtual void draw();
 	};
 
 #endif

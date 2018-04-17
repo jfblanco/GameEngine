@@ -12,7 +12,15 @@ void Render::init(){
 	
 }
 
+void Render::cleanScene(){
+
+}
+
 void Render::renderScene(){
+
+}
+
+void Render::swapBuffers(){
 
 }
 

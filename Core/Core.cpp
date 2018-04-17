@@ -48,9 +48,13 @@ void Core::begin(){
 		start_time = SDL_GetTicks();
 		this->input->checkInput();
 		this->render->sendTickEvent(SDL_GetTicks() - start_time);
+		this->render->cleanScene();
 		this->render->renderScene();
 		this->frontEnd->draw();
+		this->render->swapBuffers();
 		start_time = SDL_GetTicks();
+
+	std::cout << "2" << std::endl;
 		while(frameRate > (SDL_GetTicks() - start_time))
         {
             this->render->sendTickEvent(SDL_GetTicks() - start_time);

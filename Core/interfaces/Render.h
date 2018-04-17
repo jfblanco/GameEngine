@@ -8,7 +8,9 @@
 		~Render();
 
 		virtual void init();
+		virtual void cleanScene();
 		virtual void renderScene();
+		virtual void swapBuffers();
 		virtual void sendTickEvent(unsigned int);
 		virtual void createWindow(const char*, int, int, int, int, int, int, int);		
 	};

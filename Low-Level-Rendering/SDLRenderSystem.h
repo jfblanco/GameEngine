@@ -11,6 +11,7 @@
 	private:	
 		SDL_Window* window;
 		SDL_GLContext mainContext;
+    	SDL_DisplayMode mode;
 
 		Scene* actualScene;	
 		void setOpenGLAttributes();
@@ -20,7 +21,10 @@
 
 		void setActualScene(Scene*);
 		void init();
-		void renderScene();		
+		void cleanScene();
+		void renderScene();
+		void swapBuffers();
+		void printVendorInfo();
 		SDL_Window* getWindow();
 		void sendTickEvent(unsigned int);
 		virtual void createWindow(const char*,int,int,int,int,int,int,int);

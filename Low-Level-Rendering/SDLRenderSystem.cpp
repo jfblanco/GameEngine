@@ -19,13 +19,17 @@ void SDLRenderSystem::init(){
     }
 }
 
-void SDLRenderSystem::renderScene(){
-	glClearColor(0.3, 0.3, 0.3, 0.0);
+void SDLRenderSystem::cleanScene(){
+    glClearColor(0.3, 0.3, 0.3, 0.0);
     glClearDepth(1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
 
+void SDLRenderSystem::renderScene(){
     this->actualScene->renderScene();
+}
 
+void SDLRenderSystem::swapBuffers(){
     SDL_GL_SwapWindow(this->window);
 }
 
@@ -42,46 +46,65 @@ void SDLRenderSystem::setActualScene(Scene* _scene){
 }
 
 void SDLRenderSystem::setOpenGLAttributes(){
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
+    
     SDL_GL_SetAttribute(SDL_GL_RED_SIZE,    8);
     SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,  8);
     SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,   8);
     SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE,  8); 
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  32);
-    SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32); 
+    
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+    SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 8); 
+    
     SDL_GL_SetAttribute(SDL_GL_ACCUM_RED_SIZE,   8);
     SDL_GL_SetAttribute(SDL_GL_ACCUM_GREEN_SIZE, 8);
     SDL_GL_SetAttribute(SDL_GL_ACCUM_BLUE_SIZE,  8);
     SDL_GL_SetAttribute(SDL_GL_ACCUM_ALPHA_SIZE, 8); 
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1); 
-    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2); 
+}
+
+void SDLRenderSystem::printVendorInfo(){
+    SDL_GetCurrentDisplayMode(0, &(this->mode));
+    std::cout << "-----------------------------------------------------" << std::endl;
+    std::cout << "|| Screen BPP:            " << SDL_BITSPERPIXEL(mode.format) << std::endl;
+    std::cout << "|| Vendor:                " << glGetString(GL_VENDOR) << std::endl;
+    std::cout << "|| Renderer:              " << glGetString(GL_RENDERER) << std::endl;
+    std::cout << "|| Version:               " << glGetString(GL_VERSION) << std::endl;
+    std::cout << "-----------------------------------------------------" << std::endl;
 }
 
 void SDLRenderSystem::createWindow(const char* windowName, int hight, int width, int colorBuffer, int fullScreen, int openGL, int borderless, int highDpi){
-	int flags = 0;
-	if(fullScreen)
-		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+    int flags = 0;
+    if(fullScreen)
+        flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 
-	if(openGL)
-		flags |= SDL_WINDOW_OPENGL;
+    if(openGL)
+        flags |= SDL_WINDOW_OPENGL;
 
-	if(borderless)
-		flags |= SDL_WINDOW_BORDERLESS;
+    if(borderless)
+        flags |= SDL_WINDOW_BORDERLESS;
 
-	if(highDpi)
-		flags |= SDL_WINDOW_ALLOW_HIGHDPI;
+    if(highDpi)
+        flags |= SDL_WINDOW_ALLOW_HIGHDPI;
 
-	this->window = SDL_CreateWindow(windowName, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, hight, width, flags);
+    this->setOpenGLAttributes();  
+    this->window = SDL_CreateWindow(windowName, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, hight, width, flags);
     if (window == NULL) {
         std::cout << "Could not create window: " << SDL_GetError() << std::endl;
-    }
-    this->setOpenGLAttributes();    
+        exit(0);
+    }  
 
     mainContext = SDL_GL_CreateContext(window);
     if (mainContext == NULL) {
         std::cout << "OpenGL context could not be created! SDL Error: " << SDL_GetError() << std::endl;
+        exit(0);
     }
     if (SDL_GL_MakeCurrent(window, mainContext) < 0) {
         std::cout << "OpenGL context could not be made current! SDL Error: " << SDL_GetError() << std::endl;
+        exit(0);
     }
 
     glEnable(GL_DEPTH_TEST);
@@ -91,5 +114,7 @@ void SDLRenderSystem::createWindow(const char* windowName, int hight, int width,
     const GLenum initCode = glewInit();
     if (initCode != GLEW_OK){
         std::cout << "Unable to initialize Glew: " << glewGetErrorString(initCode) << std::endl;   
+        exit(0);
     }
+    this->printVendorInfo();
 }

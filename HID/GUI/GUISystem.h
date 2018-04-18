@@ -4,6 +4,7 @@
 	#include "../../Core/interfaces/FrontEnd.h"
 	#include "../../Core/utils/Matrix4x4.h"
 	#include "../../Core/interfaces/GuiRenderCommand.h"
+	#include "../../Low-Level-Rendering/utils/Camera.h"
 	#define NK_PRIVATE
 	#define NK_INCLUDE_FIXED_TYPES
 	#define NK_INCLUDE_STANDARD_IO
@@ -18,6 +19,14 @@
 	class GuiRenderCommand;
 
     class GUISystem : public FrontEndInterface{
+    	friend class NopCommand;
+    	friend class ScissorCommand;
+    	friend class LineCommand;
+    	friend class CirleCommand;
+    	friend class CircleFilledCommand;
+    	friend class RectCommand;
+    	friend class RectFilledCommand;
+    	
         private:
         	GuiRenderCommand* renderCommand[19];
             void initShader();
@@ -30,6 +39,7 @@
             struct nk_convert_config config;
             struct nk_draw_null_texture nullTexture;
             Matrix4x4 projectionMatrix;
+            Camera camera;
             unsigned int prog, vert_shdr, frag_shdr,uniform_tex, uniform_proj, uniform_view,uniform_model, attrib_pos, attrib_uv, attrib_col, vao, ebo, vbo, font_tex;
 
         public:
@@ -40,6 +50,9 @@
             void init(SDL_Window*);
             void draw();
             unsigned int getAttribPos();
+            unsigned int getUniformProj();
+            unsigned int getUniformView();
+            unsigned int getAttribCol();
     };
 
     class NopCommand : public GuiRenderCommand{

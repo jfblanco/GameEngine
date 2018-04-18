@@ -27,9 +27,9 @@ SimpleShader::SimpleShader(Shader* _shader):ShaderStrategy(){
 	if(vertexAttributeColor == -1)
 		std::cout << "\033[1;31m[ERROR]:\033[0m" << " vertexAttributeColor was not finded into Shader Object" << std::endl;
 
-	this->projectionMatrix.perspectiveMatrix(45.0f, 800.0f/600.0f, 0.1f, 2000.0f);
+	this->projectionMatrix.perspectiveMatrix(45.0f, 800.0f/600.0f, 0.1f, 2.0f);
 	//this->projectionMatrix.orthoMatrix(0.0f, 800.0f, 0.0f, 600.0f, -100.0f, 100.0f);
-	Vector3* position = new Vector3(0.0,0.0,-2.0);
+	Vector3* position = new Vector3(0.0,0.0,-1.0);
 	Vector3* point = new Vector3(0.0,0.0,0.0);
 	Vector3* up = new Vector3(0.0,1.0,0.0);
 	this->camera.lookAt(*position,*point,*up);

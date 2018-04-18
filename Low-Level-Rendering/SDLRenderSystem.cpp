@@ -109,7 +109,7 @@ void SDLRenderSystem::createWindow(const char* windowName, int hight, int width,
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL); 
-
+    
     glewExperimental = GL_TRUE;
     const GLenum initCode = glewInit();
     if (initCode != GLEW_OK){

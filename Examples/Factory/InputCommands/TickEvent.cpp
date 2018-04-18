@@ -7,7 +7,7 @@ TickEvent::TickEvent(){
 	roll = 0.0;
 	yaw = 0.0;
 
-	position.translationMatrix(0.0, 0.0, -1000.0);
+	position.translationMatrix(0.0, 0.0, -500.0);
 	rotation.rotationMatrix(pitch, roll, yaw);
 }
 
@@ -16,9 +16,8 @@ TickEvent::~TickEvent(){
 }
 
 void TickEvent::excecute(Actor* _actor, unsigned int _tick){	
-	roll  -= 0.0001;
+	roll  -= 0.001;
 	rotation.rotationMatrix(pitch, roll, yaw);	
 	//position.translationMatrix(pitch, roll, yaw);
-	position.print();
 	_actor->modelMatrix = rotation * position;
 }

@@ -231,10 +231,27 @@ void Matrix4x4::print(){
 
 
 void Matrix4x4::orthoMatrix(float left, float right, float top ,float bottom, float near ,float far){
-	matrix[0]= 2 / (right - left);  matrix[1]= 0.0; 				matrix[2]= 0.0;         				matrix[3]=  0.0;
-	matrix[4]= 0.0; 				matrix[5]= 2 / (top - bottom);  matrix[6]= 0.0;         				matrix[7]=  0.0;
-	matrix[8]= 0.0; 				matrix[9]= 0.0; 				matrix[10]= -(2 / (far - near));   		matrix[11]= ((far+near)/(far-near));
-	matrix[12]=0.0;					matrix[13]=0.0;					matrix[14]= 0.0;						matrix[15]= 1.0;
+	float rightLeft    = right - left;
+	float topBottom    = top - bottom;
+	float nearFarMinus = far - near;
+	float nearFarPlus  = far + near;
+	
+    float tx = - (right + left) / rightLeft;
+    float ty = - (top + bottom) / topBottom;
+    float tz = - nearFarPlus / nearFarMinus;
+
+	/*matrix[0]= 2/rightLeft; matrix[1]= 0.0; 		matrix[2]= 0.0;         	matrix[3]=  tx;
+	matrix[4]= 0.0; 		matrix[5]= 2/topBottom; matrix[6]= 0.0;         	matrix[7]=  ty;
+	matrix[8]= 0.0; 		matrix[9]= 0.0; 		matrix[10]= 2/nearFarMinus; matrix[11]= tz;
+	matrix[12]=0.0;			matrix[13]=0.0;			matrix[14]= 0.0;			matrix[15]= 1.0;*/
+
+	/**
+	* Column major
+	*/
+	matrix[0] = 2/rightLeft; matrix[4] = 0.0; 		  matrix[8]  = 0.0;            matrix[12] =  tx;
+	matrix[1] = 0.0; 		 matrix[5] = 2/topBottom; matrix[9]  = 0.0;            matrix[13] =  ty;
+	matrix[2] = 0.0; 		 matrix[6] = 0.0; 		  matrix[10] = 2/nearFarMinus; matrix[14] =  tz;
+	matrix[3] = 0.0;		 matrix[7] = 0.0;		  matrix[11] = 0.0;			   matrix[15] = 1.0;
 }
 
 void Matrix4x4::frustumMatrix(float left, float right, float top ,float bottom, float near ,float far){

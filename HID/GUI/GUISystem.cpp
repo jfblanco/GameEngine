@@ -1,34 +1,28 @@
 #include "GUISystem.h"
 #include <glew.h>
 #include <iostream>
+#include <string>
 
 #define MAX_VERTEX_MEMORY 512 * 1024
 #define MAX_ELEMENT_MEMORY 128 * 1024
 
-GLint status;
-static const GLchar *vertex_shader =
-    "#version 330 core\n"
-    "uniform mat4 ProjMtx;\n"
-    "in vec3 Position;\n"
-    "in vec2 TexCoord;\n"
-    "in vec4 Color;\n"
-    "out vec2 Frag_UV;\n"
-    "out vec4 Frag_Color;\n"
-    "void main() {\n"
-    "   Frag_UV = TexCoord;\n"
-    "   Frag_Color = Color;\n"
-    "   gl_Position = ProjMtx * vec4(Position.xyz, 1);\n"
-    "}\n";
-static const GLchar *fragment_shader =
-    "#version 330 core\n"
-    "precision mediump float;\n"
-    "uniform sampler2D Texture;\n"
-    "in vec2 Frag_UV;\n"
-    "in vec4 Frag_Color;\n"
-    "out vec4 Out_Color;\n"
-    "void main(){\n"
-    "   Out_Color = Frag_Color * texture(Texture, Frag_UV.st);\n"
-    "}\n";
+GLint status, blen;
+GLsizei slen = 0;
+std::string vertex_shader = "#version 330\n" 
+                            "uniform mat4 ProjMtx;\n"
+                            "in vec3 vertexPosition;\n" 
+                            "in vec3 vertexColor;\n" 
+                            "out vec3 color;\n" 
+                            "void main() {\n" 
+                            "    color = vertexColor;\n" 
+                            "    gl_Position = ProjMtx * vec4(vertexPosition.xyz, 1.0);\n"
+                            "}";
+
+std::string fragment_shader = "#version 330\n" 
+                              "in vec3 color;\n"
+                              "void main(){\n" 
+                              "     gl_FragColor = vec4(color.xyz ,0.0);\n" 
+                              "}";
 
 GUISystem::GUISystem(){
     renderCommand[NK_COMMAND_NOP] = new NopCommand();
@@ -62,19 +56,33 @@ void GUISystem::init(SDL_Window* win){
     nk_font_atlas_init_default(&atlas);
     nk_font_atlas_begin(&atlas);
     loadFont();
-	initShader();
+    initShader();
+
+    //this->projectionMatrix.perspectiveMatrix(45.0f, 800.0f/600.0f, 0.1f, 2000.0f);
+    this->projectionMatrix.orthoMatrix(0.0f, 1024.0f, 0.0f, 780.0f, -0.1f, 10.0f);
+    Vector3* position = new Vector3(0.0,0.0,-1.0);
+    Vector3* point = new Vector3(0.0,0.0,0.0);
+    Vector3* up = new Vector3(0.0,1.0,0.0);
+    this->camera.lookAt(*position,*point,*up);
+    delete position;
+    delete point;
+    delete up;
+
+    nk_style_button pruebaButton;
+    pruebaButton.normal.data.color.r = 1.0;
+    pruebaButton.normal.data.color.g = 1.0;
+    pruebaButton.normal.data.color.b = 1.0;
 
     enum {EASY, HARD};
     static int op = EASY;
     static float value = 0.6f;
-    static int i =  20;
-    if (nk_begin(&ctx, "Show", nk_rect(50, 50, 220, 220), NK_WINDOW_BORDER|NK_WINDOW_MOVABLE|NK_WINDOW_CLOSABLE)) {
-        nk_layout_row_static(&ctx, 30, 80, 1);
-        if (nk_button_label(&ctx, "button")) {
+    if (nk_begin(&ctx, "Show", nk_rect(100, 100, 400, 300), NK_WINDOW_BORDER|NK_WINDOW_MOVABLE|NK_WINDOW_CLOSABLE)) {
+        /*nk_layout_row_static(&ctx, 50, 100, 1);
+        if (nk_button_label_styled(&ctx, &pruebaButton, "button")) {
 
-        }
+        }*/
 
-        nk_layout_row_dynamic(&ctx, 30, 2);
+        nk_layout_row_dynamic(&ctx, 100, 10);
         if (nk_option_label(&ctx, "easy", op == EASY)) op = EASY;
         if (nk_option_label(&ctx, "hard", op == HARD)) op = HARD;
 
@@ -88,60 +96,66 @@ void GUISystem::init(SDL_Window* win){
         nk_layout_row_end(&ctx);
     }
     nk_end(&ctx);
+    std::cout << "llega" << std::endl;
 }
 
 void GUISystem::draw(){
-    glUseProgram(prog);
     nk_foreach(cmd, &ctx) {
         renderCommand[cmd->type]->excecute(this);
     }
 }
 
 void GUISystem::initShader(){
-    this->projectionMatrix.orthoMatrix(0.0f, 800.0f, 0.0f, 600.0f, -100.0f, 100.0f);
     prog = glCreateProgram();
     vert_shdr = glCreateShader(GL_VERTEX_SHADER);
     frag_shdr = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(vert_shdr, 1, &vertex_shader, 0);
-    glShaderSource(frag_shdr, 1, &fragment_shader, 0);
+
+    const GLchar *sourceVertex = (const GLchar *) vertex_shader.c_str();
+    glShaderSource(vert_shdr, 1, &sourceVertex, 0);
+
+    const GLchar *sourceFragment = (const GLchar *) fragment_shader.c_str();
+    glShaderSource(frag_shdr, 1, &sourceFragment, 0);
+
     glCompileShader(vert_shdr);
     glCompileShader(frag_shdr);
+    
     glGetShaderiv(vert_shdr, GL_COMPILE_STATUS, &status);
-    assert(status == GL_TRUE);
+    if(!status){
+        glGetShaderiv(vert_shdr, GL_INFO_LOG_LENGTH , &blen);
+        GLchar* compiler_log = (GLchar*)malloc(blen);
+        glGetInfoLogARB(vert_shdr, blen, &slen, compiler_log);
+        std::cout << "Vertex Shader Compilation has failed: " << compiler_log << std::endl;
+        free (compiler_log);
+    }
+
     glGetShaderiv(frag_shdr, GL_COMPILE_STATUS, &status);
-    assert(status == GL_TRUE);
+    if(!status){
+        glGetShaderiv(frag_shdr, GL_INFO_LOG_LENGTH , &blen);
+        GLchar* compiler_log = (GLchar*)malloc(blen);
+        glGetInfoLogARB(frag_shdr, blen, &slen, compiler_log);
+        std::cout << "Vertex Shader Compilation has failed: " << compiler_log << std::endl;
+        free (compiler_log);
+    }
+
     glAttachShader(prog, vert_shdr);
     glAttachShader(prog, frag_shdr);
     glLinkProgram(prog);
     glGetProgramiv(prog, GL_LINK_STATUS, &status);
-    assert(status == GL_TRUE);
 
-    uniform_tex = glGetUniformLocation(prog, "Texture");
     uniform_proj = glGetUniformLocation(prog, "ProjMtx");
-    attrib_pos = glGetAttribLocation(prog, "Position");
-    attrib_uv = glGetAttribLocation(prog, "TexCoord");
-    attrib_col = glGetAttribLocation(prog, "Color");
-
-    glGenBuffers(1, &vbo);
-    glGenBuffers(1, &ebo);
-    glGenVertexArrays(1, &vao);
-
-    glBindVertexArray(vao);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-
-    glEnableVertexAttribArray((GLuint)attrib_pos);
-    glEnableVertexAttribArray((GLuint)attrib_uv);
-    glEnableVertexAttribArray((GLuint)attrib_col);
-
-    //glVertexAttribPointer((GLuint)attrib_pos, 2, GL_FLOAT, GL_FALSE, vs, (void*)vp);
-    //glVertexAttribPointer((GLuint)attrib_uv, 2, GL_FLOAT, GL_FALSE, vs, (void*)vt);
-    //glVertexAttribPointer((GLuint)attrib_col, 4, GL_UNSIGNED_BYTE, GL_TRUE, vs, (void*)vc);
-
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
+    std::cout << uniform_proj << std::endl;
+    if(uniform_proj == -1)
+        std::cout << "\033[1;31m[ERROR]:\033[0m" << " uniform_proj was not finded into Shader Object" << std::endl;
+    
+    attrib_pos = glGetAttribLocation(prog, "vertexPosition");
+    std::cout << attrib_pos << std::endl;
+    if(attrib_pos == -1)
+        std::cout << "\033[1;31m[ERROR]:\033[0m" << " attrib_pos was not finded into Shader Object" << std::endl;
+    
+    attrib_col = glGetAttribLocation(prog, "vertexColor");
+    std::cout << attrib_col << std::endl;
+    if(attrib_col == -1)
+        std::cout << "\033[1;31m[ERROR]:\033[0m" << " attrib_col was not finded into Shader Object" << std::endl;
 }
 
 void GUISystem::loadFont() {
@@ -163,86 +177,150 @@ void GUISystem::createOpenGLRender(const void *image, int width, int height)
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)width, (GLsizei)height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 }
 
-unsigned int GUISystem::getAttribPos(){
-    return this->attrib_pos;
-}
-
 void NopCommand::excecute(GUISystem* guiSystem){
-    std::cout << "NopCommand\n" << std::endl;
+
 }
 
 void ScissorCommand::excecute(GUISystem* guiSystem){
-    std::cout << "ScissorCommand\n" << std::endl;
+
 }
 
 void LineCommand::excecute(GUISystem* guiSystem){
-    std::cout << ((const struct nk_command_line*)guiSystem->cmd)->begin.x << "-"<< ((const struct nk_command_line*)guiSystem->cmd)->begin.y << std::endl;
+    GLuint element[2] = {0,1};
+    float vertex[6] = { ((const struct nk_command_line*)guiSystem->cmd)->begin.x, ((const struct nk_command_line*)guiSystem->cmd)->begin.y, 0.0,
+                         ((const struct nk_command_line*)guiSystem->cmd)->end.x, ((const struct nk_command_line*)guiSystem->cmd)->end.y, 0.0};
+
+    float color[12] = {1.0,0.0,1.0,
+                       1.0,0.0,1.0,
+                       1.0,0.0,1.0,
+                       1.0,0.0,1.0};
+
+    glLineWidth(5.0);
+    glEnableVertexAttribArray(guiSystem->attrib_pos);
+    glEnableVertexAttribArray(guiSystem->attrib_col);
+    glUseProgram(guiSystem->prog);
+    glUniformMatrix4fv(guiSystem->uniform_proj, 1, GL_FALSE, guiSystem->projectionMatrix.toFloatPointer());
+    glUniformMatrix4fv(guiSystem->uniform_view, 1, GL_FALSE, guiSystem->camera.getViewMatrixAsPointer());
+    glVertexAttribPointer(guiSystem->attrib_pos, 3, GL_FLOAT, GL_FALSE, 0, vertex);
+    glVertexAttribPointer(guiSystem->attrib_col, 3, GL_FLOAT, GL_FALSE, 0, color);
+    glEnableVertexAttribArray(guiSystem->attrib_pos);
+    glEnableVertexAttribArray(guiSystem->attrib_col);
+    glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, element);
+    
 }
 
 void CurveCommand::excecute(GUISystem* guiSystem){
-    std::cout << "CurveCommand\n" << std::endl;
+
 }
 
 void RectCommand::excecute(GUISystem* guiSystem){
-    std::cout << "RectCommand\n" << std::endl;
+    GLuint element[6] = {1,2,0,1,3,2};
+    float vertex[12] = {((const struct nk_command_line*)guiSystem->cmd)->begin.x, ((const struct nk_command_line*)guiSystem->cmd)->begin.y, 0.0,
+                        ((const struct nk_command_line*)guiSystem->cmd)->begin.x, ((const struct nk_command_line*)guiSystem->cmd)->begin.y, 0.0,
+                        ((const struct nk_command_line*)guiSystem->cmd)->begin.x, ((const struct nk_command_line*)guiSystem->cmd)->begin.y, 0.0,
+                        ((const struct nk_command_line*)guiSystem->cmd)->begin.x, ((const struct nk_command_line*)guiSystem->cmd)->begin.y, 0.0};
+
+
+    float color[16] = {1.0,0.0,0.0,0.0, 1.0,0.0,0.0,0.0, 1.0,0.0,0.0,0.0, 1.0,0.0,0.0,0.0};
+
+    glLineWidth(1.0);
+    glUseProgram(guiSystem->prog);
+    glEnableVertexAttribArray(guiSystem->attrib_pos);
+    glEnableVertexAttribArray(guiSystem->attrib_col);
+    glUniformMatrix4fv(guiSystem->uniform_proj, 1, GL_FALSE, guiSystem->projectionMatrix.toFloatPointer());
+    glUniformMatrix4fv(guiSystem->uniform_view, 1, GL_FALSE, guiSystem->camera.getViewMatrixAsPointer());
+    glVertexAttribPointer(guiSystem->attrib_pos, 3, GL_FLOAT, GL_FALSE, 0, vertex);
+    glVertexAttribPointer(guiSystem->attrib_col, 4, GL_FLOAT, GL_FALSE, 0, color);
+    glEnableVertexAttribArray(guiSystem->attrib_pos);
+    glEnableVertexAttribArray(guiSystem->attrib_col);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, element);
 }
 
 void RectFilledCommand::excecute(GUISystem* guiSystem){
-    std::cout << guiSystem->cmd->type << std::endl;
-    glVertexAttribPointer(guiSystem->getAttribPos(), 3, GL_FLOAT, GL_FALSE, 0, ((const struct nk_command_rect_filled*)guiSystem->cmd)->vertexPointers);
-    glEnableVertexAttribArray(guiSystem->getAttribPos());
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, ((const struct nk_command_rect_filled*)guiSystem->cmd)->facesIndex);
+    GLuint element[6] = {1,2,0,1,3,2};
+    float vertex[12] = { ((const struct nk_command_rect_filled*)guiSystem->cmd)->x, ((const struct nk_command_rect_filled*)guiSystem->cmd)->y, 0.0,
+                        ((const struct nk_command_rect_filled*)guiSystem->cmd)->x+((const struct nk_command_rect_filled*)guiSystem->cmd)->w, ((const struct nk_command_rect_filled*)guiSystem->cmd)->y, 0.0,
+                        ((const struct nk_command_rect_filled*)guiSystem->cmd)->x, ((const struct nk_command_rect_filled*)guiSystem->cmd)->y+((const struct nk_command_rect_filled*)guiSystem->cmd)->h, 0.0,
+                        ((const struct nk_command_rect_filled*)guiSystem->cmd)->x+((const struct nk_command_rect_filled*)guiSystem->cmd)->w, ((const struct nk_command_rect_filled*)guiSystem->cmd)->y+((const struct nk_command_rect_filled*)guiSystem->cmd)->h, 0.0};
+
+    float color[15] = {0.0,1.0,0.0,
+                       0.0,1.0,0.0,
+                       0.0,1.0,0.0,
+                       0.0,1.0,0.0};
+
+    glLineWidth(1.0);
+    glUseProgram(guiSystem->prog);
+    glEnableVertexAttribArray(guiSystem->attrib_pos);
+    glEnableVertexAttribArray(guiSystem->attrib_col);
+    glUniformMatrix4fv(guiSystem->uniform_proj, 1, GL_FALSE, guiSystem->projectionMatrix.toFloatPointer());
+    glUniformMatrix4fv(guiSystem->uniform_view, 1, GL_FALSE, guiSystem->camera.getViewMatrixAsPointer());
+    glVertexAttribPointer(guiSystem->attrib_pos, 3, GL_FLOAT, GL_FALSE, 0, vertex);
+    glVertexAttribPointer(guiSystem->attrib_col, 3, GL_FLOAT, GL_FALSE, 0, color);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, element);
 }
 
 void RectMultiColorCommand::excecute(GUISystem* guiSystem){
-    std::cout << "RectMultiColorCommand\n" << std::endl;
+
 }
 
 void CirleCommand::excecute(GUISystem* guiSystem){
-    std::cout << "CirleCommand\n" << std::endl;
+
 }
 
 void CircleFilledCommand::excecute(GUISystem* guiSystem){
-    std::cout << "CircleFilledCommand\n" << std::endl;
+    GLuint element[1] = {0};
+    float vertex[3] = { ((const struct nk_command_circle_filled*)guiSystem->cmd)->x, ((const struct nk_command_circle_filled*)guiSystem->cmd)->y, 0.0};
+
+    float color[16] = {1.0,0.0,0.0,0.0, 1.0,0.0,0.0,0.0, 1.0,0.0,0.0,0.0, 1.0,0.0,0.0,0.0};
+
+    glPointSize(10.0);
+    glUseProgram(guiSystem->prog);
+    glUniformMatrix4fv(guiSystem->uniform_proj, 1, GL_FALSE, guiSystem->projectionMatrix.toFloatPointer());
+    glUniformMatrix4fv(guiSystem->uniform_view, 1, GL_FALSE, guiSystem->camera.getViewMatrixAsPointer());
+    glVertexAttribPointer(guiSystem->attrib_pos, 3, GL_FLOAT, GL_FALSE, 0, vertex);
+    glVertexAttribPointer(guiSystem->attrib_col, 4, GL_FLOAT, GL_FALSE, 0, color);
+    glEnableVertexAttribArray(guiSystem->attrib_pos);
+    glEnableVertexAttribArray(guiSystem->attrib_col);
+    glDrawElements(GL_POINTS, 1, GL_UNSIGNED_INT, element);
 }
 
 void ArcCommand::excecute(GUISystem* guiSystem){
-    std::cout << "ArcCommand\n" << std::endl;
+
 }
 
 void ArcFilledCommand::excecute(GUISystem* guiSystem){
-    std::cout << "ArcFilledCommand\n" << std::endl;
+
 }
 
 void TriangleCommand::excecute(GUISystem* guiSystem){
-    std::cout << "TriangleCommand\n" << std::endl;
+
 }
 
 void TriangleFilledCommand::excecute(GUISystem* guiSystem){
-    std::cout << "TriangleFilledCommand\n" << std::endl;
+
 }
     
 void PolygonCommand::excecute(GUISystem* guiSystem){
-    std::cout << "PolygonCommand\n" << std::endl;
+
 }
     
 
 void PolygonFilledCommand::excecute(GUISystem* guiSystem){
-    std::cout << "PolygonFilledCommand\n" << std::endl;
+
 }
     
 void PolylineCommand::excecute(GUISystem* guiSystem){
-    std::cout << "PolylineCommand\n" << std::endl;
+
 }   
 
 void TextCommand::excecute(GUISystem* guiSystem){
-    std::cout << "TextCommand\n" << std::endl;
+
 }
 
 void ImageCommand::excecute(GUISystem* guiSystem){
-    std::cout << "ImageCommand\n" << std::endl;
+
 }
     
 void CustomCommand::excecute(GUISystem* guiSystem){
-    std::cout << "CustomCommand\n" << std::endl;
+
 }

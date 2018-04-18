@@ -21,13 +21,7 @@ int main(int argc, char** args){
 	core->setInput(inputSystem);
 	core->setFrontEnd(guiSystem);
 
-	Shader* shader = new Shader();
-	shader->tag = "simpleShader"; 
-	shaderFactory->createShader(SIMPLE_TEST_VERTEX_SHADER,SIMPLE_TEST_FRAGMENT_SHADER, shader);
-	ShaderStrategy* shaderStrategy = new SimpleShader(shader);
-
 	Scene* firstScene = new Scene();
 	renderSystem->setActualScene(firstScene);
-
 	core->begin();
 }

@@ -7,8 +7,12 @@
 
 void fillVector(Vector3*,float,int);
 
-MeshFactory::MeshFactory(){
-
+MeshFactory::MeshFactory(){	
+	this->cube = this->createCube();
+	this->line = this->createLine();
+	this->plane = this->createPlane();
+	this->sphere = this->createSphere();
+	this->tourus = this->createTourus();
 }
 
 MeshFactory::~MeshFactory(){
@@ -378,8 +382,6 @@ Actor* MeshFactory::createCube(const char* _tag){
 	Actor* resu = new Actor();
 	resu->tag = _tag;
 	resu->type = ACTOR;
-	if(this->cube == NULL)
-		this->cube = this->createCube();
 	resu->vertexArrayObject = this->cube->vertexArrayObject;
 	resu->vertexBuffer = this->cube->vertexBuffer;
 	resu->vertexColorBuffer = this->cube->vertexColorBuffer;
@@ -397,8 +399,6 @@ Actor* MeshFactory::createLine(const char* _tag){
 	Actor* resu = new Actor();
 	resu->tag = _tag;
 	resu->type = ACTOR;
-	if(this->line == NULL)
-		this->line = this->createLine();
 	resu->vertexArrayObject = this->line->vertexArrayObject;
 	resu->vertexBuffer = this->line->vertexBuffer;
 	resu->vertexColorBuffer = this->line->vertexColorBuffer;
@@ -415,9 +415,7 @@ Actor* MeshFactory::createLine(const char* _tag){
 Actor* MeshFactory::createPlane(const char* _tag){
 	Actor* resu = new Actor();
 	resu->tag = _tag;
-	resu->type = ACTOR;	
-	if(this->plane == NULL)
-		this->plane = this->createPlane();
+	resu->type = ACTOR;
 	resu->vertexArrayObject = this->plane->vertexArrayObject;
 	resu->vertexBuffer = this->plane->vertexBuffer;
 	resu->vertexColorBuffer = this->plane->vertexColorBuffer;
@@ -435,8 +433,6 @@ Actor* MeshFactory::createSphere(const char* _tag){
 	Actor* resu = new Actor();
 	resu->tag = _tag;
 	resu->type = ACTOR;
-	if(this->sphere == NULL)
-		this->sphere = this->createSphere();
 	resu->vertexArrayObject = this->sphere->vertexArrayObject;
 	resu->vertexBuffer = this->sphere->vertexBuffer;
 	resu->vertexColorBuffer = this->sphere->vertexColorBuffer;
@@ -454,8 +450,6 @@ Actor* MeshFactory::createTourus(const char* _tag){
 	Actor* resu = new Actor();
 	resu->tag = _tag;
 	resu->type = MESH;
-	if(this->tourus == NULL)
-		this->tourus = this->createTourus();
 	resu->vertexArrayObject = this->tourus->vertexArrayObject;
 	resu->vertexBuffer = this->tourus->vertexBuffer;
 	resu->vertexColorBuffer = this->tourus->vertexColorBuffer;

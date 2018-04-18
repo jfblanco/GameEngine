@@ -54,7 +54,6 @@ void Core::begin(){
 		this->render->swapBuffers();
 		start_time = SDL_GetTicks();
 
-	std::cout << "2" << std::endl;
 		while(frameRate > (SDL_GetTicks() - start_time))
         {
             this->render->sendTickEvent(SDL_GetTicks() - start_time);

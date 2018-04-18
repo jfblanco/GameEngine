@@ -9,7 +9,7 @@ GLint status;
 static const GLchar *vertex_shader =
     "#version 330 core\n"
     "uniform mat4 ProjMtx;\n"
-    "in vec2 Position;\n"
+    "in vec3 Position;\n"
     "in vec2 TexCoord;\n"
     "in vec4 Color;\n"
     "out vec2 Frag_UV;\n"
@@ -17,7 +17,7 @@ static const GLchar *vertex_shader =
     "void main() {\n"
     "   Frag_UV = TexCoord;\n"
     "   Frag_Color = Color;\n"
-    "   gl_Position = ProjMtx * vec4(Position.xy, 0, 1);\n"
+    "   gl_Position = ProjMtx * vec4(Position.xyz, 1);\n"
     "}\n";
 static const GLchar *fragment_shader =
     "#version 330 core\n"
@@ -91,6 +91,7 @@ void GUISystem::init(SDL_Window* win){
 }
 
 void GUISystem::draw(){
+    glUseProgram(prog);
     nk_foreach(cmd, &ctx) {
         renderCommand[cmd->type]->excecute(this);
     }
@@ -162,6 +163,10 @@ void GUISystem::createOpenGLRender(const void *image, int width, int height)
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)width, (GLsizei)height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 }
 
+unsigned int GUISystem::getAttribPos(){
+    return this->attrib_pos;
+}
+
 void NopCommand::excecute(GUISystem* guiSystem){
     std::cout << "NopCommand\n" << std::endl;
 }
@@ -184,6 +189,9 @@ void RectCommand::excecute(GUISystem* guiSystem){
 
 void RectFilledCommand::excecute(GUISystem* guiSystem){
     std::cout << guiSystem->cmd->type << std::endl;
+    glVertexAttribPointer(guiSystem->getAttribPos(), 3, GL_FLOAT, GL_FALSE, 0, ((const struct nk_command_rect_filled*)guiSystem->cmd)->vertexPointers);
+    glEnableVertexAttribArray(guiSystem->getAttribPos());
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, ((const struct nk_command_rect_filled*)guiSystem->cmd)->facesIndex);
 }
 
 void RectMultiColorCommand::excecute(GUISystem* guiSystem){

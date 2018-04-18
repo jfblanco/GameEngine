@@ -20,10 +20,11 @@ int main(int argc, char** args){
 	SDLRenderSystem* renderSystem = new SDLRenderSystem();
 	SDLInputSystem* inputSystem = new SDLInputSystem();
 	ShaderFactory* shaderFactory = new ShaderFactory();
-	MeshFactory* meshFactory = new MeshFactory();
 
 	renderSystem->init();
 	renderSystem->createWindow("Factory Example", 800, 600,32, false, true, false, false);
+
+	MeshFactory* meshFactory = new MeshFactory();
 
 	inputSystem->init();
 	inputSystem->addShutDownCommand(new ExitCommand());

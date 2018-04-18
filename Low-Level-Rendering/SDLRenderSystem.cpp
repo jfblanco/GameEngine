@@ -26,7 +26,7 @@ void SDLRenderSystem::cleanScene(){
 }
 
 void SDLRenderSystem::renderScene(){
-    this->actualScene->renderScene();
+	this->actualScene->renderScene();
 }
 
 void SDLRenderSystem::swapBuffers(){
@@ -77,21 +77,21 @@ void SDLRenderSystem::printVendorInfo(){
 }
 
 void SDLRenderSystem::createWindow(const char* windowName, int hight, int width, int colorBuffer, int fullScreen, int openGL, int borderless, int highDpi){
-    int flags = 0;
-    if(fullScreen)
-        flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+	int flags = 0;
+	if(fullScreen)
+		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 
-    if(openGL)
-        flags |= SDL_WINDOW_OPENGL;
+	if(openGL)
+		flags |= SDL_WINDOW_OPENGL;
 
-    if(borderless)
-        flags |= SDL_WINDOW_BORDERLESS;
+	if(borderless)
+		flags |= SDL_WINDOW_BORDERLESS;
 
-    if(highDpi)
-        flags |= SDL_WINDOW_ALLOW_HIGHDPI;
+	if(highDpi)
+		flags |= SDL_WINDOW_ALLOW_HIGHDPI;
 
     this->setOpenGLAttributes();  
-    this->window = SDL_CreateWindow(windowName, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, hight, width, flags);
+	this->window = SDL_CreateWindow(windowName, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, hight, width, flags);
     if (window == NULL) {
         std::cout << "Could not create window: " << SDL_GetError() << std::endl;
         exit(0);

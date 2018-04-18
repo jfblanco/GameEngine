@@ -2819,6 +2819,8 @@ struct nk_command_rect_filled {
     unsigned short rounding;
     short x, y;
     unsigned short w, h;
+    unsigned int vertexPointers[12];
+    unsigned int facesIndex[6];
     struct nk_color color;
 };
 
@@ -7229,6 +7231,12 @@ nk_fill_rect(struct nk_command_buffer *b, struct nk_rect rect,
     cmd->y = (short)rect.y;
     cmd->w = (unsigned short)NK_MAX(0, rect.w);
     cmd->h = (unsigned short)NK_MAX(0, rect.h);
+    cmd->vertexPointers[0]=-100.0;cmd->vertexPointers[1]=-100.0;cmd->vertexPointers[2]=0.0;
+    cmd->vertexPointers[3]=100.0;cmd->vertexPointers[4]=-100.0;cmd->vertexPointers[5]=0.0;
+    cmd->vertexPointers[6]=-100.0;cmd->vertexPointers[7]=100.0;cmd->vertexPointers[8]=0.0;
+    cmd->vertexPointers[9]=100.0;cmd->vertexPointers[10]=100.0;cmd->vertexPointers[11]=0.0;
+    cmd->facesIndex[0] = 1;cmd->facesIndex[1] = 2;cmd->facesIndex[2] = 0;
+    cmd->facesIndex[3] = 1;cmd->facesIndex[4] = 3;cmd->facesIndex[5] = 2;
     cmd->color = c;
 }
 

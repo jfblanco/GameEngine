@@ -30,7 +30,7 @@
             struct nk_convert_config config;
             struct nk_draw_null_texture nullTexture;
             Matrix4x4 projectionMatrix;
-            unsigned int prog, vert_shdr, frag_shdr,uniform_tex, uniform_proj, attrib_pos, attrib_uv, attrib_col, vao, ebo, vbo, font_tex;
+            unsigned int prog, vert_shdr, frag_shdr,uniform_tex, uniform_proj, uniform_view,uniform_model, attrib_pos, attrib_uv, attrib_col, vao, ebo, vbo, font_tex;
 
         public:
             GUISystem();
@@ -39,6 +39,7 @@
             
             void init(SDL_Window*);
             void draw();
+            unsigned int getAttribPos();
     };
 
     class NopCommand : public GuiRenderCommand{

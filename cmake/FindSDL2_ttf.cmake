@@ -1,6 +1,6 @@
 message("Looking for SDL2_TTF")
 
-SET(SDL2_TTF_SEARCH_PATHS /usr/local ${SDL2_TTF_PATH})
+SET(SDL2_TTF_SEARCH_PATHS ./external /usr/local ${SDL2_TTF_PATH})
 
 FIND_PATH(SDL2_TTF_INCLUDE_DIR SDL_ttf.h
 	HINTS

@@ -1,6 +1,6 @@
 message("Looking for SDL2_Image")
 
-SET(SDL2_IMAGE_SEARCH_PATHS /usr/local ${SDL2_IMAGE_PATH})
+SET(SDL2_IMAGE_SEARCH_PATHS ./external /usr/local ${SDL2_IMAGE_PATH})
 
 FIND_PATH(SDL2_IMAGE_INCLUDE_DIR SDL_image.h
 	HINTS

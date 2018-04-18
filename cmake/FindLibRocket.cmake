@@ -1,6 +1,6 @@
 message("Looking for LibRocket")
 
-SET(LIBROCKET_SEARCH_PATHS /usr/local ${LIBROCKET_PATH})
+SET(LIBROCKET_SEARCH_PATHS ./external /usr/local ${LIBROCKET_PATH})
 
 FIND_PATH(LIBROCKET_INCLUDE_DIR Core.h
 	HINTS

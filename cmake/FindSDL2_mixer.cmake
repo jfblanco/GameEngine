@@ -1,6 +1,6 @@
 message("Looking for SDL2_Mixer")
 
-SET(SDL2_MIXER_SEARCH_PATHS /usr/local ${SDL2_MIXER_PATH})
+SET(SDL2_MIXER_SEARCH_PATHS ./external /usr/local ${SDL2_MIXER_PATH})
 
 FIND_PATH(SDL2_MIXER_INCLUDE_DIR SDL_mixer.h
 	HINTS

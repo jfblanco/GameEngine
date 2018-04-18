@@ -1,6 +1,6 @@
 message("Looking for SDL2")
 
-SET(SDL2_SEARCH_PATHS /usr/local ${SDL2_PATH})
+SET(SDL2_SEARCH_PATHS ./external /usr/local ${SDL2_PATH})
 
 FIND_PATH(SDL2_INCLUDE_DIR SDL.h
 	HINTS

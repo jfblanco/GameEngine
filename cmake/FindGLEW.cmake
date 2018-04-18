@@ -1,6 +1,6 @@
 message("Looking for GLEW")
 
-SET(GLEW_SEARCH_PATHS /usr/local ${GLEW_PATH})
+SET(GLEW_SEARCH_PATHS ./external /usr/local ${GLEW_PATH})
 
 FIND_PATH(GLEW_INCLUDE_DIR glew.h
 	HINTS

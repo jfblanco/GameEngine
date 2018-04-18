@@ -1,6 +1,6 @@
 message("Looking for OpenGL")
 
-SET(OPENGL_SEARCH_PATHS /usr/local /usr/lib/* ${OPENGL_PATH})
+SET(OPENGL_SEARCH_PATHS ./external /usr/local /usr/lib/* ${OPENGL_PATH})
 
 FIND_PATH(OPENGL_INCLUDE_DIR gl.h
 	HINTS

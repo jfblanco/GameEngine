@@ -125,7 +125,7 @@ Mesh* MeshFactory::createPlane(){
 	resu->speculars = new Vector3[4];
 	resu->normals = new Vector3[4];
 	resu->textures = new Vector3[4];
-	resu->faces = new unsigned int[2];
+	resu->faces = new unsigned int[6];
 
 	resu->vertexs[0].x(-100.0);resu->vertexs[0].y(-100.0);resu->vertexs[0].z(0.0);
 	resu->vertexs[1].x(100.0);resu->vertexs[1].y(-100.0);resu->vertexs[1].z(0.0);

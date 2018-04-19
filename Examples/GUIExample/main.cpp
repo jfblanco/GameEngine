@@ -9,7 +9,7 @@ int main(int argc, char** args){
 	GUISystem* guiSystem = new GUISystem();
 
 	renderSystem->init();
-	renderSystem->createWindow("GuiSystem Example", 800, 600,32, false, true, false, false);
+	renderSystem->createWindow("GuiSystem sdfsdfsdf", 800, 600,32, false, true, false, false);
 
 	inputSystem->init();
 	inputSystem->addShutDownCommand(new ExitCommand());

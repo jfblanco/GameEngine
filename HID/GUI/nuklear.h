@@ -2819,9 +2819,8 @@ struct nk_command_rect_filled {
     unsigned short rounding;
     short x, y;
     unsigned short w, h;
-    unsigned int vertexPointers[12];
-    unsigned int facesIndex[6];
     struct nk_color color;
+    unsigned int vertexBufferObject, vertexId, indexId, colorId;
 };
 
 struct nk_command_rect_multi_color {
@@ -2864,6 +2863,7 @@ struct nk_command_circle_filled {
     short x, y;
     unsigned short w, h;
     struct nk_color color;
+    unsigned int vertexBufferObject, vertexId, indexId, colorId;
 };
 
 struct nk_command_arc {
@@ -7231,12 +7231,6 @@ nk_fill_rect(struct nk_command_buffer *b, struct nk_rect rect,
     cmd->y = (short)rect.y;
     cmd->w = (unsigned short)NK_MAX(0, rect.w);
     cmd->h = (unsigned short)NK_MAX(0, rect.h);
-    cmd->vertexPointers[0]=-100.0;cmd->vertexPointers[1]=-100.0;cmd->vertexPointers[2]=0.0;
-    cmd->vertexPointers[3]=100.0;cmd->vertexPointers[4]=-100.0;cmd->vertexPointers[5]=0.0;
-    cmd->vertexPointers[6]=-100.0;cmd->vertexPointers[7]=100.0;cmd->vertexPointers[8]=0.0;
-    cmd->vertexPointers[9]=100.0;cmd->vertexPointers[10]=100.0;cmd->vertexPointers[11]=0.0;
-    cmd->facesIndex[0] = 1;cmd->facesIndex[1] = 2;cmd->facesIndex[2] = 0;
-    cmd->facesIndex[3] = 1;cmd->facesIndex[4] = 3;cmd->facesIndex[5] = 2;
     cmd->color = c;
 }
 
@@ -7961,9 +7955,9 @@ nk_draw_vertex(void *dst, const struct nk_convert_config *config,
         void *address = (void*)((char*)dst + elem_iter->offset);
         switch (elem_iter->attribute) {
         case NK_VERTEX_ATTRIBUTE_COUNT:
-        default: NK_ASSERT(0 && "wrong element attribute");        
-        case NK_VERTEX_POSITION: 
-                                nk_draw_vertex_element(address, &pos.x, 2, elem_iter->format);    
+        default: NK_ASSERT(0 && "wrong element attribute");
+        case NK_VERTEX_POSITION:
+                                nk_draw_vertex_element(address, &pos.x, 2, elem_iter->format);
                                 break;
         case NK_VERTEX_TEXCOORD: nk_draw_vertex_element(address, &uv.x, 2, elem_iter->format); break;
         case NK_VERTEX_COLOR: nk_draw_vertex_color(address, &color.r, elem_iter->format); break;
@@ -8245,7 +8239,7 @@ nk_draw_list_fill_poly_convex(struct nk_draw_list *list,
         const float AA_SIZE = 1.0f;
         nk_size vertex_offset = 0;
         nk_size index = list->vertex_count;
-        
+
         const nk_size idx_count = (points_count-2)*3 + points_count*6;
         const nk_size vtx_count = (points_count*2);
 
@@ -8257,7 +8251,7 @@ nk_draw_list_fill_poly_convex(struct nk_draw_list *list,
         unsigned int vtx_inner_idx = (unsigned int)(index + 0);
         unsigned int vtx_outer_idx = (unsigned int)(index + 1);
         if (!vtx || !ids) return;
-        
+
         /* temporary allocate normals */
         vertex_offset = (nk_size)((nk_byte*)vtx - (nk_byte*)list->vertices->memory.ptr);
         nk_buffer_mark(list->vertices, NK_BUFFER_FRONT);
@@ -8266,7 +8260,7 @@ nk_draw_list_fill_poly_convex(struct nk_draw_list *list,
         NK_ASSERT(normals);
         if (!normals) return;
         vtx = (void*)((nk_byte*)list->vertices->memory.ptr + vertex_offset);
-        
+
         /* add elements */
         for (i = 2; i < points_count; i++) {
             ids[0] = (nk_draw_index)(vtx_inner_idx);
@@ -8291,7 +8285,7 @@ nk_draw_list_fill_poly_convex(struct nk_draw_list *list,
             normals[i0].x = diff.y;
             normals[i0].y = -diff.x;
         }
-        
+
         /* add vertices + indexes */
         for (i0 = points_count-1, i1 = 0; i1 < points_count; i0 = i1++) {
             const struct nk_vec2 uv = list->config.null.uv;
@@ -8310,7 +8304,7 @@ nk_draw_list_fill_poly_convex(struct nk_draw_list *list,
             vtx = nk_draw_vertex(vtx, &list->config, nk_vec2_sub(points[i1], dm), uv, col);
             vtx = nk_draw_vertex(vtx, &list->config, nk_vec2_add(points[i1], dm), uv, col_trans);
 
-            
+
             /* add indexes */
             ids[0] = (nk_draw_index)(vtx_inner_idx+(i1<<1));
             ids[1] = (nk_draw_index)(vtx_inner_idx+(i0<<1));
@@ -8320,7 +8314,7 @@ nk_draw_list_fill_poly_convex(struct nk_draw_list *list,
             ids[5] = (nk_draw_index)(vtx_inner_idx+(i1<<1));
             ids += 6;
         }
-        
+
         /* free temporary normals + points */
         nk_buffer_reset(list->vertices, NK_BUFFER_FRONT);
     } else {
@@ -8465,8 +8459,8 @@ nk_draw_list_path_fill(struct nk_draw_list *list, struct nk_color color)
     if (!list) return;
     points = (struct nk_vec2*)nk_buffer_memory(list->buffer);
     nk_draw_list_fill_poly_convex(list, points, list->path_count, color, list->config.shape_AA);
-    nk_draw_list_path_clear(list);   
-    
+    nk_draw_list_path_clear(list);
+
 }
 
 NK_API void
@@ -13910,9 +13904,11 @@ nk_do_button_text(nk_flags *state,
         return nk_false;
 
     ret = nk_do_button(state, out, bounds, style, in, behavior, &content);
-    if (style->draw_begin) style->draw_begin(out, style->userdata);
+    /*if (style->draw_begin){
+        style->draw_begin(out, style->userdata);
+    }*/
     nk_draw_button_text(out, &bounds, &content, *state, style, string, len, align, font);
-    if (style->draw_end) style->draw_end(out, style->userdata);
+    //if (style->draw_end) style->draw_end(out, style->userdata);
     return ret;
 }
 
@@ -16175,8 +16171,8 @@ nk_do_color_picker(nk_flags *state,
 NK_API void nk_style_default(struct nk_context *ctx){nk_style_from_table(ctx, 0);}
 #define NK_COLOR_MAP(NK_COLOR)\
     NK_COLOR(NK_COLOR_TEXT,                 175,175,175,255) \
-    NK_COLOR(NK_COLOR_WINDOW,               45, 45, 45, 255) \
-    NK_COLOR(NK_COLOR_HEADER,               40, 40, 40, 255) \
+    NK_COLOR(NK_COLOR_WINDOW,               80, 80, 80, 255) \
+    NK_COLOR(NK_COLOR_HEADER,               0, 40, 0, 255) \
     NK_COLOR(NK_COLOR_BORDER,               65, 65, 65, 255) \
     NK_COLOR(NK_COLOR_BUTTON,               50, 50, 50, 255) \
     NK_COLOR(NK_COLOR_BUTTON_HOVER,         40, 40, 40, 255) \
@@ -16198,10 +16194,10 @@ NK_API void nk_style_default(struct nk_context *ctx){nk_style_from_table(ctx, 0)
     NK_COLOR(NK_COLOR_CHART_COLOR,          45, 45, 45, 255) \
     NK_COLOR(NK_COLOR_CHART_COLOR_HIGHLIGHT,255, 0,  0, 255) \
     NK_COLOR(NK_COLOR_SCROLLBAR,            40, 40, 40, 255) \
-    NK_COLOR(NK_COLOR_SCROLLBAR_CURSOR,     100,100,100,255) \
+    NK_COLOR(NK_COLOR_SCROLLBAR_CURSOR,     100,0,0,255) \
     NK_COLOR(NK_COLOR_SCROLLBAR_CURSOR_HOVER,120,120,120,255) \
-    NK_COLOR(NK_COLOR_SCROLLBAR_CURSOR_ACTIVE,150,150,150,255) \
-    NK_COLOR(NK_COLOR_TAB_HEADER,           40, 40, 40,255)
+    NK_COLOR(NK_COLOR_SCROLLBAR_CURSOR_ACTIVE,0,100,0,255) \
+    NK_COLOR(NK_COLOR_TAB_HEADER,           100, 0, 0,255)
 
 NK_GLOBAL const struct nk_color
 nk_default_color_style[NK_COLOR_COUNT] = {
@@ -18277,15 +18273,13 @@ nk_remove_window(struct nk_context *ctx, struct nk_window *win)
 }
 
 NK_API int
-nk_begin(struct nk_context *ctx, const char *title,
-    struct nk_rect bounds, nk_flags flags)
+nk_begin(struct nk_context *ctx, const char *title, struct nk_rect bounds, nk_flags flags)
 {
     return nk_begin_titled(ctx, title, title, bounds, flags);
 }
 
 NK_API int
-nk_begin_titled(struct nk_context *ctx, const char *name, const char *title,
-    struct nk_rect bounds, nk_flags flags)
+nk_begin_titled(struct nk_context *ctx, const char *name, const char *title, struct nk_rect bounds, nk_flags flags)
 {
     struct nk_window *win;
     struct nk_style *style;

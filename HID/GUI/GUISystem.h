@@ -3,6 +3,7 @@
 
 	#include "../../Core/interfaces/FrontEnd.h"
 	#include "../../Core/utils/Matrix4x4.h"
+	#include "../../Core/utils/Vector3.h"
 	#include "../../Core/interfaces/GuiRenderCommand.h"
 	#include "../../Low-Level-Rendering/utils/Camera.h"
 	#define NK_PRIVATE
@@ -29,6 +30,7 @@
     	
         private:
         	GuiRenderCommand* renderCommand[19];
+        	Vector3 colors[19];
             void initShader();
 			void loadFont();
 			void createOpenGLRender();
@@ -40,7 +42,9 @@
             struct nk_draw_null_texture nullTexture;
             Matrix4x4 projectionMatrix;
             Camera camera;
-            unsigned int prog, vert_shdr, frag_shdr,uniform_tex, uniform_proj, uniform_view,uniform_model, attrib_pos, attrib_uv, attrib_col, vao, ebo, vbo, font_tex;
+            unsigned int progRectangle, progCircle, font_tex;
+            unsigned int uniform_rectangle_proj, attrib_rectangle_pos, attrib_rectangle_col;
+            unsigned int uniform_circle_proj, attrib_circle_pos, attrib_circle_col, element_position;
 
         public:
             GUISystem();
@@ -49,6 +53,7 @@
             
             void init(SDL_Window*);
             void draw();
+            void createDrawableObject();
             unsigned int getAttribPos();
             unsigned int getUniformProj();
             unsigned int getUniformView();
@@ -58,96 +63,115 @@
     class NopCommand : public GuiRenderCommand{
 		public:
 			void excecute(GUISystem*);
+			void setOpenGLBuffers(GUISystem*);
 	};
 
 	class ScissorCommand : public GuiRenderCommand{
 		public:
 			void excecute(GUISystem*);
+			void setOpenGLBuffers(GUISystem*);
 	};
 
 	class LineCommand : public GuiRenderCommand{
 		public:
 			void excecute(GUISystem*);
+			void setOpenGLBuffers(GUISystem*);
 	};
 
 	class CurveCommand : public GuiRenderCommand{
 		public:
 			void excecute(GUISystem*);
+			void setOpenGLBuffers(GUISystem*);
 	};
 
 	class RectCommand : public GuiRenderCommand{
 		public:
 			void excecute(GUISystem*);
+			void setOpenGLBuffers(GUISystem*);
 	};
 
 	class RectFilledCommand : public GuiRenderCommand{
 		public:
 			void excecute(GUISystem*);
+			void setOpenGLBuffers(GUISystem*);
 	};
 
 	class RectMultiColorCommand : public GuiRenderCommand{
 		public:
 			void excecute(GUISystem*);
+			void setOpenGLBuffers(GUISystem*);
 	};
 
     class CirleCommand : public GuiRenderCommand{
 		public:
 			void excecute(GUISystem*);
+			void setOpenGLBuffers(GUISystem*);
 	};
 
 	class CircleFilledCommand : public GuiRenderCommand{
 		public:
 			void excecute(GUISystem*);
+			void setOpenGLBuffers(GUISystem*);
 	};
 
 	class ArcCommand : public GuiRenderCommand{
 		public:
 			void excecute(GUISystem*);
+			void setOpenGLBuffers(GUISystem*);
 	};
 
 	class ArcFilledCommand : public GuiRenderCommand{
 		public:
 			void excecute(GUISystem*);
+			void setOpenGLBuffers(GUISystem*);
 	};
 
 	class TriangleCommand : public GuiRenderCommand{
 		public:
 			void excecute(GUISystem*);
+			void setOpenGLBuffers(GUISystem*);
 	};
 
 	class TriangleFilledCommand : public GuiRenderCommand{
 		public:
 			void excecute(GUISystem*);
+			void setOpenGLBuffers(GUISystem*);
 	};
 
 	class PolygonCommand : public GuiRenderCommand{
 		public:
 			void excecute(GUISystem*);
+			void setOpenGLBuffers(GUISystem*);
 	};
 
 	class PolygonFilledCommand : public GuiRenderCommand{
 		public:
 			void excecute(GUISystem*);
+			void setOpenGLBuffers(GUISystem*);
 	};
 
 	class PolylineCommand : public GuiRenderCommand{
 		public:
 			void excecute(GUISystem*);
+			void setOpenGLBuffers(GUISystem*);
 	};
 
 	class TextCommand : public GuiRenderCommand{
 		public:
 			void excecute(GUISystem*);
+			void setOpenGLBuffers(GUISystem*);
 	};
 
 	class ImageCommand : public GuiRenderCommand{
 		public:
 			void excecute(GUISystem*);
+			void setOpenGLBuffers(GUISystem*);
 	};
 
 	class CustomCommand : public GuiRenderCommand{
 		public:
 			void excecute(GUISystem*);
+			void setOpenGLBuffers(GUISystem*);
 	};
 
 #endif

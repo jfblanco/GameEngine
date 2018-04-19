@@ -5,7 +5,8 @@
 
 	class GuiRenderCommand {
 		public:
-			virtual void excecute(GUISystem*);
+			virtual void excecute(GUISystem*)=0;
+			virtual void setOpenGLBuffers(GUISystem*)=0;
 	};
 
 #endif

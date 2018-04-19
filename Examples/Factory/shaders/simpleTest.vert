@@ -1,6 +1,7 @@
+#version 330
 in vec3 vertexPosition;
 in vec3 vertexColor;
-varying out vec4 fragColor;
+out vec4 fragColor;
 uniform mat4 projectionMatrix;
 uniform mat4 viewCustomMatrix;
 uniform mat4 modelMatrix;

@@ -1,6 +1,6 @@
 #version 330
-in vec3 vertexPosition;
-in vec3 vertexColor;
+attribute vec3 vertexPosition;
+attribute vec3 vertexColor;
 out vec4 color;
 uniform mat4 projectionMatrix;
 uniform mat4 viewCustomMatrix;

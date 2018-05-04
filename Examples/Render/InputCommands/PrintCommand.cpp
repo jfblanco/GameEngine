@@ -3,6 +3,10 @@
 #include "../../../Core/Core.h"
 #include <iostream>
 
-void PrintCommand::excecute(){
-	std::cout << "You have pressed a key!" << std::endl;
+void PrintCommand::keyDown(unsigned int _keyCode){
+	std::cout << "You have pressed a key: " << _keyCode << std::endl;
+}
+
+void PrintCommand::keyUp(unsigned int _keyCode){
+	std::cout << "You have pressed a key: " << _keyCode << std::endl;
 }

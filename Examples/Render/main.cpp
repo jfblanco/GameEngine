@@ -22,7 +22,7 @@ int main(int argc, char** args){
 
 	inputSystem->init();
 	inputSystem->addShutDownCommand(new ExitCommand());
-	inputSystem->addFunction(SDLK_a, new PrintCommand());
+	inputSystem->addKeyBoardCommand(new PrintCommand());
 
 	shaderFactory->createShader(SIMPLE_TEST_VERTEX_SHADER,SIMPLE_TEST_FRAGMENT_SHADER, &shader);
 	

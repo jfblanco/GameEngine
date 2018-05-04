@@ -3,10 +3,11 @@
 
 	#include "../../../Core/interfaces/Input.h"	
 
-	class PrintCommand : public InputFunction {
+	class PrintCommand : public KeyBoardInputCommand {
 	
 	public:
-		void excecute();
+		void keyDown(unsigned int);
+		void keyUp(unsigned int);
 	};
 
 #endif

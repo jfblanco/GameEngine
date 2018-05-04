@@ -1,3 +1,15 @@
 const char* SIMPLE_TEST_VERTEX_SHADER = "${CMAKE_CURRENT_BINARY_DIR}/shaders/simpleTest.vert";
 
 const char* SIMPLE_TEST_FRAGMENT_SHADER = "${CMAKE_CURRENT_BINARY_DIR}/shaders/simpleTest.frag";
+
+const char* GUI_CIRCLE_VERTEX_SHADER = "${CMAKE_CURRENT_BINARY_DIR}/shaders/guiCircleMap.vert";
+
+const char* GUI_CIRCLE_FRAGMENT_SHADER = "${CMAKE_CURRENT_BINARY_DIR}/shaders/guiCircleMap.frag";
+
+const char* GUI_RECTANGLE_VERTEX_SHADER = "${CMAKE_CURRENT_BINARY_DIR}/shaders/guiRectangle.vert";
+
+const char* GUI_RECTANGLE_FRAGMENT_SHADER = "${CMAKE_CURRENT_BINARY_DIR}/shaders/guiRectangle.frag";
+
+const char* GUI_CIRCLE_ASSET_IMAGE = "${CMAKE_CURRENT_BINARY_DIR}/assets/images/circle.jpg";
+
+const char* GUI_FONT_ASSET = "${CMAKE_CURRENT_BINARY_DIR}/assets/fonts/timeNewRoman.ttf";

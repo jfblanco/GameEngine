@@ -44,7 +44,7 @@ void Core::stop(){
 void Core::begin(){
 	int frameRate = 20;
 	Uint32 start_time;
-	while(this->imAlive){		
+	while(this->imAlive){	
 		start_time = SDL_GetTicks();
 		this->input->checkInput();
 		this->render->sendTickEvent(SDL_GetTicks() - start_time);
@@ -54,7 +54,7 @@ void Core::begin(){
 		this->render->swapBuffers();
 		start_time = SDL_GetTicks();
 
-		while(frameRate > (SDL_GetTicks() - start_time))
+		while(frameRate > (SDL_GetTicks() - start_time) && this->imAlive)
         {
             this->render->sendTickEvent(SDL_GetTicks() - start_time);
             this->input->checkInput();

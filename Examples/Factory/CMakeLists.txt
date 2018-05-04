@@ -10,7 +10,7 @@ add_executable (FactoryExample main.cpp
 								InputCommands/TickEvent.cpp
 								InputCommands/ExitCommand.cpp)
 
-TARGET_LINK_LIBRARIES(FactoryExample EngineCore EngineRenderSystem EngineInputSystem SDL2 SDL2main GLEW)
+TARGET_LINK_LIBRARIES(FactoryExample EngineCore EngineRenderSystem EngineInputSystem SDL2 SDL2main SDL2_image SDL2_ttf GLEW)
 
 set(SHADER_DESTIATION_DIR ${PROJECT_SOURCE_DIR}/shaders)
 

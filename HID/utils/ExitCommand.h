@@ -3,10 +3,10 @@
 
 	#include "../../Core/interfaces/Input.h"	
 
-	class ExitCommand : public InputFunction {
+	class ExitCommand : public ShutDownInputCommand {
 	
 	public:
-		void excecute();
+		void shutDownEvent();
 	};
 
 #endif

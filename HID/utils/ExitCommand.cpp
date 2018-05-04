@@ -2,6 +2,6 @@
 #include "../../Core/interfaces/Input.h"
 #include "../../Core/Core.h"
 
-void ExitCommand::excecute(){
+void ExitCommand::shutDownEvent(){
 	Core::getInstance()->stop();
 }

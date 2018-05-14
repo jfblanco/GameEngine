@@ -1,5 +1,7 @@
 #include "Matrix3x3.h"
 #include <iostream>
+#include "../../Core/utils/String.h"
+#include "../../../Debugging/ConsoleOutput.h"
 
 Matrix3x3::Matrix3x3(){
 	matrix[0]=1.0;matrix[1]=0.0;matrix[2]=0.0;
@@ -87,7 +89,9 @@ Matrix3x3 Matrix3x3::transpose(){
 }
 
 void Matrix3x3::print(){
-	std::cout << matrix[0] << " - " << matrix[1] << " - " << matrix[2] << std::endl;
-	std::cout << matrix[3] << " - " << matrix[4] << " - " << matrix[5] << std::endl;
-	std::cout << matrix[6] << " - " << matrix[7] << " - " << matrix[8] << std::endl;
+	String message;
+	message = message + "\n[" + matrix[0] + " - " + matrix[1] + " - " + matrix[2] + "]\n" + 
+					  + "[" + matrix[3] + " - " + matrix[4] + " - " + matrix[5] + "]\n" + 
+					  + "[" + matrix[6] + " - " + matrix[7] + " - " + matrix[8] + "]";
+	ConsoleOutput::getInstance()->info(&message);
 }

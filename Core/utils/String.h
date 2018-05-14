@@ -1,11 +1,14 @@
 #ifndef __ENGINE__UTILS_STRING_
 #define __ENGINE__UTILS_STRING_
 
+	class ShortString;
+	class LongString;
+
 	class String {
 	
 	private:	
 		char word[65];
-		int lenght;
+		unsigned int lenght;
 		unsigned long hashCode;
 
 	public:
@@ -17,8 +20,12 @@
 		void operator=(const char*);
 		void concat(String);
 		void concat(const char*);
+		String operator+(ShortString);
 		String operator+(String);
-		const char* operator+(const char*);
+		String operator+(LongString);
+		String operator+(const char*);
+		String operator+(unsigned int);
+
 		String substring(int, int);
 		char** split(const char*);
 		int size();

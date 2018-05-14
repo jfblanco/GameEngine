@@ -3,7 +3,9 @@
 #include <iostream>
 #include <iomanip>
 #include <math.h> 
-#include <cmath> 
+#include <cmath>
+#include "../../Core/utils/LongString.h"
+#include "../../../Debugging/ConsoleOutput.h"
 
 #define PI 3.14159265
 
@@ -223,10 +225,12 @@ void Matrix4x4::scaleMatrix(float _x,float _y,float _z){
 }
 
 void Matrix4x4::print(){
-	std::cout << std::setprecision(20) << matrix[0] << " - " << matrix[1] << " - " << matrix[2] << " - " << matrix[3] << std::endl;
-	std::cout << std::setprecision(20) << matrix[4] << " - " << matrix[5] << " - " << matrix[6] << " - " << matrix[7] << std::endl;
-	std::cout << std::setprecision(20) << matrix[8] << " - " << matrix[9] << " - " << matrix[10] << " - " << matrix[11] << std::endl;
-	std::cout << std::setprecision(20) << matrix[12] << " - " << matrix[13] << " - " << matrix[14] << " - " << matrix[15] << std::endl;
+	LongString message;
+	message = message + "\n[" + matrix[0] + " - " + matrix[1] + " - " + matrix[2] + " - " + matrix[3] + "]\n" + 
+					  + "[" + matrix[4] + " - " + matrix[5] + " - " + matrix[6] + " - " + matrix[7] + "]\n" + 
+					  + "[" + matrix[8] + " - " + matrix[9] + " - " + matrix[10] + " - " + matrix[11] + "]\n" +
+					  + "[" + matrix[12] + " - " + matrix[13] + " - " + matrix[14] + " - " + matrix[15] + "]";
+	ConsoleOutput::getInstance()->info(&message);
 }
 
 

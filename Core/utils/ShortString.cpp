@@ -1,6 +1,10 @@
 #include "ShortString.h"
+#include "String.h"
+#include "LongString.h"
 #include <string.h>
 #include <iostream>
+#include <string>
+#include "../../Debugging/ConsoleOutput.h"
 
 unsigned long hash(const char*);
 
@@ -40,7 +44,7 @@ void ShortString::operator=(const char* _string){
 	}
 }
 
-const char* ShortString::operator+(const char* _string){
+ShortString ShortString::operator+(const char* _string){
 	if(_string != NULL){
 		int stringSize = strlen(_string);
 		for(int i = this->lenght; i < 16 && i < this->lenght + stringSize; i++){
@@ -51,21 +55,37 @@ const char* ShortString::operator+(const char* _string){
 		this->lenght = strlen(word);
 		this->hashCode = hash(word);
 	}
-	return word;	
+	return (*this);
+}
+
+ShortString ShortString::operator+(LongString _string){
+	this->operator+(_string.toChar());
+	return (*this);
+}
+
+ShortString ShortString::operator+(String _string){
+	this->operator+(_string.toChar());
+	return *this;
+}
+
+ShortString ShortString::operator+(ShortString _string){
+	this->operator+(_string.toChar());
+	return *this;
 }
 
 void ShortString::concat(const char* _string){
 	this->operator+(_string);
 }
 
-ShortString ShortString::operator+(ShortString _string){
-	ShortString resu = ShortString();
-	resu = this->operator+(_string.toChar());
-	return resu;
-}
-
 void ShortString::concat(ShortString _string){
 	this->operator+(_string.toChar());
+}
+
+
+ShortString ShortString::operator+(unsigned int _uint){
+	std::string s = std::to_string(_uint);
+	this->operator+(s.c_str());
+	return *this;
 }
 
 ShortString ShortString::substring(int _from, int _to){
@@ -110,7 +130,9 @@ const char* ShortString::toChar(){
 }
 
 void ShortString::print(){
-	std::cout << word << " [s: " << this->lenght << "] [h: " << this->hashCode << "]" << std::endl;
+	String message;
+	message = message + word + " [s: " + this->lenght + "] [h: " + this->hashCode + "]";
+	ConsoleOutput::getInstance()->info(&message);
 }
 
 unsigned long hash(const char *str)

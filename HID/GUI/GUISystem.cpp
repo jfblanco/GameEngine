@@ -1,6 +1,5 @@
 #include "GUISystem.h"
 #include <glew.h>
-#include <iostream>
 #include <string>
 #include <SDL.h>
 #include "../../Core/Core.h"
@@ -9,6 +8,7 @@
 #include "../SDLInputSystem.h"
 #include "../../Low-Level-Rendering/utils/Shader.h"
 #include "../../Low-Level-Rendering/ShaderFactory.h"
+#include "../../Debugging/ConsoleOutput.h"
 #include "nuklear_sdl_gl3.h"
 #include "GUIEvent.h"
 
@@ -93,7 +93,7 @@ void GUISystem::draw(){
 
         nk_layout_row_static(ctx, 30, 80, 1);
         if (nk_button_label(ctx, "button")){
-            std::cout << "clickeado!!!" << std::endl;
+            ConsoleOutput::getInstance()->info("clickeado!!!");
         }
         nk_layout_row_dynamic(ctx, 30, 2);
         if (nk_option_label(ctx, "easy", op == EASY)) op = EASY;

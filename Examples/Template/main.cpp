@@ -1,5 +1,6 @@
 #include <iostream>
+#include "../../Debugging/ConsoleOutput.h"
 
 int main(int argc, char** args){
-	std::cout << "Hola mundo!" << std::endl;
+	ConsoleOutput::getInstance()->info("Hello World!");
 }

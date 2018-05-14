@@ -1,6 +1,9 @@
 #include "SDLRenderSystem.h"
 #include "utils/Scene.h"
 #include "../Core/interfaces/Render.h"
+#include "../Core/utils/LongString.h"
+#include "../Core/utils/String.h"
+#include "../Debugging/ConsoleOutput.h"
 #include <SDL.h>
 #include <glew.h>
 #include <iostream>
@@ -15,7 +18,9 @@ SDLRenderSystem::~SDLRenderSystem(){
 
 void SDLRenderSystem::init(){
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-        std::cout << "Unable to initialize SDL: " << SDL_GetError() << std::endl;
+        LongString message;
+        message = message + "Unable to initialize SDL: " + SDL_GetError();
+        ConsoleOutput::getInstance()->error(&message);
     }
 }
 
@@ -68,12 +73,20 @@ void SDLRenderSystem::setOpenGLAttributes(){
 
 void SDLRenderSystem::printVendorInfo(){
     SDL_GetCurrentDisplayMode(0, &(this->mode));
-    std::cout << "-----------------------------------------------------" << std::endl;
-    std::cout << "|| Screen BPP:            " << SDL_BITSPERPIXEL(mode.format) << std::endl;
-    std::cout << "|| Vendor:                " << glGetString(GL_VENDOR) << std::endl;
-    std::cout << "|| Renderer:              " << glGetString(GL_RENDERER) << std::endl;
-    std::cout << "|| Version:               " << glGetString(GL_VERSION) << std::endl;
-    std::cout << "-----------------------------------------------------" << std::endl;
+    String infoScreen;
+    String infoVendor;
+    String infoRender;
+    String infoVersion;
+    infoScreen = infoScreen +   "|| Screen BPP:            " + SDL_BITSPERPIXEL(mode.format);
+    infoVendor = infoVendor +   "|| Vendor:                " + (const char*) glGetString(GL_VENDOR);
+    infoRender = infoRender +   "|| Renderer:              " + (const char*) glGetString(GL_RENDERER);
+    infoVersion = infoVersion + "|| Version:               " + (const char*) glGetString(GL_VERSION);
+    ConsoleOutput::getInstance()->info("-----------------------------------------------------");
+    ConsoleOutput::getInstance()->info(&infoScreen);
+    ConsoleOutput::getInstance()->info(&infoVendor);
+    ConsoleOutput::getInstance()->info(&infoRender);
+    ConsoleOutput::getInstance()->info(&infoVersion);
+    ConsoleOutput::getInstance()->info("-----------------------------------------------------");
 }
 
 void SDLRenderSystem::createWindow(const char* windowName, int hight, int width, int colorBuffer, int fullScreen, int openGL, int borderless, int highDpi){
@@ -93,17 +106,23 @@ void SDLRenderSystem::createWindow(const char* windowName, int hight, int width,
     this->setOpenGLAttributes();  
 	this->window = SDL_CreateWindow(windowName, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, hight, width, flags);
     if (window == NULL) {
-        std::cout << "Could not create window: " << SDL_GetError() << std::endl;
+        LongString message;
+        message = message + "Could not create window: " + SDL_GetError();
+        ConsoleOutput::getInstance()->error(&message);
         exit(0);
     }  
 
     mainContext = SDL_GL_CreateContext(window);
     if (mainContext == NULL) {
-        std::cout << "OpenGL context could not be created! SDL Error: " << SDL_GetError() << std::endl;
+        LongString message;
+        message = message + "Could not create window: " + SDL_GetError();
+        ConsoleOutput::getInstance()->error(&message);
         exit(0);
     }
     if (SDL_GL_MakeCurrent(window, mainContext) < 0) {
-        std::cout << "OpenGL context could not be made current! SDL Error: " << SDL_GetError() << std::endl;
+        LongString message;
+        message = message + "OpenGL context could not be made current! SDL Error: " + SDL_GetError();
+        ConsoleOutput::getInstance()->error(&message);
         exit(0);
     }
 
@@ -113,7 +132,9 @@ void SDLRenderSystem::createWindow(const char* windowName, int hight, int width,
     glewExperimental = GL_TRUE;
     const GLenum initCode = glewInit();
     if (initCode != GLEW_OK){
-        std::cout << "Unable to initialize Glew: " << glewGetErrorString(initCode) << std::endl;   
+        LongString message;
+        message = message + "Unable to initialize Glew: " + (const char*) glewGetErrorString(initCode);
+        ConsoleOutput::getInstance()->error(&message);
         exit(0);
     }
     this->printVendorInfo();

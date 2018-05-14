@@ -3,6 +3,8 @@
 #include "../../Core/utils/Actor.h"
 #include "../../Core/utils/Buffer.h"
 #include "../../Core/utils/Vector3.h"
+#include "../../Core/utils/LongString.h"
+#include "../../Debugging/ConsoleOutput.h"
 
 void printShaderInfo(BufferItem*);
 void printMeshInfo(BufferItem*);
@@ -120,26 +122,19 @@ int main(int argc, char** args){
 
 void printShaderInfo(BufferItem* _bufferItem){
 	Shader* newShader = (Shader*) _bufferItem;
-
-	std::cout << "{SHADER} ID: " << newShader->id << " Tag: " << newShader->tag.toChar() << 
-	             " Program: ["  << newShader->programShaderId  << "]" << 
-	             " Vertex: ["   << newShader->vertexShaderId   << "]" << 
-	             " Fragment: [" << newShader->fragmentShaderId << "]" <<
-	std::endl; 
+	LongString message;
+	message = message + "{SHADER} ID: " + newShader->id + " Tag: " + newShader->tag + " Program: ["  + newShader->programShaderId  + "]"  + 
+	             		" Vertex: [" + newShader->vertexShaderId + "]" + " Fragment: [" + newShader->fragmentShaderId + "]";
+	ConsoleOutput::getInstance()->info(&message);
 }
 
 void printMeshInfo(BufferItem* _bufferItem){
 	Actor* actor = (Actor*) _bufferItem;
-	std::cout << "{ACTOR} ID: " << actor->id << 
-				 " Tag: " << actor->tag.toChar() << 
-				 " VAO: " << actor->vertexArrayObject << 
-				 " Vertex Buffer: " << actor->vertexBuffer << 
-				 " Vertex Color Buffer: " << actor->vertexColorBuffer << 
-				 " Vertex Diffuse Buffer: " << actor->vertexDiffuseBuffer << 
-				 " Vertex Specular Buffer: " << actor->vertexSpecularBuffer << 
-				 " Normal Buffer: " << actor->normalBuffer << 
-				 " Texture UVMap Buffer: " << actor->textMapBuffer << 
-				 " Index Buffer: " << actor->indexBuffer << 
-				 " Faces: " << actor->faceCount << std::endl;
-		
+	LongString message;
+	message = message + "{ACTOR} ID: " + actor->id + " Tag: " + actor->tag + " VAO: " + actor->vertexArrayObject +
+						" Vertex Buffer: " + actor->vertexBuffer + " Vertex Color Buffer: " + actor->vertexColorBuffer +
+						" Vertex Diffuse Buffer: " + actor->vertexDiffuseBuffer + " Vertex Specular Buffer: " + actor->vertexSpecularBuffer + 
+				 		" Normal Buffer: " + actor->normalBuffer + " Texture UVMap Buffer: " + actor->textMapBuffer +
+				 		" Index Buffer: " + actor->indexBuffer + " Faces: " + actor->faceCount;
+	ConsoleOutput::getInstance()->info(&message);	
 }

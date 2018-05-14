@@ -9,7 +9,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 add_executable (RenderExample main.cpp
 							  InputCommands/ExitCommand.cpp
 							  InputCommands/PrintCommand.cpp)
-TARGET_LINK_LIBRARIES(RenderExample EngineCore EngineRenderSystem EngineInputSystem SDL2 SDL2main SDL2_image SDL2_ttf GLEW)
+TARGET_LINK_LIBRARIES(RenderExample EngineCore EngineDebugging EngineRenderSystem EngineInputSystem SDL2 SDL2main SDL2_image SDL2_ttf GLEW)
 
 set(SHADER_DESTIATION_DIR ${PROJECT_SOURCE_DIR}/shaders)
 

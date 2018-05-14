@@ -1,5 +1,7 @@
 #include "ShaderFactory.h"
 #include "../Low-Level-Rendering/utils/Shader.h"
+#include "../Debugging/ConsoleOutput.h"
+#include "../Core/utils/LongString.h"
 #include <string>
 #include <string.h>
 #include <iostream>
@@ -44,7 +46,9 @@ Shader* ShaderFactory::createShader(const char* _vertexShader, const char* _frag
         glGetShaderiv(_shader->vertexShaderId, GL_INFO_LOG_LENGTH , &blen);
         GLchar* compiler_log = (GLchar*)malloc(blen);
         glGetInfoLogARB(_shader->vertexShaderId, blen, &slen, compiler_log);
-        std::cout << "Vertex Shader Compilation has failed: " << compiler_log << std::endl;
+        LongString message;
+        message = message + "Vertex Shader Compilation has failed: " + compiler_log;
+        ConsoleOutput::getInstance()->error(&message);
         free (compiler_log);
     }
 
@@ -54,7 +58,9 @@ Shader* ShaderFactory::createShader(const char* _vertexShader, const char* _frag
         glGetShaderiv(_shader->fragmentShaderId, GL_INFO_LOG_LENGTH , &blen);
         GLchar* compiler_log = (GLchar*)malloc(blen);
         glGetInfoLogARB(_shader->fragmentShaderId, blen, &slen, compiler_log);
-        std::cout << "Fragment Shader Compilation has failed: " << compiler_log << std::endl;
+        LongString message;
+        message = message + "Fragment Shader Compilation has failed: " + compiler_log;
+        ConsoleOutput::getInstance()->error(&message);
         free (compiler_log);
     }
 
@@ -71,7 +77,9 @@ Shader* ShaderFactory::createShader(const char* _vertexShader, const char* _frag
        glGetProgramiv(_shader->programShaderId, GL_INFO_LOG_LENGTH , &blen);
        GLchar* compiler_log = (GLchar*)malloc(blen);
        glGetInfoLogARB(_shader->programShaderId, blen, &slen, compiler_log);
-       std::cout << "Linking Shader Compilation has failed: " << compiler_log << std::endl;
+       LongString message;
+       message = message + "Linking Shader Compilation has failed: " + compiler_log;
+       ConsoleOutput::getInstance()->error(&message);
        free (compiler_log);
     }
 }

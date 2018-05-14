@@ -5,4 +5,4 @@ project (StringExample)
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/Core)
 
 add_executable (StringExample main.cpp)
-TARGET_LINK_LIBRARIES(StringExample EngineCore)
+TARGET_LINK_LIBRARIES(StringExample EngineCore EngineDebugging)

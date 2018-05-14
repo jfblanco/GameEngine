@@ -4,7 +4,6 @@
 #include "../../Low-Level-Rendering/utils/Material.h"
 #include "../../Low-Level-Rendering/utils/Shader.h"
 #include "BufferItem.h"
-#include <iostream>
 #include <cstdint>
 #include <cstring>
 

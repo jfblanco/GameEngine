@@ -2,6 +2,7 @@
 #include "../ShaderStrategy.h"
 #include "../../utils/Shader.h"
 #include "../../../Core/utils/Actor.h"
+#include "../../../Debugging/ConsoleOutput.h"
 #include <SDL.h>
 #include <glew.h>
 #include <iostream>
@@ -9,23 +10,23 @@
 SimpleShader::SimpleShader(Shader* _shader):ShaderStrategy(){
 	vertexAttributePosition = glGetAttribLocation(_shader->programShaderId,"vertexPosition");
 	if(vertexAttributePosition == -1)
-		std::cout << "\033[1;31m[ERROR]:\033[0m" << " vertexAttributePosition was not finded into Shader Object" << std::endl;
+		ConsoleOutput::getInstance()->error("vertexAttributePosition was not finded into Shader Object");
 
 	projectionMatrixUniformPosition = glGetUniformLocation(_shader->programShaderId,"projectionMatrix");
 	if(projectionMatrixUniformPosition == -1)
-		std::cout << "\033[1;31m[ERROR]:\033[0m" << " projectionMatrixUniformPosition was not finded into Shader Object" << std::endl;
+		ConsoleOutput::getInstance()->error("projectionMatrixUniformPosition was not finded into Shader Object");
 
 	modelMatrix = glGetUniformLocation(_shader->programShaderId,"modelMatrix");
 	if(modelMatrix == -1)
-		std::cout << "\033[1;31m[ERROR]:\033[0m" << " modelMatrix was not finded into Shader Object" << std::endl;
+		ConsoleOutput::getInstance()->error("modelMatrix was not finded into Shader Object");
 
 	viewMatrix = glGetUniformLocation(_shader->programShaderId,"viewCustomMatrix");
 	if(viewMatrix == -1)
-		std::cout << "\033[1;31m[ERROR]:\033[0m" << " viewCustomMatrix was not finded into Shader Object" << std::endl;
+		ConsoleOutput::getInstance()->error("viewCustomMatrix was not finded into Shader Object");
 
 	vertexAttributeColor = glGetAttribLocation(_shader->programShaderId,"vertexColor");
 	if(vertexAttributeColor == -1)
-		std::cout << "\033[1;31m[ERROR]:\033[0m" << " vertexAttributeColor was not finded into Shader Object" << std::endl;
+		ConsoleOutput::getInstance()->error("vertexAttributeColor was not finded into Shader Object");
 
 	this->projectionMatrix.perspectiveMatrix(45.0f, 800.0f/600.0f, 0.1f, 2.0f);
 	//this->projectionMatrix.orthoMatrix(0.0f, 800.0f, 0.0f, 600.0f, -100.0f, 100.0f);

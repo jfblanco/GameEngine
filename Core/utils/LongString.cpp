@@ -1,5 +1,9 @@
+#include "ShortString.h"
+#include "String.h"
 #include "LongString.h"
+#include "../../Debugging/ConsoleOutput.h"
 #include <string.h>
+#include <string>
 #include <iostream>
 
 unsigned long hashLongString(const char*);
@@ -88,7 +92,66 @@ void LongString::operator=(const char* _string){
 	}
 }
 
-const char* LongString::operator+(const char* _string){
+void LongString::operator=(LongString* _string){
+	if(_string != NULL){
+		word[0] = _string->toChar()[0];word[1] = _string->toChar()[1];word[2] = _string->toChar()[2];word[3] = _string->toChar()[3];word[4] = _string->toChar()[4];
+		word[5] = _string->toChar()[5];word[6] = _string->toChar()[6];word[7] = _string->toChar()[7];word[8] = _string->toChar()[8];word[9] = _string->toChar()[9];
+		word[10] = _string->toChar()[10];word[11] = _string->toChar()[11];word[12] = _string->toChar()[12];word[13] = _string->toChar()[13];word[14] = _string->toChar()[14];
+		word[15] = _string->toChar()[15];word[16] = _string->toChar()[16];word[17] = _string->toChar()[17];word[18] = _string->toChar()[18];word[19] = _string->toChar()[19];
+		word[20] = _string->toChar()[20];word[21] = _string->toChar()[21];word[22] = _string->toChar()[22];word[23] = _string->toChar()[23];word[24] = _string->toChar()[24];
+		word[25] = _string->toChar()[25];word[26] = _string->toChar()[26];word[27] = _string->toChar()[27];word[28] = _string->toChar()[28];word[29] = _string->toChar()[29];
+		word[30] = _string->toChar()[30];word[31] = _string->toChar()[31];word[32] = _string->toChar()[32];word[33] = _string->toChar()[33];word[34] = _string->toChar()[34];
+		word[35] = _string->toChar()[35];word[36] = _string->toChar()[36];word[37] = _string->toChar()[37];word[38] = _string->toChar()[38];word[39] = _string->toChar()[39];
+		word[40] = _string->toChar()[40];word[41] = _string->toChar()[41];word[42] = _string->toChar()[42];word[43] = _string->toChar()[43];word[44] = _string->toChar()[44];
+		word[45] = _string->toChar()[45];word[46] = _string->toChar()[46];word[47] = _string->toChar()[47];word[48] = _string->toChar()[48];word[49] = _string->toChar()[49];
+		word[50] = _string->toChar()[50];word[51] = _string->toChar()[51];word[52] = _string->toChar()[52];word[53] = _string->toChar()[53];word[54] = _string->toChar()[54];
+		word[55] = _string->toChar()[55];word[56] = _string->toChar()[56];word[57] = _string->toChar()[57];word[58] = _string->toChar()[58];word[59] = _string->toChar()[59];
+		word[60] = _string->toChar()[60];word[61] = _string->toChar()[61];word[62] = _string->toChar()[62];word[63] = _string->toChar()[63];word[64] = _string->toChar()[64];
+		word[65] = _string->toChar()[65];word[66] = _string->toChar()[66];word[67] = _string->toChar()[67];word[68] = _string->toChar()[68];word[69] = _string->toChar()[69];
+		word[70] = _string->toChar()[70];word[71] = _string->toChar()[71];word[72] = _string->toChar()[72];word[73] = _string->toChar()[73];word[74] = _string->toChar()[74];
+		word[75] = _string->toChar()[75];word[76] = _string->toChar()[76];word[77] = _string->toChar()[77];word[78] = _string->toChar()[78];word[79] = _string->toChar()[79];
+		word[80] = _string->toChar()[80];word[81] = _string->toChar()[81];word[82] = _string->toChar()[82];word[83] = _string->toChar()[83];word[84] = _string->toChar()[84];
+		word[85] = _string->toChar()[85];word[86] = _string->toChar()[86];word[87] = _string->toChar()[87];word[88] = _string->toChar()[88];word[89] = _string->toChar()[89];
+		word[90] = _string->toChar()[90];word[91] = _string->toChar()[91];word[92] = _string->toChar()[92];word[93] = _string->toChar()[93];word[94] = _string->toChar()[94];
+		word[95] = _string->toChar()[95];word[96] = _string->toChar()[96];word[97] = _string->toChar()[97];word[98] = _string->toChar()[98];word[99] = _string->toChar()[99];
+		word[100] = _string->toChar()[100];word[101] = _string->toChar()[101];word[102] = _string->toChar()[102];word[103] = _string->toChar()[103];word[104] = _string->toChar()[104];
+		word[105] = _string->toChar()[105];word[106] = _string->toChar()[106];word[107] = _string->toChar()[107];word[108] = _string->toChar()[108];word[109] = _string->toChar()[109];
+		word[110] = _string->toChar()[110];word[111] = _string->toChar()[111];word[112] = _string->toChar()[112];word[113] = _string->toChar()[113];word[114] = _string->toChar()[114];
+		word[115] = _string->toChar()[115];word[116] = _string->toChar()[116];word[117] = _string->toChar()[117];word[118] = _string->toChar()[118];word[119] = _string->toChar()[119];
+		word[120] = _string->toChar()[120];word[121] = _string->toChar()[121];word[122] = _string->toChar()[122];word[123] = _string->toChar()[123];word[124] = _string->toChar()[124];
+		word[125] = _string->toChar()[125];word[126] = _string->toChar()[126];word[127] = _string->toChar()[127];word[128] = _string->toChar()[128];word[129] = _string->toChar()[129];
+		word[130] = _string->toChar()[130];word[131] = _string->toChar()[131];word[132] = _string->toChar()[132];word[133] = _string->toChar()[133];word[134] = _string->toChar()[134];
+		word[135] = _string->toChar()[135];word[136] = _string->toChar()[136];word[137] = _string->toChar()[137];word[138] = _string->toChar()[138];word[139] = _string->toChar()[139];
+		word[140] = _string->toChar()[140];word[141] = _string->toChar()[141];word[142] = _string->toChar()[142];word[143] = _string->toChar()[143];word[144] = _string->toChar()[144];
+		word[145] = _string->toChar()[145];word[146] = _string->toChar()[146];word[147] = _string->toChar()[147];word[148] = _string->toChar()[148];word[149] = _string->toChar()[149];
+		word[150] = _string->toChar()[150];word[151] = _string->toChar()[151];word[152] = _string->toChar()[152];word[153] = _string->toChar()[153];word[154] = _string->toChar()[154];
+		word[155] = _string->toChar()[155];word[156] = _string->toChar()[156];word[157] = _string->toChar()[157];word[158] = _string->toChar()[158];word[159] = _string->toChar()[159];
+		word[160] = _string->toChar()[160];word[161] = _string->toChar()[161];word[162] = _string->toChar()[162];word[163] = _string->toChar()[163];word[164] = _string->toChar()[164];
+		word[165] = _string->toChar()[165];word[166] = _string->toChar()[166];word[167] = _string->toChar()[167];word[168] = _string->toChar()[168];word[169] = _string->toChar()[169];
+		word[170] = _string->toChar()[170];word[171] = _string->toChar()[171];word[172] = _string->toChar()[172];word[173] = _string->toChar()[173];word[174] = _string->toChar()[174];
+		word[175] = _string->toChar()[175];word[176] = _string->toChar()[176];word[177] = _string->toChar()[177];word[178] = _string->toChar()[178];word[179] = _string->toChar()[179];
+		word[180] = _string->toChar()[180];word[181] = _string->toChar()[181];word[182] = _string->toChar()[182];word[183] = _string->toChar()[183];word[184] = _string->toChar()[184];
+		word[185] = _string->toChar()[185];word[186] = _string->toChar()[186];word[187] = _string->toChar()[187];word[188] = _string->toChar()[188];word[189] = _string->toChar()[189];
+		word[190] = _string->toChar()[190];word[191] = _string->toChar()[191];word[192] = _string->toChar()[192];word[193] = _string->toChar()[193];word[194] = _string->toChar()[194];
+		word[195] = _string->toChar()[195];word[196] = _string->toChar()[196];word[197] = _string->toChar()[197];word[198] = _string->toChar()[198];word[199] = _string->toChar()[199];
+		word[200] = _string->toChar()[200];word[201] = _string->toChar()[201];word[202] = _string->toChar()[202];word[203] = _string->toChar()[203];word[204] = _string->toChar()[204];
+		word[205] = _string->toChar()[205];word[206] = _string->toChar()[206];word[207] = _string->toChar()[207];word[208] = _string->toChar()[208];word[209] = _string->toChar()[209];
+		word[210] = _string->toChar()[210];word[211] = _string->toChar()[211];word[212] = _string->toChar()[212];word[213] = _string->toChar()[213];word[214] = _string->toChar()[214];
+		word[215] = _string->toChar()[215];word[216] = _string->toChar()[216];word[217] = _string->toChar()[217];word[218] = _string->toChar()[218];word[219] = _string->toChar()[219];
+		word[220] = _string->toChar()[220];word[221] = _string->toChar()[221];word[222] = _string->toChar()[222];word[223] = _string->toChar()[223];word[224] = _string->toChar()[224];
+		word[225] = _string->toChar()[225];word[226] = _string->toChar()[226];word[227] = _string->toChar()[227];word[228] = _string->toChar()[228];word[229] = _string->toChar()[229];
+		word[230] = _string->toChar()[230];word[231] = _string->toChar()[231];word[232] = _string->toChar()[232];word[233] = _string->toChar()[233];word[234] = _string->toChar()[234];
+		word[235] = _string->toChar()[235];word[236] = _string->toChar()[236];word[237] = _string->toChar()[237];word[238] = _string->toChar()[238];word[239] = _string->toChar()[239];
+		word[240] = _string->toChar()[240];word[241] = _string->toChar()[241];word[242] = _string->toChar()[242];word[243] = _string->toChar()[243];word[244] = _string->toChar()[244];
+		word[245] = _string->toChar()[245];word[246] = _string->toChar()[246];word[247] = _string->toChar()[247];word[248] = _string->toChar()[248];word[249] = _string->toChar()[249];
+		word[250] = _string->toChar()[250];word[251] = _string->toChar()[251];word[252] = _string->toChar()[252];word[253] = _string->toChar()[253];word[254] = _string->toChar()[254];
+		word[255] = _string->toChar()[255];
+		this->lenght = strlen(word);
+		this->hashCode = hashLongString(word);
+	}
+}
+
+LongString LongString::operator+(const char* _string){
 	if(_string != NULL){
 		int stringSize = strlen(_string);
 		for(int i = this->lenght; i < 256 && i < this->lenght + stringSize; i++){
@@ -99,7 +162,7 @@ const char* LongString::operator+(const char* _string){
 		this->lenght = strlen(word);
 		this->hashCode = hashLongString(word);
 	}
-	return word;	
+	return (*this);	
 }
 
 void LongString::concat(const char* _string){
@@ -107,9 +170,36 @@ void LongString::concat(const char* _string){
 }
 
 LongString LongString::operator+(LongString _string){
-	LongString resu = LongString();
-	resu = this->operator+(_string.toChar());
-	return resu;
+	this->operator+(_string.toChar());
+	return (*this);
+}
+
+LongString LongString::operator+(String _string){
+	this->operator+(_string.toChar());
+	return *this;
+}
+
+LongString LongString::operator+(ShortString _string){
+	this->operator+(_string.toChar());
+	return *this;
+}
+
+LongString LongString::operator+(unsigned int _uint){
+	std::string s = std::to_string(_uint);
+	this->operator+(s.c_str());
+	return *this;
+}
+
+LongString LongString::operator+(unsigned long _ulong){
+	std::string s = std::to_string(_ulong);
+	this->operator+(s.c_str());
+	return *this;
+}
+
+LongString LongString::operator+(float _float){
+	std::string s = std::to_string(_float);
+	this->operator+(s.c_str());
+	return *this;
 }
 
 void LongString::concat(LongString _string){
@@ -158,7 +248,9 @@ const char* LongString::toChar(){
 }
 
 void LongString::print(){
-	std::cout << word << " [s: " << this->lenght << "] [h: " << this->hashCode << "]" << std::endl;
+	LongString message;
+	message = message + word + " [s: " + this->lenght + "] [h: " + this->hashCode + "]";
+	ConsoleOutput::getInstance()->info(&message);
 }
 
 unsigned long hashLongString(const char *str)

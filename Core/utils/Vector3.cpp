@@ -1,6 +1,8 @@
 #include "Vector3.h"
 #include <iostream>
 #include <math.h>
+#include "../../Core/utils/String.h"
+#include "../../Debugging/ConsoleOutput.h"
 
 Vector3::Vector3(){
 	this->vector[0] = 0.0;
@@ -81,7 +83,9 @@ Vector3 Vector3::lerp(Vector3 _vector, float _scalar){
 }
 
 void Vector3::print(){
-	std::cout << "[" << this->vector[0] << ", " << this->vector[1] << ", " << this->vector[2] << "]" << std::endl;
+	String message;
+	message = message + "[" + this->vector[0] + ", " + this->vector[1] + ", " + this->vector[2] + "]";
+	ConsoleOutput::getInstance()->info(&message);
 }
 
 float Vector3::x(){
